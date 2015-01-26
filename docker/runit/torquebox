@@ -1,0 +1,3 @@
+#!/bin/bash
+set -e
+exec /opt/torquebox/jboss/bin/standalone.sh -b 0.0.0.0

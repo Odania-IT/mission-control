@@ -1,0 +1,28 @@
+---
+# This is the TorqueBox configuration file. Refer to the TorqueBox
+# documentation at http://torquebox.org/documentation/current/ 
+# for all configuration options.
+web:
+  context: "/"
+
+queues:
+  /queues/docker_events:
+    durable: false
+
+messaging:
+  /queues/docker_events: DockerEventProcessor
+
+services:
+  docker_monitor:
+    singleton: false
+    service: DockerMonitor
+    config:
+      queue_name: "/queues/docker_events"
+
+jobs:
+  monitor_host:
+    job: MonitorHostJob
+    cron: '*/5 * * * * ?'
+    timeout: 2s
+    description: Update the host stats
+    singleton: false

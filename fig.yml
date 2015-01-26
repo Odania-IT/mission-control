@@ -1,0 +1,36 @@
+missioncontrol:
+  build: .
+  ports:
+    - "8080:8080"
+  links:
+    - mongodb
+#    - mailcatcher
+  volumes:
+    - .:/srv:rw
+mongodb:
+  image: dockerfile/mongodb:latest
+  ports:
+    - "27017:27017"
+#mailcatcher:
+#  image: odaniait/mailcatcher-docker:latest
+#  ports:
+#    - "2525:2525"
+#    - "1080:1080"
+#elasticsearch:
+#  image: dockerfile/elasticsearch:latest
+#  ports:
+#    - "9200:9200"
+#    - "9300:9300"
+#kibana:
+#  image: arcus/kibana:latest
+#  ports:
+#    - "8081:80"
+#  links:
+#    - elasticsearch
+fnordmetric:
+  image: fnordmetric/fnordmetric-server
+  ports:
+    - "8082:8080"
+    - "8125:8125/udp"
+  volumes:
+    - ./fnordmetric-data:/data/fnordmetric
