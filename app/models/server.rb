@@ -3,9 +3,9 @@ class Server
 	include Mongoid::Timestamps
 
 	field :name, type: String
-	field :host, type: String
+	field :hostname, type: String
 	field :ip, type: String
-	field :cpus, type: Integer
 	field :memory, type: Integer
+	field :cpu, type: Integer
+	field :active, type: Mongoid::Boolean
 end
-

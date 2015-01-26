@@ -1,7 +1,7 @@
 missioncontrol:
   build: .
   ports:
-    - "8080:8080"
+    - "127.0.0.1:8080:80"
   links:
     - mongodb
 #    - mailcatcher
@@ -10,7 +10,10 @@ missioncontrol:
 mongodb:
   image: dockerfile/mongodb:latest
   ports:
-    - "27017:27017"
+    - "127.0.0.1:27017:27017"
+    - "127.0.0.1:27018:27018"
+redis:
+  image: redis:latest
 #mailcatcher:
 #  image: odaniait/mailcatcher-docker:latest
 #  ports:

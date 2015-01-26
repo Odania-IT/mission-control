@@ -9,7 +9,10 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyrhino'
+gem 'libv8', '~> 3.11.8.12', :platforms => :ruby
+gem 'therubyracer', '>= 0.11.4', :platforms => :ruby, :require => 'v8'
+gem 'therubyrhino', '>= 0.11.4', :platforms => :jruby
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
@@ -27,13 +30,10 @@ gem 'mongoid'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :jruby]
 
-gem 'torquebox', '3.1.1'
-
-gem 'docker-api', :require => 'docker'
+gem 'passenger'
 
 # Fix for issue 1114: https://github.com/sparklemotion/nokogiri/issues/1114
-gem 'nokogiri', '1.6.1'
+#gem 'nokogiri', '1.6.1'
 
-platforms :jruby do
-	gem 'jruby-openssl'
-end
+# Rails default translations
+gem 'rails-i18n'

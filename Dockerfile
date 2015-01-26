@@ -1,56 +1,25 @@
-FROM phusion/baseimage:latest
+FROM odaniait/passenger-docker:master
 MAINTAINER Mike Petersen <mike@odania-it.de>
 
+# Set correct environment variables.
 ENV HOME /root
-ENV TORQUEBOX_VERSION 3.1.1
-ENV TORQUEBOX_HOME /opt/torquebox
-ENV JBOSS_HOME $TORQUEBOX_HOME/jboss
-ENV PATH $PATH:/opt/torquebox/jruby/bin
-
-
-RUN apt-get update
-RUN apt-get install -y openjdk-7-jdk bsdtar curl
-
-# Add the TorqueBox distribution to /opt
-WORKDIR /opt
-RUN curl -L http://torquebox.org/release/org/torquebox/torquebox-dist/$TORQUEBOX_VERSION/torquebox-dist-$TORQUEBOX_VERSION-bin.zip | bsdtar -xf - && mv torquebox-$TORQUEBOX_VERSION torquebox && chmod +x torquebox/jboss/bin/*.sh
-
-# Expose the ports we're interested in
-EXPOSE 8080
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-# Disable ssh
-RUN touch /etc/service/sshd/down
-
-# Fix executable ruby
-RUN chmod +x /opt/torquebox/jruby/bin/*
+# Remove the default site
+RUN rm /etc/nginx/sites-enabled/default
 
 # Prepare folders
-RUN mkdir -p /srv
-
-## Create a user for the web app.
-RUN addgroup --gid 9999 app
-RUN adduser --uid 9999 --gid 9999 --disabled-password --gecos "Application" app
-RUN usermod -L app
-RUN mkdir -p /home/app/.ssh
-RUN chmod 700 /home/app/.ssh
-RUN chown app:app /home/app/.ssh
+RUN mkdir /home/app/webapp
 
 # Add the rails app
-ADD . /srv
-RUN chown -R app:app /srv
+ADD . /home/app/webapp
 
-## Install Nginx runit service.
-RUN mkdir /etc/service/torquebox
-ADD /docker/runit/torquebox /etc/service/torquebox/run
-
-# Create archive
-WORKDIR /srv
-RUN jruby -S bundle install
-#RUN jruby -S bundle exec rake assets:precompile
-#RUN jruby -S bundle exec rake torquebox:deploy
+WORKDIR /home/app/webapp
+RUN chown -R app:app /home/app/webapp
+RUN REDIS_PORT_6379_TCP_ADDR=127.0.0.1 REDIS_PORT_6379_TCP_PORT=6379 bundle install
+RUN REDIS_PORT_6379_TCP_ADDR=127.0.0.1 REDIS_PORT_6379_TCP_PORT=6379 bundle exec rake assets:precompile
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
