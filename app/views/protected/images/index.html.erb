@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Protected Images</h1>
+
+<table>
+	<thead>
+	<tr>
+		<th>Name</th>
+		<th>Image</th>
+		<th>Volumes</th>
+		<th>Ports</th>
+		<th>Image type</th>
+		<th>Links</th>
+		<th>Environment</th>
+		<th colspan="3"></th>
+	</tr>
+	</thead>
+
+	<tbody>
+	<% @images.each do |image| %>
+		<tr>
+			<td><%= image.name %></td>
+			<td><%= image.image %></td>
+			<td><%= image.volumes %></td>
+			<td><%= image.ports %></td>
+			<td><%= image.image_type %></td>
+			<td><%= image.links %></td>
+			<td><%= image.environment %></td>
+			<td><%= link_to 'Show', [:protected, image] %></td>
+			<td><%= link_to 'Edit', edit_protected_image_path(image) %></td>
+			<td><%= link_to 'Destroy', [:protected, image], method: :delete, data: {confirm: 'Are you sure?'} %></td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Image', new_protected_image_path %>

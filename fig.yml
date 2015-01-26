@@ -4,9 +4,13 @@ missioncontrol:
     - "127.0.0.1:8080:80"
   links:
     - mongodb
-#    - mailcatcher
+    - mailcatcher
   volumes:
-    - .:/srv:rw
+    - .:/home/app/webapp:rw
+  environment:
+    RAILS_ENV: development
+    EXPOSE_PORT: 80
+    PROCESS_TYPE: web
 mongodb:
   image: dockerfile/mongodb:latest
   ports:
@@ -14,11 +18,11 @@ mongodb:
     - "127.0.0.1:27018:27018"
 redis:
   image: redis:latest
-#mailcatcher:
-#  image: odaniait/mailcatcher-docker:latest
-#  ports:
-#    - "2525:2525"
-#    - "1080:1080"
+mailcatcher:
+  image: odaniait/mailcatcher-docker:latest
+  ports:
+    - "2525:2525"
+    - "1080:1080"
 #elasticsearch:
 #  image: dockerfile/elasticsearch:latest
 #  ports:

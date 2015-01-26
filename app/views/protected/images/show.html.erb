@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+	<strong>Name:</strong>
+	<%= @image.name %>
+</p>
+
+<p>
+	<strong>Image:</strong>
+	<%= @image.image %>
+</p>
+
+<p>
+	<strong>Volumes:</strong>
+	<%= @image.volumes %>
+</p>
+
+<p>
+	<strong>Ports:</strong>
+	<%= @image.ports %>
+</p>
+
+<p>
+	<strong>Image type:</strong>
+	<%= @image.image_type %>
+</p>
+
+<p>
+	<strong>Links:</strong>
+	<%= @image.links %>
+</p>
+
+<p>
+	<strong>Environment:</strong>
+	<%= @image.environment %>
+</p>
+
+<%= link_to 'Edit', edit_protected_image_path(@image) %> |
+<%= link_to 'Back', protected_images_path %>

@@ -37,3 +37,8 @@ gem 'passenger'
 
 # Rails default translations
 gem 'rails-i18n'
+
+# Redis
+gem 'redis', '~> 3.0.1'
+gem 'hiredis', '~> 0.4.5'
+gem 'redis-namespace'

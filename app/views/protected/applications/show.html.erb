@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+	<strong>Name:</strong>
+	<%= @application.name %>
+</p>
+
+<p>
+	<strong>Domains:</strong>
+	<%= @application.domains %>
+</p>
+
+<%= link_to 'Edit', edit_protected_application_path(@application) %> |
+<%= link_to 'Back', protected_applications_path %>

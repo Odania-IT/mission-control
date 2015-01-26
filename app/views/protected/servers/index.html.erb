@@ -24,9 +24,9 @@
 			<td><%= server.memory %></td>
 			<td><%= server.cpu %></td>
 			<td><%= server.active %></td>
-			<td><%= link_to 'Show', server %></td>
-			<td><%= link_to 'Edit', edit_server_path(server) %></td>
-			<td><%= link_to 'Destroy', server, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+			<td><%= link_to 'Show', [:protected, server] %></td>
+			<td><%= link_to 'Edit', edit_protected_server_path(server) %></td>
+			<td><%= link_to 'Destroy', [:protected, server], method: :delete, data: {confirm: 'Are you sure?'} %></td>
 		</tr>
 	<% end %>
 	</tbody>
@@ -34,4 +34,4 @@
 
 <br>
 
-<%= link_to 'New Server', new_server_path %>
+<%= link_to 'New Server', new_protected_server_path %>
