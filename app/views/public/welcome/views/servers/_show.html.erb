@@ -59,5 +59,32 @@
 	<select data-ng-model="data.applicationId" data-ng-options="obj.id as obj.name for (key, obj) in allApplications"></select>
 	<button class="btn btn-default" data-ng-click="addApplication()">Add Application</button>
 </div>
+
+
+<h2>Containers</h2>
+
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th>Application</th>
+		<th>Image</th>
+		<th>Status</th>
+		<th>Current Instances / Wanted Instances</th>
+		<th>Scalable</th>
+	</tr>
+	</thead>
+
+	<tbody>
+		<tr data-ng-repeat="container in server.containers">
+			<td>{{ container.application_name }}</td>
+			<td>{{ container.image_name }}</td>
+			<td>{{ container.status }}</td>
+			<td>{{ container.current_instances | number }} / {{ container.wanted_instances | number }}</td>
+			<td>{{ container.scalable }}</td>
+		</tr>
+	</tbody>
+</table>
+
+
 <br/>
 <a href="#/servers">Back</a>

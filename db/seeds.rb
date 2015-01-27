@@ -9,7 +9,7 @@ Server.find_or_create_by!(name: 'lvh.me', hostname: 'lvh.me', ip: '127.0.0.1', m
 
 application = Application.find_or_create_by!(name: 'lvh.me', domains: ['lvh.me'])
 
-Image.find_or_create_by!(name: 'mysql', image_type: :db, image: 'mysql:latest', volumes: [], ports: [], links: [],
+Image.find_or_create_by!(name: 'mysql', image_type: 'db', image: 'mysql:latest', volumes: [], ports: [], links: [],
 								 environment: %w(MYSQL_DATABASE=my_db MYSQL_ROOT_PASSWORD=my_password), application: application, scalable: false)
-Image.find_or_create_by!(name: 'phpmyadmin', image_type: :web, image: 'odaniait/phpmyadmin-docker:latest', volumes: [], ports: ['127.0.0.1::80'],
+Image.find_or_create_by!(name: 'phpmyadmin', image_type: 'web', image: 'odaniait/phpmyadmin-docker:latest', volumes: [], ports: ['127.0.0.1::80'],
 								 links: ['mysql'], environment: [], application: application, scalable: true)

@@ -7,3 +7,4 @@ json.cpu server.cpu
 json.active server.active
 
 json.applications server.applications, partial: 'api/applications/show', as: :application
+json.containers server.containers, partial: 'api/containers/show', as: :container

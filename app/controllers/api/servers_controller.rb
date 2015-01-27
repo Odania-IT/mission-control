@@ -42,11 +42,15 @@ class Api::ServersController < ApiController
 
 		@server.applications << @application
 
+		ScaleHelper.add_application_on_server(@server, @application)
+
 		render action: :show
 	end
 
 	def remove_application
-		@application = @server.applications.where(_id: params[:application_id]).destroy_all
+		@application = @server.applications.where(_id: params[:application_id]).first
+		@server.applications.delete @application
+		ScaleHelper.remove_application_on_server(@server, @application)
 
 		render action: :show
 	end

@@ -15,4 +15,5 @@ class Server
 	validates_numericality_of :memory, :cpu
 
 	has_and_belongs_to_many :applications
+	has_many :containers
 end

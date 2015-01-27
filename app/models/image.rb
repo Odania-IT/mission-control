@@ -14,6 +14,7 @@ class Image
 	field :scalable, type: Mongoid::Boolean
 
 	belongs_to :application
+	has_many :containers
 
 	validates_length_of :name, minimum: 2
 	validates_length_of :image, minimum: 4
