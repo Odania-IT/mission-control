@@ -9,8 +9,8 @@ app.controller('ServerEditController', ['$rootScope', '$scope', '$routeParams', 
 		}
 	}
 
-	function onSuccessCallback() {
-		$location.path('servers');
+	function onSuccessCallback(data) {
+		$location.path('servers/'+data.id);
 	}
 
 	function onErrorCallback(err) {

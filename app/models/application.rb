@@ -6,6 +6,7 @@ class Application
 	field :domains, type: Array, default: []
 
 	has_many :images
+	has_and_belongs_to_many :servers
 
 	validates_length_of :name, minimum: 2
 	validate :validate_domains

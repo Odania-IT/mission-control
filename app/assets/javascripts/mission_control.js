@@ -101,4 +101,14 @@ app.run(['$rootScope', 'BootstrapResource', 'eventTypeProvider', '$sce', functio
 	$rootScope.getTrustedHtml = function (value) {
 		return $sce.trustAsHtml(value);
 	};
+
+	$rootScope.getImages = function(application) {
+		var imageNames = [];
+
+		for (var i=0 ; i<application.images.length ; i++) {
+			imageNames.push(application.images[i].name);
+		}
+
+		return imageNames.join(', ');
+	};
 }]);

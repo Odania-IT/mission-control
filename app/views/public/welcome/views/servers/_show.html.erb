@@ -26,5 +26,38 @@
 </table>
 
 <br/>
-<a data-ng-href="#/servers/{{ server.id }}/edit">Edit</a> |
+<a data-ng-href="#/servers/{{ server.id }}/edit">Edit</a>
+
+
+<h2>Applications</h2>
+
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th>Name</th>
+		<th>Domains</th>
+		<th>Images</th>
+		<th colspan="3"></th>
+	</tr>
+	</thead>
+
+	<tbody>
+		<tr data-ng-repeat="application in server.applications">
+			<td>{{ application.name }}</td>
+			<td>{{ application.domains.join(', ') }}</td>
+			<td>{{ getImages(application) }}</td>
+			<td>
+				<a data-ng-confirm-click="removeApplicationFromServer(application.id)" data-ng-confirm-message="Do you really want to remove the application from the server?">Remove from server</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<br/>
+<a data-ng-click="loadApplicationSelection()" data-ng-hide="allApplications">Add Application</a>
+<div data-ng-show="allApplications">
+	<select data-ng-model="data.applicationId" data-ng-options="obj.id as obj.name for (key, obj) in allApplications"></select>
+	<button class="btn btn-default" data-ng-click="addApplication()">Add Application</button>
+</div>
+<br/>
 <a href="#/servers">Back</a>

@@ -6,6 +6,14 @@ app.factory('ServerResource', ['$resource', function ($resource) {
 	}, {
 		'update': {
 			'method': 'PUT'
+		},
+		'addApplication': {
+			'method': 'POST',
+			'url': basePath + '/add_application'
+		},
+		'removeApplication': {
+			'method': 'POST',
+			'url': basePath + '/remove_application'
 		}
 	});
 }]);

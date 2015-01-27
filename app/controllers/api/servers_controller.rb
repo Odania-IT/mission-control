@@ -34,6 +34,23 @@ class Api::ServersController < ApiController
 		render json: {message: 'deleted'}
 	end
 
+	def add_application
+		@application = Application.where(_id: params[:application_id]).first
+		return bad_api_request('invalid_application') if @application.nil?
+
+		return bad_api_request('Application already added') unless @server.applications.where(_id: params[:application_id]).count == 0
+
+		@server.applications << @application
+
+		render action: :show
+	end
+
+	def remove_application
+		@application = @server.applications.where(_id: params[:application_id]).destroy_all
+
+		render action: :show
+	end
+
 	private
 
 	def validate_server

@@ -13,4 +13,6 @@ class Server
 	validates_length_of :hostname, minimum: 4
 	validates_length_of :ip, minimum: 8
 	validates_numericality_of :memory, :cpu
+
+	has_and_belongs_to_many :applications
 end
