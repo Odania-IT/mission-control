@@ -6,3 +6,4 @@ json.volumes image.volumes
 json.ports image.ports
 json.links image.links
 json.environment image.environment
+json.scalable image.scalable

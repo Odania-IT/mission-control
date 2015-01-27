@@ -11,6 +11,7 @@ class Image
 	field :ports, type: Array, default: []
 	field :links, type: Array, default: []
 	field :environment, type: Array, default: []
+	field :scalable, type: Mongoid::Boolean
 
 	belongs_to :application
 

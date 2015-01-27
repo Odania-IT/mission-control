@@ -51,7 +51,7 @@ class Api::ImagesController < ApiController
 	end
 
 	def image_params
-		params.require(:image).permit(:name, :image, :image_type, volumes: [], ports: [], links: [], environment: [])
+		params.require(:image).permit(:name, :image, :image_type, :scalable, volumes: [], ports: [], links: [], environment: [])
 	end
 
 	def cleanup_array

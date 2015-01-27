@@ -24,6 +24,7 @@
 		<th>Links</th>
 		<th>Volumes</th>
 		<th>Environment</th>
+		<th>Scalable</th>
 		<th colspan="3"></th>
 	</tr>
 	</thead>
@@ -37,6 +38,7 @@
 			<td>{{ image.links.join(', ') }}</td>
 			<td>{{ image.volumes.join(', ') }}</td>
 			<td>{{ image.environment.join(', ') }}</td>
+			<td>{{ image.scalable }}</td>
 			<td><a data-ng-href="#/applications/{{ application.id }}/images/{{ image.id }}">Show</a></td>
 			<td><a data-ng-href="#/applications/{{ application.id }}/images/{{ image.id }}/edit">Edit</a></td>
 			<td>
