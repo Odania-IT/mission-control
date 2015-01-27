@@ -9,8 +9,8 @@ app.controller('ApplicationEditController', ['$rootScope', '$scope', '$routePara
 		}
 	}
 
-	function onSuccessCallback() {
-		$location.path('applications');
+	function onSuccessCallback(data) {
+		$location.path('applications/'+data.id);
 	}
 
 	function onErrorCallback(err) {

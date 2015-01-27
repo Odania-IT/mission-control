@@ -1,4 +1,5 @@
 class Api::ImagesController < ApiController
+	before_action :validate_application
 	before_action :validate_image, except: [:index, :create]
 
 	def index
@@ -10,6 +11,7 @@ class Api::ImagesController < ApiController
 
 	def create
 		@image = Image.new(image_params)
+		@image.application_id = @application.id
 		cleanup_array
 
 		if @image.save
@@ -38,8 +40,13 @@ class Api::ImagesController < ApiController
 
 	private
 
+	def validate_application
+		@application = Application.where(_id: params[:application_id]).first
+		bad_api_request('invalid_application') if @application.nil?
+	end
+
 	def validate_image
-		@image = Image.where(_id: params[:id]).first
+		@image = @application.images.where(_id: params[:id]).first
 		bad_api_request('invalid_image') if @image.nil?
 	end
 

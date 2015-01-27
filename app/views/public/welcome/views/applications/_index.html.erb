@@ -14,7 +14,7 @@
 		<tr data-ng-repeat="application in applications">
 			<td>{{ application.name }}</td>
 			<td>{{ application.domains.join(', ') }}</td>
-			<td>--</td>
+			<td>{{ getImages(application) }}</td>
 			<td><a data-ng-href="#/applications/{{ application.id }}">Show</a></td>
 			<td><a data-ng-href="#/applications/{{ application.id }}/edit">Edit</a></td>
 			<td>

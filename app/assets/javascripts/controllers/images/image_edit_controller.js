@@ -3,14 +3,14 @@ app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '
 
 	function init() {
 		if ($routeParams.id) {
-			ImageResource.get({id: $routeParams.id}).$promise.then(function (data) {
+			ImageResource.get({applicationId: $routeParams.applicationId, id: $routeParams.id}).$promise.then(function (data) {
 				$scope.image = data;
 			});
 		}
 	}
 
 	function onSuccessCallback() {
-		$location.path('images');
+		$location.path('applications/'+$routeParams.applicationId);
 	}
 
 	function onErrorCallback(err) {
@@ -20,11 +20,12 @@ app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '
 	$scope.saveImage = function () {
 		if ($routeParams.id) {
 			ImageResource.update({
+				applicationId: $routeParams.applicationId,
 				id: $routeParams.id,
 				image: $scope.image
 			}).$promise.then(onSuccessCallback, onErrorCallback);
 		} else {
-			ImageResource.save({image: $scope.image}).$promise.then(onSuccessCallback, onErrorCallback);
+			ImageResource.save({applicationId: $routeParams.applicationId, image: $scope.image}).$promise.then(onSuccessCallback, onErrorCallback);
 		}
 	};
 
@@ -106,6 +107,8 @@ app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '
 		'volumes': [],
 		'environment': []
 	};
+
+	$scope.applicationId = $routeParams.applicationId;
 
 	init();
 }

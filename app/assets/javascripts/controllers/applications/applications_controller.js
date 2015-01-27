@@ -13,5 +13,15 @@ app.controller('ApplicationsController', ['$rootScope', '$scope', 'ApplicationRe
 		});
 	};
 
+	$scope.getImages = function(application) {
+		var imageNames = [];
+
+		for (var i=0 ; i<application.images.length ; i++) {
+			imageNames.push(application.images[i].name);
+		}
+
+		return imageNames.join(', ');
+	};
+
 	loadServers();
 }]);

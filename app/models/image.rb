@@ -12,7 +12,7 @@ class Image
 	field :links, type: Array, default: []
 	field :environment, type: Array, default: []
 
-	has_and_belongs_to_many :application
+	belongs_to :application
 
 	validates_length_of :name, minimum: 2
 	validates_length_of :image, minimum: 4

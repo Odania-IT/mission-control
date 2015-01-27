@@ -67,22 +67,17 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
 			'resolve': resolve
 		})
 
-		.when('/images', {
-			controller: 'ImagesController',
-			'templateUrl': config.getTemplatePath('images/index'),
-			'resolve': resolve
-		})
-		.when('/images/new', {
+		.when('/applications/:applicationId/images/new', {
 			controller: 'ImageEditController',
 			'templateUrl': config.getTemplatePath('images/edit'),
 			'resolve': resolve
 		})
-		.when('/images/:id/edit', {
+		.when('/applications/:applicationId/images/:id/edit', {
 			controller: 'ImageEditController',
 			'templateUrl': config.getTemplatePath('images/edit'),
 			'resolve': resolve
 		})
-		.when('/images/:id', {
+		.when('/applications/:applicationId/images/:id', {
 			controller: 'ImageController',
 			'templateUrl': config.getTemplatePath('images/show'),
 			'resolve': resolve

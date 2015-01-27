@@ -5,7 +5,7 @@ class Application
 	field :name, type: String
 	field :domains, type: Array, default: []
 
-	has_and_belongs_to_many :images
+	has_many :images
 
 	validates_length_of :name, minimum: 2
 	validate :validate_domains
