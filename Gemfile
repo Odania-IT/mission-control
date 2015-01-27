@@ -13,10 +13,10 @@ gem 'libv8', '~> 3.11.8.12', :platforms => :ruby
 gem 'therubyracer', '>= 0.11.4', :platforms => :ruby, :require => 'v8'
 gem 'therubyrhino', '>= 0.11.4', :platforms => :jruby
 
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+gem 'angularjs-rails'
+gem 'angular-ui-bootstrap-rails'
+gem 'bootstrap-sass', '~> 3.1'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -37,6 +37,8 @@ gem 'passenger'
 
 # Rails default translations
 gem 'rails-i18n'
+
+gem 'rspec-rails', '~> 3.1.0'
 
 # Redis
 gem 'redis', '~> 3.0.1'

@@ -1,0 +1,21 @@
+<table class="table table-striped">
+	<tr>
+		<th>Name</th>
+		<td>{{ application.name }}</td>
+	</tr>
+	<tr>
+		<th>Domains</th>
+		<td>{{ application.domains }}</td>
+	</tr>
+	<tr>
+		<th colspan="2">Images</th>
+	</tr>
+	<tr data-ng-repeat="image in application.images">
+		<td>{{ image.name }}</td>
+		<td>{{ image.image_type }}</td>
+	</tr>
+</table>
+
+<br/>
+<a data-ng-href="#/applications/{{ application.id }}/edit">Edit</a> |
+<a href="#/applications">Back</a>

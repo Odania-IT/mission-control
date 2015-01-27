@@ -1,0 +1,31 @@
+<% unless flash[:notice].blank? %>
+	<div class="flash flash--info flash--visible" data-ng-click="hide();">
+		<div class="container">
+			<%= content_tag :div, flash[:notice] %>
+		</div>
+	</div>
+<% end %>
+
+<% unless flash[:message].blank? %>
+	<div class="flash flash--success flash--visible" data-ng-click="hide();">
+		<div class="container">
+			<%= content_tag :div, flash[:message] %>
+		</div>
+	</div>
+<% end %>
+
+<% unless flash[:error].blank? %>
+	<div class="flash flash--danger flash--visible" data-ng-click="hide();">
+		<div class="container">
+			<%= content_tag :div, flash[:error] %>
+		</div>
+	</div>
+<% end %>
+
+<% unless flash[:warning].blank? %>
+	<div class="flash flash--warning flash--visible" data-ng-click="hide();">
+		<div class="container">
+			<%= content_tag :div, flash[:warning] %>
+		</div>
+	</div>
+<% end %>

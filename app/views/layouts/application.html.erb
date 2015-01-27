@@ -1,14 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="mission_control">
 <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>MissionControl</title>
-	<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
-	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	<%= stylesheet_link_tag 'application' %>
+	<%= javascript_include_tag 'application' %>
 	<%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/">Mission Control</a>
+		</div>
+		<div id="navbar" class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Home</a></li>
+				<li><a href="#servers">Servers</a></li>
+				<li><a href="#applications">Applications</a></li>
+				<li><a href="#images">Images</a></li>
+			</ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="main_container" class="container">
+	<div data-ng-controller="FlashController" class="component-flash">
+		<p class="bg-{{ flash.type }}" data-ng-show="flash" data-ng-click="hide();">{{ flash.message }}</p>
+	</div>
+
+	<div ng-view></div>
+</div><!-- /.container -->
+
+
 
 </body>
 </html>

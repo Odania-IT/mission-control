@@ -8,4 +8,9 @@ class Server
 	field :memory, type: Integer
 	field :cpu, type: Integer
 	field :active, type: Mongoid::Boolean
+
+	validates_length_of :name, minimum: 2
+	validates_length_of :hostname, minimum: 4
+	validates_length_of :ip, minimum: 8
+	validates_numericality_of :memory, :cpu
 end

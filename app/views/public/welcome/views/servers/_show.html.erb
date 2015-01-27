@@ -1,0 +1,30 @@
+<table class="table table-striped">
+	<tr>
+		<th>Name</th>
+		<td>{{ server.name }}</td>
+	</tr>
+	<tr>
+		<th>Hostname</th>
+		<td>{{ server.hostname }}</td>
+	</tr>
+	<tr>
+		<th>Ip</th>
+		<td>{{ server.ip }}</td>
+	</tr>
+	<tr>
+		<th>Memory</th>
+		<td>{{ server.memory }}</td>
+	</tr>
+	<tr>
+		<th>Cpu</th>
+		<td>{{ server.cpu }}</td>
+	</tr>
+	<tr>
+		<th>Active</th>
+		<td>{{ server.active }}</td>
+	</tr>
+</table>
+
+<br/>
+<a data-ng-href="#/servers/{{ server.id }}/edit">Edit</a> |
+<a href="#/servers">Back</a>
