@@ -9,6 +9,8 @@ class Container
 	field :status, type: Symbol
 	field :scalable, type: Mongoid::Boolean
 
+	field :docker_ids, type: Array, default: []
+
 	belongs_to :server
 	belongs_to :application
 	belongs_to :image
