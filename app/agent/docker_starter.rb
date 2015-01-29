@@ -87,15 +87,9 @@ server.containers.each do |container|
 	end
 
 	container_images[:down].each do |docker_container|
-		if start_instances > 0
-			puts "Start #{docker_container.inspect}"
-			docker_container.start(image.get_start_params)
-			start_instances -= 1
-		else
-			puts "Delete #{docker_container.inspect}"
-			docker_container.delete
-			remove_all_from_array(container_names, docker_container.info['Names'])
-		end
+		puts "Delete #{docker_container.inspect}"
+		docker_container.delete
+		remove_all_from_array(container_names, docker_container.info['Names'])
 	end
 
 	while start_instances > 0
@@ -103,10 +97,8 @@ server.containers.each do |container|
 		create_params = image.get_create_params(container_names)
 		container_name = create_params['name']
 		docker_container = Docker::Container.create(create_params)
-		docker_container.start(image.get_start_params)
+		docker_container.start(image.get_start_params(server))
 		container_names << "/#{container_name}"
-
-		puts "NAME: #{container_name} | #{create_params.inspect}"
 
 		mongo_docker_container = container.docker_containers.build
 		mongo_docker_container.server = server

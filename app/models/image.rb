@@ -32,8 +32,8 @@ class Image
 		p
 	end
 
-	def get_start_params
-		p = {Binds: self.volumes, PortBindings: self.get_port_bindings, Links: self.links, PublishAllPorts: false}
+	def get_start_params(server)
+		p = {Binds: self.volumes, PortBindings: self.get_port_bindings, Links: get_links(server)} #, PublishAllPorts: false
 		puts "BBBBB: #{p.inspect}"
 		p
 	end
@@ -79,5 +79,23 @@ class Image
 		end
 
 		name
+	end
+
+	def get_links(server)
+		links = []
+
+		self.links.each do |data|
+			link = data.split(':')
+
+			image = Image.where(name: link[0]).first
+			container = image.containers.where(server: server).first
+			mongo_docker_container = container.docker_containers.where(server: server).first
+
+			puts 'ASDASD'
+			puts mongo_docker_container.inspect
+			links << "#{mongo_docker_container.name}:#{link[1]}"
+		end
+
+		links
 	end
 end
