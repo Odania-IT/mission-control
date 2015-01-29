@@ -20,4 +20,11 @@ class Server
 
 	has_and_belongs_to_many :applications
 	has_many :containers
+	has_many :docker_containers
+
+	before_create do
+		self.active = false if self.active.nil?
+
+		true
+	end
 end

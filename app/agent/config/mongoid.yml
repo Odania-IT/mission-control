@@ -1,0 +1,15 @@
+defaults: &defaults
+  sessions:
+    default:
+      database: mission_control_<%= ENV['MONGOID_ENV'] %>
+      hosts:
+        - <%= ENV['MONGODB_1_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGODB_1_PORT_27017_TCP_PORT'] %>
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

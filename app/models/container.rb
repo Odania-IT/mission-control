@@ -9,11 +9,12 @@ class Container
 	field :status, type: Symbol
 	field :scalable, type: Mongoid::Boolean
 
-	field :docker_ids, type: Array, default: []
+	field :last_check, type: DateTime
 
 	belongs_to :server
 	belongs_to :application
 	belongs_to :image
+	has_many :docker_containers
 
 	validates_presence_of :server, :application, :image
 	validate :validate_status

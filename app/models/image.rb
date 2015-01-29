@@ -25,4 +25,59 @@ class Image
 			errors.add(:image_type, 'invalid image type')
 		end
 	end
+
+	def get_create_params(container_names)
+		p = {Env: self.environment, Image: self.image, 'name' => self.get_name(container_names)}
+		puts "AAAAA: #{p.inspect}"
+		p
+	end
+
+	def get_start_params
+		p = {Binds: self.volumes, PortBindings: self.get_port_bindings, Links: self.links, PublishAllPorts: false}
+		puts "BBBBB: #{p.inspect}"
+		p
+	end
+
+	def get_port_bindings
+		bindings = {}
+		self.ports.each do |port|
+			splitted = port.split(':')
+
+			if splitted.length == 1
+				bindings[get_port_proto(splitted[0])] = []
+			elsif splitted.length == 2
+				bindings[get_port_proto(splitted[1])] = [{HostPort: splitted[0]}]
+			elsif splitted.length == 3
+				if splitted[1].empty?
+					bindings[get_port_proto(splitted[2])] = [{HostIp: splitted[0]}]
+				else
+					bindings[get_port_proto(splitted[2])] = [{HostPort: splitted[1], HostIp: splitted[0]}]
+				end
+			end
+		end
+
+		bindings
+	end
+
+	def get_port_proto(port)
+		return port if port.include?('tcp') or port.include?('udp')
+
+		"#{port}/tcp"
+	end
+
+	def get_name(container_names)
+		name_base = "mc_#{self.name.to_param}_".downcase
+
+		# find the next free number
+		i = 1
+		not_found = true
+		name = ''
+		while not_found
+			name = name_base + i.to_s
+			not_found = false unless container_names.include?("/#{name}")
+			i += 1
+		end
+
+		name
+	end
 end

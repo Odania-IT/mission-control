@@ -6,6 +6,7 @@ missioncontrol:
     - mongodb
     - mailcatcher
   volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
     - .:/home/app/webapp:rw
   environment:
     RAILS_ENV: development
