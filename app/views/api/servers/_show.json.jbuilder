@@ -5,6 +5,10 @@ json.ip server.ip
 json.memory server.memory
 json.cpu server.cpu
 json.active server.active
+json.os server.os
+json.container_count server.container_count
+json.running_container_count server.running_container_count
+json.image_count server.image_count
 
 json.applications server.applications, partial: 'api/applications/show', as: :application
 json.containers server.containers, partial: 'api/containers/show', as: :container

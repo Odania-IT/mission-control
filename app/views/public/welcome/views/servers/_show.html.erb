@@ -20,6 +20,22 @@
 		<td>{{ server.cpu }}</td>
 	</tr>
 	<tr>
+		<th>Operating System</th>
+		<td>{{ server.os }}</td>
+	</tr>
+	<tr>
+		<th>Containers on server</th>
+		<td>{{ server.container_count | number }}</td>
+	</tr>
+	<tr>
+		<th>Running Containers on server</th>
+		<td>{{ server.running_container_count | number }}</td>
+	</tr>
+	<tr>
+		<th>Images on server</th>
+		<td>{{ server.image_count | number }}</td>
+	</tr>
+	<tr>
 		<th>Active</th>
 		<td>{{ server.active }}</td>
 	</tr>
