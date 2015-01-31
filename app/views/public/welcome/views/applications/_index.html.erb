@@ -5,6 +5,7 @@
 	<tr>
 		<th>Name</th>
 		<th>Domains</th>
+		<th>Ports</th>
 		<th>Images</th>
 		<th colspan="3"></th>
 	</tr>
@@ -14,6 +15,7 @@
 		<tr data-ng-repeat="application in applications">
 			<td>{{ application.name }}</td>
 			<td>{{ application.domains.join(', ') }}</td>
+			<td>{{ application.ports.join(', ') }}</td>
 			<td>{{ getImages(application) }}</td>
 			<td><a data-ng-href="#/applications/{{ application.id }}">Show</a></td>
 			<td><a data-ng-href="#/applications/{{ application.id }}/edit">Edit</a></td>

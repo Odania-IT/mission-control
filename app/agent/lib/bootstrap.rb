@@ -10,13 +10,13 @@ require_relative '../../models/server'
 require_relative '../../models/application'
 require_relative '../../models/image'
 require_relative '../../models/container'
-require_relative '../../models/docker_container'
+require_relative '../../models/server_container'
 
 require_relative './template_generator'
 require_relative './haproxy_config'
 require_relative './docker_event_handler'
 
-$ROOT = File.dirname(__FILE__)
+$ROOT = File.realpath(File.dirname(__FILE__)+'/..')
 # TODO change log directory
 $LOGGER = Logger.new('/tmp/agent.log', 0, 100 * 1024 * 1024)
 $SERVER_NAME = Docker.info['Name']
@@ -45,4 +45,10 @@ end
 unless $SERVER.active
 	puts 'Server is not active'
 	exit
+end
+
+# Check if the capped collection exists
+moped_session = Mongoid::Sessions.default
+unless moped_session.collection_names.include? 'docker_changes'
+	moped_session.command(create: 'docker_changes', capped: true, size: 10000000, max: 1000)
 end

@@ -14,7 +14,6 @@ class Container
 	belongs_to :server
 	belongs_to :application
 	belongs_to :image
-	has_many :docker_containers
 
 	validates_presence_of :server, :application, :image
 	validate :validate_status

@@ -31,7 +31,15 @@ class Api::ApplicationsController < ApiController
 	end
 
 	def destroy
-		@application.destroy
+		# Remove from all servers
+		@application.servers.each do |server|
+			ScaleHelper.remove_application_on_server(server, @application)
+		end
+
+		# Set application to destroy
+		@application.do_destroy = true
+		@application.save!
+
 		flash[:notice] = 'Application deleted'
 		render json: {message: 'deleted'}
 	end
@@ -44,7 +52,7 @@ class Api::ApplicationsController < ApiController
 	end
 
 	def application_params
-		params.require(:application).permit(:name, domains: [])
+		params.require(:application).permit(:name, domains: [], ports: [])
 	end
 
 	def cleanup_array

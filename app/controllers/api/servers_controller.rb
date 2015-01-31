@@ -34,6 +34,7 @@ class Api::ServersController < ApiController
 		render json: {message: 'deleted'}
 	end
 
+	# Add application and all associated containers to the server
 	def add_application
 		@application = Application.where(_id: params[:application_id]).first
 		return bad_api_request('invalid_application') if @application.nil?
@@ -47,6 +48,7 @@ class Api::ServersController < ApiController
 		render action: :show
 	end
 
+	# Remove application and all associated containers from the server
 	def remove_application
 		@application = @server.applications.where(_id: params[:application_id]).first
 		@server.applications.delete @application

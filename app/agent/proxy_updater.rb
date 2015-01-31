@@ -10,8 +10,18 @@ do_shutdown = false
 last_update = Time.now.to_i
 
 while not do_shutdown
-	data = config_store.blpop("update_config:#{Docker.info['Name']}")
-	update_time = data[1].to_i
+	# Check if the capped collection exists
+	moped_session = Mongoid::Sessions.default
+	#moped_session.command(create: 'docker_changes', capped: true, size: 10000000, max: 1000)
+	moped_session[:docker_changes].insert({ 'name' => 'create'})
+	moped_session[:docker_changes].find.each do |elem|
+		puts elem.inspect
+	end
+	cursor = moped_session[:docker_changes].find.tailable.cursor
+
+	puts cursor.inspect
+	docker_change = cursor.next
+	puts docker_change.inspect
 
 	if last_update < update_time
 		$LOGGER.info 'Generating configuration'

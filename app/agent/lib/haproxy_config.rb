@@ -1,9 +1,10 @@
 class HaproxyConfig
 	attr_accessor :apps, :template
 
-	def initialize(apps, template)
-		@apps = apps
+	def initialize(applications, template)
+		@applications = applications
 		@template = template
+		@server = $SERVER
 	end
 
 	def render

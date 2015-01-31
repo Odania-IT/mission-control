@@ -9,22 +9,30 @@ class DockerEventHandler
 	def handle(event)
 		$LOGGER.debug 'handle'
 		puts event.inspect
-		mongo_docker_container = self.server.docker_containers.where(id: event.id).first
-		puts mongo_docker_container.inspect
+		server_container = self.server.server_containers.where(docker_id: event.id).first
 
-		app = self.identify_app.identify(event)
-		$LOGGER.debug "app: #{mongo_docker_container.inspect}"
+		# Check if this is a monitored container
+		if server_container.nil?
+			# Log this container on the server
+			server_container = self.server.server_containers.build
+			server_container.docker_id = event.id
+			server_container.image = event.from
+			server_container.is_managed = false
+		end
 
 		if event.status.eql? 'start'
 			# Starting a new container
-			self.config_store.hset("app:#{app.name}:#{self.hostname}", app.id, app.to_json)
-			self.config_store.rpush("update_config:#{Docker.info['Name']}", Time.now.to_i)
-			self.config_store.rpush("app:started:#{Docker.info['Name']}", app.id)
+			server_container.status = :up
 		elsif %w(stop kill die).include? event.status
 			# Stopping an container
-			self.config_store.hdel("app:#{app.name}:#{self.hostname}", app.id)
-			self.config_store.rpush("update_config:#{Docker.info['Name']}", Time.now.to_i)
-			self.config_store.rpush("app:stopped:#{Docker.info['Name']}", app.id)
+			server_container.status = :down
+		end
+		self.server.save!
+
+		if server_container.is_managed
+			docker_change = DockerChange.new
+			docker_change.update_proxy = true
+			docker_change.save!
 		end
 	end
 end

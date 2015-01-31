@@ -28,34 +28,35 @@ app.controller('ApplicationEditController', ['$rootScope', '$scope', '$routePara
 		}
 	};
 
-	$scope.editDomain = function (idx, val) {
-		$scope.application.domains[idx] = val;
+	$scope.editArray = function (name, idx, val) {
+		$scope.application[name][idx] = val;
 	};
 
-	$scope.addDomain = function() {
-		var domain;
+	$scope.addToArray = function (name) {
+		var entry;
 
 		// Check if we already have an empty value
-		for (var i=0 ; i<$scope.application.domains.length ; i++) {
-			domain = $scope.application.domains[i];
+		for (var i = 0; i < $scope.application[name].length; i++) {
+			entry = $scope.application[name][i];
 
-			if (domain == "") {
+			if (entry == "") {
 				return;
 			}
 		}
 
-		$scope.application.domains.push("");
+		$scope.application[name].push("");
 	};
 
-	$scope.removeDomain = function(idx) {
+	$scope.removeFromArray = function (name, idx) {
 		if (idx >= 0) {
-			$scope.application.domains.splice(idx, 1);
+			$scope.application[name].splice(idx, 1);
 		}
 	};
 
 	$scope.application = {
 		'id': '',
-		'domains': []
+		'domains': [],
+		'ports': []
 	};
 
 	init();

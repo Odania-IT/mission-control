@@ -1,5 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Container, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+	it 'should not allow invalid status' do
+		expect(build(:container, status: :invalid)).not_to be_valid
+	end
 end

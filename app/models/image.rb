@@ -2,7 +2,7 @@ class Image
 	include Mongoid::Document
 	include Mongoid::Timestamps
 
-	IMAGE_TYPES = [:db, :web]
+	IMAGE_TYPES = [:background, :expose]
 
 	field :name, type: String
 	field :image_type, type: Symbol
@@ -11,18 +11,39 @@ class Image
 	field :ports, type: Array, default: []
 	field :links, type: Array, default: []
 	field :environment, type: Array, default: []
-	field :scalable, type: Mongoid::Boolean
+	field :scalable, type: Mongoid::Boolean, default: false
 
 	belongs_to :application
 	has_many :containers
 
 	validates_length_of :name, minimum: 2
 	validates_length_of :image, minimum: 4
-	validate :validate_image_type
+	validate :validate_image_type, :validate_ports
 
 	def validate_image_type
 		unless IMAGE_TYPES.include? self.image_type
 			errors.add(:image_type, 'invalid image type')
+		end
+	end
+
+	def validate_ports
+		self.ports.each do |port|
+			splitted = port.split(':')
+
+			errors.add(:ports, "Image #{splitted[0]} does not exist in application!") if self.application.images.where(name: splitted[0]).count == 0
+		end
+	end
+
+	def get_proxy_ports
+		proxy_ports = []
+		self.ports.each do |port|
+			splitted = port.split(':')
+
+			if splitted.length == 1
+				proxy_ports << splitted[0]
+			elsif splitted.length == 2
+				proxy_ports << splitted[1]
+			end
 		end
 	end
 
@@ -89,11 +110,11 @@ class Image
 
 			image = Image.where(name: link[0]).first
 			container = image.containers.where(server: server).first
-			mongo_docker_container = container.docker_containers.where(server: server).first
+			server_containers = server.server_containers.where(container: container).first
 
 			puts 'ASDASD'
-			puts mongo_docker_container.inspect
-			links << "#{mongo_docker_container.name}:#{link[1]}"
+			puts server_containers.inspect
+			links << "#{server_containers.name}:#{link[1]}"
 		end
 
 		links

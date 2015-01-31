@@ -15,6 +15,10 @@ class Api::ImagesController < ApiController
 		cleanup_array
 
 		if @image.save
+			@application.servers.each do |server|
+				ScaleHelper.add_application_on_server(server, @application)
+			end
+
 			flash[:notice] = 'Image created'
 			render action: :show
 		else
@@ -25,6 +29,10 @@ class Api::ImagesController < ApiController
 	def update
 		cleanup_array
 		if @image.update(image_params)
+			@application.servers.each do |server|
+				ScaleHelper.add_application_on_server(server, @application)
+			end
+
 			flash[:notice] = 'Image updated'
 			render action: :show
 		else

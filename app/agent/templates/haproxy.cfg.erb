@@ -1,0 +1,40 @@
+global
+    chroot /var/lib/haproxy
+    user haproxy
+    group haproxy
+    daemon
+    maxconn 4096
+    pidfile /var/run/haproxy.pid
+
+defaults
+    mode tcp
+    timeout connect 5s
+    timeout client 1m
+    timeout server 1m
+    option redispatch
+    balance roundrobin
+
+listen stats :1936
+    mode http
+    stats enable
+    stats hide-version
+    #stats realm Haproxy\ Statistics
+    stats uri /
+    #stats auth Username:Password
+
+<% @applications.each do |application| %>
+<% application.ports.each do |port_data|
+image_name, image_port, proxy_port = port_data.split(':')
+image = application.images.where(name: image_name).first
+server_containers = @server.server_containers.where(image: image, is_managed: true)
+%>
+<% if server_containers.count > 0 %>
+listen <%= application.name.downcase.to_param %>_<%= proxy_port %>
+    bind *:<%= proxy_port %>
+
+    <% server_containers.each do |server_container| %>
+    server <%= server_container.id.to_s %> <%= server_container.ip %>:<%= image_port %> check inter 2s rise 3 fall 2
+    <% end %>
+<% end %>
+<% end %>
+<% end %>

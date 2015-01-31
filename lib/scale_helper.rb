@@ -2,18 +2,20 @@ module ScaleHelper
 	class << self
 		def add_application_on_server(server, application)
 			application.images.each do |image|
-				container_cnt = Container.where(image: image, application: application, :status.ne => :destroy).count
+				if application.containers.where(image: image, server: server).count == 0 # only if there is not already an container
+					container_cnt = Container.where(image: image, application: application, :status.ne => :destroy).count
 
-				# Add container to server. Wanted instances is 1 if this image is scalable or none exists
-				container = application.containers.build
-				container.image = image
-				container.server = server
-				container.wanted_instances = (image.scalable or container_cnt == 0) ? 1 : 0
-				container.scalable = image.scalable
-				container.status = :down
-				container.save!
+					# Add container to server. Wanted instances is 1 if this image is scalable or none exists
+					container = application.containers.build
+					container.image = image
+					container.server = server
+					container.wanted_instances = (image.scalable or container_cnt == 0) ? 1 : 0
+					container.scalable = image.scalable
+					container.status = :down
+					container.save!
 
-				sanity_check(image)
+					sanity_check(image)
+				end
 			end
 		end
 
@@ -25,7 +27,7 @@ module ScaleHelper
 				# Check if we have enough running not scalable
 				image = container.image
 				if not image.scalable
-					container = Container.where(application: application, image: image, :status.ne => :destroy).first
+					container = Container.where(application: application, image: image, :status.ne => :destroy, :server.ne => server).first
 
 					throw Exception.new('Why is the wanted instances not zero?') unless container.wanted_instances.eql? 0
 

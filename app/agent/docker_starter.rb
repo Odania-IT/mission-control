@@ -6,8 +6,8 @@ all_containers = {}
 container_names = []
 Docker::Container.all(:all => true).each do |docker_container|
 	container_image = docker_container.info['Image']
-	mongo_docker_container = DockerContainer.where(server: $SERVER, docker_id: docker_container.id).first
-	container_image = mongo_docker_container.container.image.image unless mongo_docker_container.nil?
+	server_container = $SERVER.server_containers.where(docker_id: docker_container.id).first
+	container_image = server_container.container.image.image unless server_container.nil?
 
 	all_containers[container_image] = {up: [], down: []} if all_containers[container_image].nil?
 
@@ -58,11 +58,13 @@ $SERVER.containers.each do |container|
 		docker_container.start(image.get_start_params($SERVER))
 		container_names << "/#{container_name}"
 
-		mongo_docker_container = container.docker_containers.build
-		mongo_docker_container.server = $SERVER
-		mongo_docker_container.docker_id = docker_container.id
-		mongo_docker_container.name = container_name
-		mongo_docker_container.save!
+		server_container = $SERVER.server_containers.build
+		server_container.container = container
+		server_container.docker_id = docker_container.id
+		server_container.name = container_name
+		server_container.is_managed = true
+		server_container.status = :up
+		server_container.save!
 
 		start_instances -= 1
 	end
@@ -72,10 +74,10 @@ $SERVER.containers.each do |container|
 end
 
 # Delete docker_container in mongo if it is not running
-$SERVER.docker_containers.each do |mongo_docker_container|
+$SERVER.server_containers.each do |server_container|
 	begin
-		docker_container = Docker::Container.get(mongo_docker_container.docker_id)
+		Docker::Container.get(server_container.docker_id)
 	rescue Docker::Error::NotFoundError
-		mongo_docker_container.destroy
+		server_container.destroy
 	end
 end
