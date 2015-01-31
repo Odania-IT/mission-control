@@ -8,20 +8,6 @@ class TemplateGenerator
 	end
 
 	def generate(server)
-=begin
-		apps = []
-		config_store.hgetall('apps').each do |redis_app|
-			begin
-				app = App.build(redis_app)
-				app.populate_containers(hostname, config_store)
-
-				apps << app
-			rescue => e
-				$LOGGER.error "Exception template_generator: #{e}"
-			end
-		end
-=end
-
 		$LOGGER.debug "Apps: #{server.applications.inspect}"
 
 		current_config = ''

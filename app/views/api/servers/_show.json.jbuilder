@@ -10,6 +10,7 @@ json.container_count server.container_count
 json.running_container_count server.running_container_count
 json.image_count server.image_count
 json.basic_auth server.basic_auth
+json.volumes_path server.volumes_path
 
 json.applications server.applications, partial: 'api/applications/show', as: :application
 json.containers server.containers, partial: 'api/containers/show', as: :container

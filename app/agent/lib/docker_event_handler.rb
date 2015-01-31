@@ -7,8 +7,6 @@ class DockerEventHandler
 	end
 
 	def handle(event)
-		$LOGGER.debug 'handle'
-		puts event.inspect
 		server_container = self.server.server_containers.where(docker_id: event.id).first
 
 		# Check if this is a monitored container

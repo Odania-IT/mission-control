@@ -13,11 +13,13 @@ class Server
 	field :image_count, type: Integer, default: 0
 	field :active, type: Mongoid::Boolean
 	field :basic_auth, type: String
+	field :volumes_path, type: String
 
 	validates_length_of :name, minimum: 2
 	validates_length_of :hostname, minimum: 4
 	validates_length_of :ip, minimum: 8, allow_nil: true
 	validates_numericality_of :memory, :cpu
+	validates_length_of :volumes_path, minimum: 2
 	validate :validate_basic_auth
 
 	has_and_belongs_to_many :applications
