@@ -52,7 +52,7 @@ class Api::ApplicationsController < ApiController
 	end
 
 	def application_params
-		params.require(:application).permit(:name, domains: [], ports: [])
+		params.require(:application).permit(:name, :basic_auth, domains: [], ports: [])
 	end
 
 	def cleanup_array

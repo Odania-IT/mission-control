@@ -65,6 +65,6 @@ class Api::ServersController < ApiController
 	end
 
 	def server_params
-		params.require(:server).permit(:name, :hostname, :ip, :memory, :cpu, :active)
+		params.require(:server).permit(:name, :hostname, :ip, :memory, :cpu, :active, :basic_auth)
 	end
 end

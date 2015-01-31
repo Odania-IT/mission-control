@@ -18,9 +18,11 @@ listen stats :1936
     mode http
     stats enable
     stats hide-version
-    #stats realm Haproxy\ Statistics
     stats uri /
-    #stats auth Username:Password
+    <% if @server.basic_auth %>
+    stats realm Haproxy\ Statistics
+    stats auth <%= @server.basic_auth %>
+    <% end %>
 
 <% @applications.each do |application| %>
 <% application.ports.each do |port_data|
@@ -31,6 +33,10 @@ server_containers = @server.server_containers.where(image: image, is_managed: tr
 <% if server_containers.count > 0 %>
 listen <%= application.name.downcase.to_param %>_<%= proxy_port %>
     bind *:<%= proxy_port %>
+    <% if application.basic_auth %>
+    stats realm Haproxy\ Statistics
+    stats auth <%= application.basic_auth %>
+    <% end %>
 
     <% server_containers.each do |server_container| %>
     server <%= server_container.id.to_s %> <%= server_container.ip %>:<%= image_port %> check inter 2s rise 3 fall 2

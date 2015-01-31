@@ -47,7 +47,7 @@ class TemplateGenerator
 	# http://www.mgoff.in/2010/04/18/haproxy-reloading-your-config-with-minimal-service-impact/
 	def reload_haproxy(new_config)
 		$LOGGER.info 'Reloading haproxy'
-		File.write('/etc/haproxy/haproxy.cfg.erb', new_config)
+		File.write('/etc/haproxy/haproxy.cfg', new_config)
 		cmd = 'haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -sf $(cat /var/run/haproxy.pid)'
 		system(cmd)
 	end

@@ -6,19 +6,26 @@ class Application
 	field :domains, type: Array, default: []
 	field :do_destroy, type: Mongoid::Boolean, default: false
 	field :ports, type: Array, default: []
+	field :basic_auth, type: String
 
 	has_many :images
 	has_and_belongs_to_many :servers
 	has_many :containers
 
 	validates_length_of :name, minimum: 2
-	validate :validate_domains, :validate_ports
+	validate :validate_domains, :validate_ports, :validate_basic_auth
 
 	def validate_domains
 		self.domains.each do |domain|
 			if domain.nil? or domain.blank?
 				errors.add(:domains, "invalid domain: #{domain}")
 			end
+		end
+	end
+
+	def validate_basic_auth
+		if !self.basic_auth.nil? and (/\w+:\w+/ =~ self.basic_auth).nil?
+			errors.add(:basic_auth, 'Please provide a correct basic auth "user_name:password"')
 		end
 	end
 

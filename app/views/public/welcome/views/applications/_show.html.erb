@@ -11,6 +11,10 @@
 		<th>Ports</th>
 		<td>{{ application.ports }}</td>
 	</tr>
+	<tr>
+		<th>Basic Auth</th>
+		<td>{{ server.basic_auth ? server.basic_auth : '-' }}</td>
+	</tr>
 </table>
 
 <br/>
