@@ -3,7 +3,7 @@ defaults: &defaults
     default:
       database: mission_control_<%= Rails.env %>
       hosts:
-        - <%= ENV['MONGODB_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGODB_PORT_27017_TCP_PROTO'] %>
+        - <%= ENV['MONGODB_1_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGODB_1_PORT_27017_TCP_PROTO'] %>
 
 development:
   <<: *defaults
