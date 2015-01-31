@@ -24,8 +24,11 @@ class DockerEventHandler
 		elsif %w(stop kill die).include? event.status
 			# Stopping an container
 			server_container.status = :down
+		else
+			puts "Unhandled event #{event.inspect}"
+			server_container.status = :unknown
 		end
-		self.server.save!
+		server_container.save!
 
 		if server_container.is_managed
 			docker_change = DockerChange.new

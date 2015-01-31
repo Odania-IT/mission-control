@@ -11,6 +11,7 @@ require_relative '../../models/application'
 require_relative '../../models/image'
 require_relative '../../models/container'
 require_relative '../../models/server_container'
+require_relative '../../models/docker_change'
 
 require_relative './template_generator'
 require_relative './haproxy_config'
@@ -23,7 +24,7 @@ $SERVER_NAME = Docker.info['Name']
 
 # Setup mongoid
 ENV['MONGOID_ENV'] = 'development' if ENV['MONGOID_ENV'].nil?
-Mongoid.load!('config/mongoid.yml')
+Mongoid.load!($ROOT+'/config/mongoid.yml')
 
 $LOGGER.info "Starting #{$SCRIPT_TYPE} on #{Docker.info['Name']}"
 

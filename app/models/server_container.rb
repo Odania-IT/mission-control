@@ -2,7 +2,7 @@ class ServerContainer
 	include Mongoid::Document
 	include Mongoid::Timestamps
 
-	STATUSES = [:up, :down]
+	STATUSES = [:up, :down, :unknown]
 
 	field :name, type: String
 	field :docker_id, type: String

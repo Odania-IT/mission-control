@@ -7,7 +7,7 @@ container_names = []
 Docker::Container.all(:all => true).each do |docker_container|
 	container_image = docker_container.info['Image']
 	server_container = $SERVER.server_containers.where(docker_id: docker_container.id).first
-	container_image = server_container.container.image.image unless server_container.nil?
+	container_image = server_container.container.image.image unless server_container.nil? or server_container.container.nil?
 
 	all_containers[container_image] = {up: [], down: []} if all_containers[container_image].nil?
 
@@ -24,7 +24,6 @@ def remove_all_from_array(arr, to_remove)
 end
 
 $SERVER.containers.each do |container|
-	puts '------------------ Yeah Hell ------------------'
 	image = container.image
 	container_images = all_containers[image.image]
 	container_images = {up: [], down: []} if container_images.nil? # if none is running set empty
@@ -81,3 +80,6 @@ $SERVER.server_containers.each do |server_container|
 		server_container.destroy
 	end
 end
+
+# TODO remove
+sleep 60

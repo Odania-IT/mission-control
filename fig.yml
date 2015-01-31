@@ -12,6 +12,16 @@ missioncontrol:
     RAILS_ENV: development
     EXPOSE_PORT: 80
     PROCESS_TYPE: web
+agent:
+  build: app
+  ports:
+    - "127.0.0.1::1936"
+  links:
+    - mongodb
+  volumes:
+    - app:/srv:rw
+  environment:
+    MONGOID_ENV: development
 mongodb:
   image: dockerfile/mongodb:latest
   ports:

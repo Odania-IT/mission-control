@@ -1,0 +1,3 @@
+#!/bin/bash
+set -e
+exec ruby /srv/agent/proxy_updater.rb
