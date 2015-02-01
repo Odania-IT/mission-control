@@ -1,28 +1,19 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Mission Control is a tool to mange docker servers. It consists of two parts:
 
-Things you may want to cover:
+1. A rails application to define the dependencies and images that should run on a server.
+2. An agent that runs several scripts to start the necessary instances, update the proxy configuration and watch docker events.
 
-* Ruby version
+=== Run
 
-* System dependencies
+The agent and the rails app can be started via docker. You can use fig to start the instances.
 
-* Configuration
+=== Agent
 
-* Database creation
+The agent is in the same repository cause it shares some classes. The Dockerfile for the app is in the agent folder. The Agent only files are located under app/agent.
 
-* Database initialization
+=== TODO
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+- Add mongo authentication
+- Create a proxy to proxy between the haproxy on the different servers
