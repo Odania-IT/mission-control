@@ -7,6 +7,7 @@ class Application
 	field :do_destroy, type: Mongoid::Boolean, default: false
 	field :ports, type: Array, default: []
 	field :basic_auth, type: String
+	field :is_global, type: Mongoid::Boolean, default: false
 
 	has_many :images
 	has_and_belongs_to_many :servers

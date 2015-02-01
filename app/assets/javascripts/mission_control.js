@@ -82,6 +82,13 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
 			'templateUrl': config.getTemplatePath('images/show'),
 			'resolve': resolve
 		})
+
+		.when('/global_images', {
+			controller: 'GlobalImagesController',
+			'templateUrl': config.getTemplatePath('global_images/index'),
+			'resolve': resolve
+		})
+
 		.otherwise({ 'redirectTo': '/dashboard' });
 }]);
 

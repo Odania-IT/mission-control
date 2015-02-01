@@ -9,6 +9,10 @@ Rails.application.routes.draw do
 			end
 		end
 		resources :applications, except: [:new, :edit] do
+			collection do
+				get :get_global_application
+			end
+
 			resources :images, except: [:new, :edit]
 		end
 	end

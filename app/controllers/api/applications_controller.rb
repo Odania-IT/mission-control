@@ -1,5 +1,5 @@
 class Api::ApplicationsController < ApiController
-	before_action :validate_application, except: [:index, :create]
+	before_action :validate_application, except: [:index, :create, :get_global_application]
 
 	def index
 		@applications = Application.order([:name, :asc])
@@ -42,6 +42,13 @@ class Api::ApplicationsController < ApiController
 
 		flash[:notice] = 'Application deleted'
 		render json: {message: 'deleted'}
+	end
+
+	def get_global_application
+		@application = Application.where(is_global: true).first
+		@application = Application.create!(is_global: true, name: 'Global') if @application.nil?
+
+		render action: :show
 	end
 
 	private

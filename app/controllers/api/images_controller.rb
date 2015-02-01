@@ -12,6 +12,7 @@ class Api::ImagesController < ApiController
 	def create
 		@image = Image.new(image_params)
 		@image.application_id = @application.id
+		@image.is_global = @application.is_global
 		cleanup_array
 
 		if @image.save

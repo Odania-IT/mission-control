@@ -7,3 +7,4 @@ json.ports image.ports
 json.links image.links
 json.environment image.environment
 json.scalable image.scalable
+json.is_global image.is_global

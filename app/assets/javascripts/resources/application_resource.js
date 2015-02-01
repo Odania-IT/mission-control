@@ -6,6 +6,10 @@ app.factory('ApplicationResource', ['$resource', function ($resource) {
 	}, {
 		'update': {
 			'method': 'PUT'
+		},
+		'getGlobalApplication': {
+			'method': 'GET',
+			'url': basePath + '/get_global_application'
 		}
 	});
 }]);

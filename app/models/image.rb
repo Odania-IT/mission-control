@@ -12,17 +12,28 @@ class Image
 	field :links, type: Array, default: []
 	field :environment, type: Array, default: []
 	field :scalable, type: Mongoid::Boolean, default: false
+	field :is_global, type: Mongoid::Boolean, default: false
 
 	belongs_to :application
 	has_many :containers
 
+	validates_uniqueness_of :name
 	validates_length_of :name, minimum: 2
 	validates_length_of :image, minimum: 4
-	validate :validate_image_type
+	validate :validate_image_type, :validate_links
 
 	def validate_image_type
 		unless IMAGE_TYPES.include? self.image_type
 			errors.add(:image_type, 'invalid image type')
+		end
+	end
+
+	def validate_links
+		self.links.each do |link|
+			splitted = link.split(':')
+
+			errors.add(:links, 'Link syntax is: IMAGE_NAME:LINK_NAME') unless splitted.length == 2
+			errors.add(:links, "Link to image #{splitted[0]} does not exist!") if Image.where(name: splitted[0]).or({application: self.application}, {is_global: true}).count == 0
 		end
 	end
 
