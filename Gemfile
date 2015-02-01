@@ -40,6 +40,3 @@ gem 'rails-i18n'
 
 gem 'rspec-rails', '~> 3.1.0'
 gem 'factory_girl_rails'
-
-# Docker
-gem 'docker-api'
