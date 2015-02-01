@@ -23,6 +23,9 @@ def remove_all_from_array(arr, to_remove)
 	end
 end
 
+# Make sure volumes path exists
+FileUtils.mkdir_p($SERVER.volumes_path) unless $SERVER.volumes_path.nil? or File.directory?($SERVER.volumes_path)
+
 $SERVER.containers.each do |container|
 	image = container.image
 	container_images = all_containers[image.image]

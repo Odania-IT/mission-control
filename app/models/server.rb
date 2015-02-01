@@ -37,4 +37,10 @@ class Server
 
 		true
 	end
+
+	before_save do
+		self.volumes_path = File.absolute_path(self.volumes_path) unless self.volumes_path.nil?
+
+		true
+	end
 end

@@ -40,15 +40,11 @@ class Image
 	end
 
 	def get_create_params(container_names)
-		p = {Env: self.environment, Image: self.image, 'name' => self.get_name(container_names)}
-		puts "AAAAA: #{p.inspect}"
-		p
+		{Env: self.environment, Image: self.image, 'name' => self.get_name(container_names)}
 	end
 
 	def get_start_params(server)
-		p = {Binds: self.volumes, PortBindings: self.get_port_bindings, Links: get_links(server)} #, PublishAllPorts: false
-		puts "BBBBB: #{p.inspect}"
-		p
+		{Binds: prepare_volumes(server), PortBindings: self.get_port_bindings, Links: get_links(server)}
 	end
 
 	def get_port_bindings
@@ -79,7 +75,7 @@ class Image
 	end
 
 	def get_name(container_names)
-		name_base = "mc_#{self.name.to_param}_".downcase
+		name_base = "mc_#{self.application.name.parameterize}_#{self.name.parameterize}_".downcase
 
 		# find the next free number
 		i = 1
@@ -110,5 +106,18 @@ class Image
 		end
 
 		links
+	end
+
+	def prepare_volumes(server)
+		use_volumes = []
+		self.volumes.each do |volume|
+			volume_data = volume.split(':')
+			volume_data[0] = '/'+volume_data[0] unless volume_data[0].start_with? '/'
+			volume_data[0] = server.volumes_path.nil? ? volume_data[0] : File.absolute_path(server.volumes_path+volume_data[0])
+			FileUtils.mkdir_p(volume_data[0]) unless File.directory?(volume_data[0])
+
+			use_volumes << volume_data.join(':')
+		end
+		use_volumes
 	end
 end
