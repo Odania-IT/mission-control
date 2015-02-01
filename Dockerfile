@@ -16,6 +16,9 @@ RUN mkdir /home/app/webapp
 # Add the rails app
 ADD . /home/app/webapp
 
+# Add mongoid environment file for nginx
+ADD docker/mongoid-env.conf /etc/nginx/main.d/mongoid-env.conf
+
 WORKDIR /home/app/webapp
 RUN chown -R app:app /home/app/webapp
 RUN MONGODB_1_PORT_27017_TCP_ADDR=127.0.0.1 MONGODB_1_PORT_27017_TCP_PORT=27017 bundle install
