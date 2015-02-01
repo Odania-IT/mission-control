@@ -63,6 +63,7 @@ unless AgentHelper.module_exists?('Rails')
 				container_name = create_params['name'].clone
 
 				# Download image from server
+				puts 'Loading image'
 				Docker::Image.get(image.image)
 
 				docker_container = Docker::Container.create(create_params)
@@ -84,8 +85,18 @@ unless AgentHelper.module_exists?('Rails')
 				server_container.save!
 
 				start_instances -= 1
+				running_instances += 1
 			end
 
+			if running_instances == container.wanted_instances
+				container.status = :up
+			elsif running_instances == 0
+				container.status = :down
+			elsif running_instances < container.wanted_instances
+				container.status = :partially_up
+			end
+
+			container.current_instances = running_instances
 			container.last_check = Time.now
 			container.save!
 		end
@@ -93,7 +104,18 @@ unless AgentHelper.module_exists?('Rails')
 		# Delete docker_container in mongo if it is not running
 		$SERVER.server_containers.each do |server_container|
 			begin
-				Docker::Container.get(server_container.docker_id)
+				docker_container = Docker::Container.get(server_container.docker_id)
+
+				if server_container.status == :destroy
+					docker_container.stop
+					docker_container.delete
+					server_container.destroy
+
+					container = server_container.container
+					if container.server_containers.count == 0
+						container.destroy
+					end
+				end
 			rescue Docker::Error::NotFoundError
 				server_container.destroy
 			end

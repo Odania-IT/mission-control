@@ -30,6 +30,7 @@ class Server
 	embeds_many :server_containers
 
 	def validate_basic_auth
+		self.basic_auth = nil if self.basic_auth.nil? or self.basic_auth.blank?
 		if !self.basic_auth.nil? and (/\w+:\w+/ =~ self.basic_auth).nil?
 			errors.add(:basic_auth, 'Please provide a correct basic auth "user_name:password"')
 		end
