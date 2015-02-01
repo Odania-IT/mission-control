@@ -61,6 +61,10 @@ unless AgentHelper.module_exists?('Rails')
 				$LOGGER.info "Starting new container #{container.image.name}"
 				create_params = image.get_create_params(container_names)
 				container_name = create_params['name'].clone
+
+				# Download image from server
+				Docker::Image.get(image.image)
+
 				docker_container = Docker::Container.create(create_params)
 				docker_container.start(image.get_start_params($SERVER))
 				container_names << "/#{container_name}"

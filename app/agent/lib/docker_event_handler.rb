@@ -27,8 +27,9 @@ class DockerEventHandler
 		elsif %w(stop kill die).include? event.status
 			# Stopping an container
 			server_container.status = :down
+		elsif ['create'].include? event.status
 		else
-			puts "Unhandled event #{event.inspect}"
+			$LOGGER.warn "Unhandled event #{event.inspect}"
 			server_container.status = :unknown
 		end
 		server_container.save!
