@@ -15,7 +15,6 @@ RUN mkdir /home/app/webapp
 
 # Add the rails app
 ADD . /home/app/webapp
-RUN rm -rf /home/app/webapp/app/agent
 
 # Add mongoid environment file for nginx
 ADD docker/mongoid-env.conf /etc/nginx/main.d/mongoid-env.conf
