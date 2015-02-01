@@ -43,4 +43,10 @@ class Server
 
 		true
 	end
+
+	after_save do
+		DockerChange.check_instances(self) if AgentHelper.class_exists?('Rails')
+
+		true
+	end
 end

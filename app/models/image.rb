@@ -120,4 +120,12 @@ class Image
 		end
 		use_volumes
 	end
+
+	after_save do
+		self.application.servers.each do |server|
+			DockerChange.check_instances(server)
+		end
+
+		true
+	end
 end

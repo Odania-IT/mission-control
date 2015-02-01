@@ -43,4 +43,12 @@ class Application
 	def is_number?(val)
 		true if Float(val) rescue false
 	end
+
+	after_save do
+		self.servers.each do |server|
+			DockerChange.check_instances(server)
+		end
+
+		true
+	end
 end

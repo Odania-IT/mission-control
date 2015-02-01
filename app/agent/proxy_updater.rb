@@ -12,7 +12,7 @@ template_generator.generate($SERVER)
 
 moped_session = Mongoid::Sessions.default
 query = moped_session[:docker_changes].find(created_at: {'$gt' => last_update}).tailable
-cursor = query.moped_cursor
+cursor = query.cursor
 
 # Retrieve every line and update if necessary
 cursor.each do |entry|
