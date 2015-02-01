@@ -22,3 +22,5 @@ The agent is in the same repository cause it shares some classes. The Dockerfile
 - Add mongo authentication
 - Create a proxy to proxy between the haproxy on the different servers
 - Generate general images that could be used by multiple applications (redis, mysql, ...)
+- Add private docker registry
+- Take care of order due to dependencies (links)

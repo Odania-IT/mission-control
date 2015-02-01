@@ -22,6 +22,7 @@ class Server
 	validates_length_of :ip, minimum: 8, allow_nil: true
 	validates_numericality_of :memory, :cpu
 	validates_length_of :volumes_path, minimum: 2, allow_nil: true
+	validates_uniqueness_of :hostname
 	validate :validate_basic_auth
 
 	has_and_belongs_to_many :applications

@@ -34,7 +34,7 @@ class TemplateGenerator
 	def reload_haproxy(new_config)
 		$LOGGER.info 'Reloading haproxy'
 		File.write('/etc/haproxy/haproxy.cfg', new_config)
-		cmd = 'haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -sf $(cat /var/run/haproxy.pid)'
+		cmd = 'haproxy -db -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -sf $(cat /var/run/haproxy.pid)'
 		system(cmd)
 	end
 end
