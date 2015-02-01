@@ -16,6 +16,7 @@ require_relative '../../models/docker_change'
 require_relative './template_generator'
 require_relative './haproxy_config'
 require_relative './docker_event_handler'
+require_relative './moped_query'
 
 $ROOT = File.realpath(File.dirname(__FILE__)+'/..')
 # TODO change log directory

@@ -19,6 +19,7 @@ agent:
   links:
     - mongodb
   volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
     - app:/srv:rw
   environment:
     MONGOID_ENV: development
@@ -52,3 +53,11 @@ fnordmetric:
     - "8125:8125/udp"
   volumes:
     - ./fnordmetric-data:/data/fnordmetric
+rockmongo:
+  image: odaniait/rockmongo-docker:latest
+  ports:
+    - "8088:80"
+  links:
+    - mongodb
+  volumes:
+    - /home/mike/workspace/docker/rockmongo-docker:/srv:rw

@@ -18,19 +18,11 @@ class Image
 
 	validates_length_of :name, minimum: 2
 	validates_length_of :image, minimum: 4
-	validate :validate_image_type, :validate_ports
+	validate :validate_image_type
 
 	def validate_image_type
 		unless IMAGE_TYPES.include? self.image_type
 			errors.add(:image_type, 'invalid image type')
-		end
-	end
-
-	def validate_ports
-		self.ports.each do |port|
-			splitted = port.split(':')
-
-			errors.add(:ports, "Image #{splitted[0]} does not exist in application!") if self.application.images.where(name: splitted[0]).count == 0
 		end
 	end
 

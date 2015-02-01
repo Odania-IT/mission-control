@@ -18,6 +18,9 @@ class DockerEventHandler
 			server_container.is_managed = false
 		end
 
+		docker_container = Docker::Container.get(event.id)
+		server_container.update_from_docker_container(docker_container)
+
 		if event.status.eql? 'start'
 			# Starting a new container
 			server_container.status = :up
@@ -33,6 +36,7 @@ class DockerEventHandler
 		if server_container.is_managed
 			docker_change = DockerChange.new
 			docker_change.update_proxy = true
+			docker_change.server = self.server
 			docker_change.save!
 		end
 	end
