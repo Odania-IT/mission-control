@@ -1,3 +1,5 @@
+require_relative '../agent/lib/agent_helper'
+
 class Server
 	include Mongoid::Document
 	include Mongoid::Timestamps
@@ -45,7 +47,7 @@ class Server
 	end
 
 	after_save do
-		DockerChange.check_instances(self) if AgentHelper.class_exists?('Rails')
+		DockerChange.check_instances(self) if AgentHelper.module_exists?('Rails')
 
 		true
 	end

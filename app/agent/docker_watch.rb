@@ -1,7 +1,7 @@
 $SCRIPT_TYPE = 'Docker Starter'
 require_relative './lib/bootstrap'
 
-unless AgentHelper.class_exists?('Rails')
+unless AgentHelper.module_exists?('Rails')
 	docker_event_handler = DockerEventHandler.new($SERVER)
 
 	begin

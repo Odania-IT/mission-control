@@ -1,7 +1,7 @@
 $SCRIPT_TYPE = 'Docker Starter'
 require_relative './lib/bootstrap'
 
-unless AgentHelper.class_exists?('Rails')
+unless AgentHelper.module_exists?('Rails')
 	def remove_all_from_array(arr, to_remove)
 		to_remove.each do |key|
 			arr.delete(key)

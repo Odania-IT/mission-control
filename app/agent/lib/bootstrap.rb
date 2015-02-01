@@ -1,7 +1,7 @@
 require_relative './agent_helper'
 
 # Make sure we are not running rails but only the agent
-unless AgentHelper.class_exists?('Rails')
+unless AgentHelper.module_exists?('Rails')
 	# Load dependencies
 	require 'rubygems'
 	require 'bundler/setup'

@@ -1,7 +1,7 @@
 $SCRIPT_TYPE = 'Proxy Updater'
 require_relative './lib/bootstrap'
 
-unless AgentHelper.class_exists?('Rails')
+unless AgentHelper.module_exists?('Rails')
 	template_generator = TemplateGenerator.new
 
 	# Get Last entry
