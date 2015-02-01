@@ -41,7 +41,5 @@ gem 'rails-i18n'
 gem 'rspec-rails', '~> 3.1.0'
 gem 'factory_girl_rails'
 
-# Redis
-gem 'redis', '~> 3.0.1'
-gem 'hiredis', '~> 0.4.5'
-gem 'redis-namespace'
+# Docker
+gem 'docker-api'
