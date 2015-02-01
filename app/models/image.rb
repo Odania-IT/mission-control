@@ -100,8 +100,6 @@ class Image
 			container = image.containers.where(server: server).first
 			server_containers = server.server_containers.where(container: container).first
 
-			puts 'ASDASD'
-			puts server_containers.inspect
 			links << "#{server_containers.name}:#{link[1]}"
 		end
 
