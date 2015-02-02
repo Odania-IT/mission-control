@@ -55,7 +55,7 @@ class Image
 	end
 
 	def get_start_params(server)
-		{Binds: prepare_volumes(server), PortBindings: self.get_port_bindings, Links: get_links(server)}
+		{Binds: prepare_volumes(server), PortBindings: self.get_port_bindings, Links: get_links(server), RestartPolicy: {MaximumRetryCount: 0, Name: :always}}
 	end
 
 	def get_port_bindings

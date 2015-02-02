@@ -9,9 +9,9 @@ Mission Control is a tool to mange docker servers. It consists of two parts:
 
 The agent and the rails app can be started via docker. You can use fig to start the instances.
 
-docker run -d -p 127.0.0.1:27017:27017 -p 127.0.0.1:28017:28017 --name mc_mongodb -v /var/lib/docker_volumes/mc_mongodb:/data/db dockerfile/mongodb:latest
-docker run -d --name mc_agent -e "MONGOID_ENV=production" -v /var/run/docker.sock:/var/run/docker.sock --link mc_mongodb:mongodb_1 -p 127.0.0.1:1936:1936 -p 8080:80 odaniait/mission-control-agent:latest
-docker run -d --name mc_admin -e "RAILS_ENV=production" -e "EXPOSE_PORT=80" -e "PROCESS_TYPE=web" --link mc_mongodb:mongodb_1 -p 127.0.0.1:9000:80 odaniait/mission-control:latest
+docker run -d --restart=always -p 127.0.0.1:27017:27017 -p 127.0.0.1:28017:28017 --name mc_mongodb -v /var/lib/docker_volumes/mc_mongodb:/data/db dockerfile/mongodb:latest
+docker run -d --restart=always --name mc_agent -e "MONGOID_ENV=production" -v /var/run/docker.sock:/var/run/docker.sock --link mc_mongodb:mongodb_1 -p 127.0.0.1:1936:1936 -p 8080:80 odaniait/mission-control-agent:latest
+docker run -d --restart=always --name mc_admin -e "RAILS_ENV=production" -e "EXPOSE_PORT=80" -e "PROCESS_TYPE=web" --link mc_mongodb:mongodb_1 -p 127.0.0.1:9000:80 odaniait/mission-control:latest
 
 The agent needs to expose all ports that you want to reach from the outside. Unfortunately you have to define it manually like:
 -p 8080:80
