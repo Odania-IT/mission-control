@@ -1,14 +1,24 @@
 require_relative './agent_helper'
+require 'mongoid'
+
+def check_capped_collection
+	# Check if the capped collection exists
+	moped_session = Mongoid::Sessions.default
+	unless moped_session.collection_names.include? 'docker_changes'
+		moped_session.command(create: 'docker_changes', capped: true, size: 10000000, max: 1000)
+	end
+end
 
 # Make sure we are not running rails but only the agent
-unless AgentHelper.module_exists?('Rails')
+if AgentHelper.module_exists?('Rails')
+	check_capped_collection
+else
 	# Load dependencies
 	require 'rubygems'
 	require 'bundler/setup'
 	require 'docker'
 	require 'logger'
 	require 'json'
-	require 'mongoid'
 
 	require_relative '../../models/server'
 	require_relative '../../models/application'
@@ -32,6 +42,7 @@ unless AgentHelper.module_exists?('Rails')
 	Mongoid.load!($ROOT+'/config/mongoid.yml')
 
 	$LOGGER.info "Starting #{$SCRIPT_TYPE} on #{Docker.info['Name']}"
+	check_capped_collection
 
 	# Load $SERVER
 	$SERVER = Server.where(hostname: $SERVER_NAME).first
@@ -51,11 +62,5 @@ unless AgentHelper.module_exists?('Rails')
 	unless $SERVER.active
 		puts 'Server is not active'
 		exit
-	end
-
-	# Check if the capped collection exists
-	moped_session = Mongoid::Sessions.default
-	unless moped_session.collection_names.include? 'docker_changes'
-		moped_session.command(create: 'docker_changes', capped: true, size: 10000000, max: 1000)
 	end
 end

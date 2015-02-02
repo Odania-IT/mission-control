@@ -58,7 +58,7 @@ class Server
 	end
 
 	after_save do
-		DockerChange.check_instances(self) if AgentHelper.module_exists?('Rails')
+		DockerChange.check_instances(self) if ::AgentHelper.module_exists?('Rails')
 
 		true
 	end

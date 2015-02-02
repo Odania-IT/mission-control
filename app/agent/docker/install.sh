@@ -3,8 +3,10 @@ set -e
 source /srv/agent/docker/buildconfig
 set -x
 
+# Workaround for hash sum mismatch http://forum.siduction.org/index.php?topic=4294.0
+rm -rf /var/lib/apt/lists
+
 /srv/agent/docker/enable_repos.sh
-/srv/agent/docker/prepare.sh
 /srv/agent/docker/utilities.sh
 
 /srv/agent/docker/ruby2.1.sh

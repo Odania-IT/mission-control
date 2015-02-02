@@ -5,7 +5,7 @@ class NginxConfig
 		config_template = File.read($ROOT+'/templates/nginx_vhost.conf.erb')
 		self.init(appications, config_template)
 		new_config = self.render
-		File.write('/etc/nginx/sites-enabled/default', new_config)
+		File.write('/etc/nginx/sites-enabled/default.conf', new_config)
 		new_config
 	end
 
@@ -17,7 +17,7 @@ class NginxConfig
 	end
 
 	def get_current_config
-		File.read('/etc/nginx/sites-enabled/default')
+		File.read('/etc/nginx/sites-enabled/default.conf')
 	end
 
 	def init(applications, template)
