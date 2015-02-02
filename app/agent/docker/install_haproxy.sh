@@ -8,3 +8,4 @@ minimal_apt_get_install haproxy
 ## Install haproxy runit service.
 mkdir /etc/service/haproxy
 cp /srv/agent/docker/runit/haproxy /etc/service/haproxy/run
+touch /etc/service/haproxy/down

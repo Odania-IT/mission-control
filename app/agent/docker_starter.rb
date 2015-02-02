@@ -129,6 +129,16 @@ unless AgentHelper.module_exists?('Rails')
 	docker_change = DockerChange.order([:created_at, :desc]).first
 	last_update = docker_change.nil? ? Time.now : docker_change.created_at
 
+	# Start proxy process
+	# check if one is already running. Can not run both!
+	if File.exists?('/etc/service/nginx/down') and File.exists?('/etc/service/haproxy/down')
+		if $SERVER.proxy_type == :haproxy
+			File.delete('/etc/service/nginx/down')
+		else
+			File.delete('/etc/service/haproxy/down')
+		end
+	end
+
 	moped_session = Mongoid::Sessions.default
 	query = moped_session[:docker_changes].find(created_at: {'$gt' => last_update}).tailable
 	cursor = query.cursor
