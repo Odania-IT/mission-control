@@ -8,33 +8,25 @@ class TemplateGenerator
 	end
 
 	def generate(server)
-		$LOGGER.debug "Apps: #{server.applications.inspect}"
+		$LOGGER.debug "Creating config for: #{server.proxy_type} Apps: #{server.applications.inspect}"
+
+		config_generator = NginxConfig.new
+		if server.proxy_type == :haproxy
+			config_generator = HaproxyConfig.new
+		end
 
 		current_config = ''
 		begin
-			current_config = File.read('/etc/haproxy/haproxy.cfg')
+			current_config = config_generator.get_current_config
 		rescue
 			$LOGGER.warn 'No haproxy configuration found!'
 		end
-		new_config = self.generate_template(server.applications)
+		new_config = config_generator.generate_template(server.applications)
 
 		if not current_config.eql? new_config
-			self.reload_haproxy(new_config)
+			config_generator.reload_proxy
 		else
 			$LOGGER.info 'HAProxy Configuration did not change'
 		end
-	end
-
-	def generate_template(appications)
-		config_template = File.read($ROOT+'/templates/haproxy.cfg.erb')
-		return HaproxyConfig.new(appications, config_template).render
-	end
-
-	# http://www.mgoff.in/2010/04/18/haproxy-reloading-your-config-with-minimal-service-impact/
-	def reload_haproxy(new_config)
-		$LOGGER.info 'Reloading haproxy'
-		File.write('/etc/haproxy/haproxy.cfg', new_config)
-		cmd = 'haproxy -db -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -sf $(cat /var/run/haproxy.pid)'
-		system(cmd)
 	end
 end

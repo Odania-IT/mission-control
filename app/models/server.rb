@@ -4,6 +4,8 @@ class Server
 	include Mongoid::Document
 	include Mongoid::Timestamps
 
+	PROXY_TYPES = [:haproxy, :nginx]
+
 	field :name, type: String
 	field :hostname, type: String
 	field :ip, type: String
@@ -16,6 +18,7 @@ class Server
 	field :active, type: Mongoid::Boolean
 	field :basic_auth, type: String
 	field :volumes_path, type: String
+	field :proxy_type, type: Symbol, default: :nginx
 
 	validates_length_of :name, minimum: 2
 	validates_length_of :hostname, minimum: 4
@@ -23,7 +26,7 @@ class Server
 	validates_numericality_of :memory, :cpu
 	validates_length_of :volumes_path, minimum: 2, allow_nil: true
 	validates_uniqueness_of :hostname
-	validate :validate_basic_auth
+	validate :validate_basic_auth, :validate_proxy_type
 
 	has_and_belongs_to_many :applications
 	has_many :containers
@@ -33,6 +36,12 @@ class Server
 		self.basic_auth = nil if self.basic_auth.nil? or self.basic_auth.blank?
 		if !self.basic_auth.nil? and (/\w+:\w+/ =~ self.basic_auth).nil?
 			errors.add(:basic_auth, 'Please provide a correct basic auth "user_name:password"')
+		end
+	end
+
+	def validate_proxy_type
+		unless PROXY_TYPES.include? self.proxy_type
+			errors.add(:proxy_type, 'invalid proxy type')
 		end
 	end
 

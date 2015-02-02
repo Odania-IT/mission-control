@@ -1,0 +1,31 @@
+<% @applications.each do |application| %>
+<% application.ports.each do |port_data|
+image_name, image_port, proxy_port = port_data.split(':')
+image = application.images.where(name: image_name).first
+server_containers = @server.server_containers.where(image: image.image, is_managed: true)
+%>
+upstream <%= application.name.downcase.parameterize %>_<%= proxy_port %>-servers {
+	<% server_containers.each do |server_container| %>
+	server <%= server_container.ip %>:<%= image_port %>;
+	<% end %>
+}
+
+server {
+	listen <%= proxy_port %>;
+	server_name <%= application.domains.join(' ') %>;
+
+	proxy_set_header Host       $http_host;
+	proxy_set_header X-Real-IP  $remote_addr;
+
+	location / {
+		<% if application.basic_auth %>
+		# let Nginx know about our auth file
+		auth_basic              "Restricted";
+		auth_basic_user_file    <%= application.name.downcase.parameterize %>.htpasswd;
+		<% end %>
+
+		proxy_pass http://<%= application.name.downcase.parameterize %>_<%= proxy_port %>-servers;
+	}
+}
+<% end %>
+<% end %>

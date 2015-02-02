@@ -1,7 +1,26 @@
 class HaproxyConfig
 	attr_accessor :apps, :template
 
-	def initialize(applications, template)
+	def generate_template(appications)
+		config_template = File.read($ROOT+'/templates/haproxy.cfg.erb')
+		self.init(appications, config_template)
+		new_config = self.render
+		File.write('/etc/haproxy/haproxy.cfg', new_config)
+		new_config
+	end
+
+	# http://www.mgoff.in/2010/04/18/haproxy-reloading-your-config-with-minimal-service-impact/
+	def reload_proxy
+		$LOGGER.info 'Reloading haproxy'
+		cmd = 'haproxy -db -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -sf $(cat /var/run/haproxy.pid)'
+		system(cmd)
+	end
+
+	def get_current_config
+		File.read('/etc/haproxy/haproxy.cfg')
+	end
+
+	def init(applications, template)
 		@applications = applications
 		@template = template
 		@server = $SERVER

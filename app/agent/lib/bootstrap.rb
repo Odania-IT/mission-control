@@ -19,6 +19,7 @@ unless AgentHelper.module_exists?('Rails')
 
 	require_relative './template_generator'
 	require_relative './haproxy_config'
+	require_relative './nginx_config'
 	require_relative './docker_event_handler'
 
 	$ROOT = File.realpath(File.dirname(__FILE__)+'/..')
