@@ -13,5 +13,7 @@ unless AgentHelper.module_exists?('Rails')
 		$LOGGER.info 'Timeout'
 	rescue IOError
 		$LOGGER.info 'IOError'
+	rescue Excon::Errors::SocketError
+		$LOGGER.info 'SocketError'
 	end
 end
