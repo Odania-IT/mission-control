@@ -3,7 +3,7 @@ set -e
 source /srv/agent/docker/buildconfig
 set -x
 
-minimal_apt_get_install nginx
+minimal_apt_get_install nginx apache2-utils
 
 ## Install haproxy runit service.
 mkdir /etc/service/nginx

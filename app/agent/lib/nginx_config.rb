@@ -1,12 +1,28 @@
 class NginxConfig
 	attr_accessor :apps, :template
 
-	def generate_template(appications)
+	def generate_template(applications)
 		config_template = File.read($ROOT+'/templates/nginx_vhost.conf.erb')
-		self.init(appications, config_template)
+		self.init(applications, config_template)
 		new_config = self.render
 		File.write('/etc/nginx/sites-enabled/default.conf', new_config)
+
+		generate_htaccess_files(applications)
+
 		new_config
+	end
+
+	def generate_htaccess_files(applications)
+		applications.each do |application|
+			if application.basic_auth
+				user, pass = application.basic_auth.split(':')
+
+				file_name = "#{application.name.downcase.parameterize}.htpasswd"
+				File.delete file_name if File.exists?(file_name)
+				cmd = "htpasswd -c -db #{file_name} #{user} #{pass}"
+				system(cmd)
+			end
+		end
 	end
 
 	# Just write the configuration files
