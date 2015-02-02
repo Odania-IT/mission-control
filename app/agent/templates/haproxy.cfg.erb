@@ -24,23 +24,41 @@ listen stats :1936
     stats auth <%= @server.basic_auth %>
     <% end %>
 
-<% @applications.each do |application| %>
-<% application.ports.each do |port_data|
-image_name, image_port, proxy_port = port_data.split(':')
+<% @all_ports.each_pair do |port, applications| %>
+frontend http-in
+	bind *:<%= port %>
+
+	# Define hosts
+	<% applications.each do |application| %>
+	<% application.domains.each do |domain| %>
+	acl host_<%= application.name.downcase.parameterize %>_<%= port %> -i <%= domain %>
+	<% end %>
+	<% end %>
+
+	## figure out which one to use
+	<% applications.each do |application| %>
+	use_backend <%= application.name.downcase.parameterize %>_<%= port %>_cluster if host_<%= application.name.downcase.parameterize %>_<%= port %>
+	<% end %>
+<% end %>
+
+<% @all_ports.each_pair do |port, applications| %>
+<% applications.each do |application|
+image_name = @image_on_port[port][application.id.to_s].split(':').first
 image = application.images.where(name: image_name).first
 server_containers = @server.server_containers.where(image: image.image, is_managed: true)
 %>
-<% if server_containers.count > 0 %>
-listen <%= application.name.downcase.to_param %>_<%= proxy_port %>
-    bind *:<%= proxy_port %>
-    <% if application.basic_auth %>
-    stats realm Haproxy\ Statistics
-    stats auth <%= application.basic_auth %>
-    <% end %>
+backend <%= application.name.downcase.parameterize %>_<%= port %>_cluster
+	balance leastconn
+	option httpclose
+	option forwardfor
 
-    <% server_containers.each do |server_container| %>
-    server <%= server_container.id.to_s %> <%= server_container.ip %>:<%= image_port %> check inter 2s rise 3 fall 2
-    <% end %>
-<% end %>
+	<% if application.basic_auth %>
+	stats realm Haproxy\ Statistics
+	stats auth <%= application.basic_auth %>
+	<% end %>
+
+	<% server_containers.each do |server_container| %>
+	server <%= server_container.id.to_s %> <%= server_container.ip %>:<%= @target_ports[port][application.id.to_s] %> check inter 2s rise 3 fall 2
+	<% end %>
 <% end %>
 <% end %>
