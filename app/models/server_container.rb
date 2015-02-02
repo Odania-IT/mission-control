@@ -14,7 +14,7 @@ class ServerContainer
 	belongs_to :container
 	embedded_in :server
 
-	validates_uniqueness_of :docker_id
+	validates_uniqueness_of :docker_id, :ip
 	validate :validate_status
 
 	def validate_status
