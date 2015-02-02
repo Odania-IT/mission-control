@@ -14,6 +14,7 @@ bundle install
 
 /srv/agent/docker/mission_control_agent.sh
 /srv/agent/docker/install_haproxy.sh
+/srv/agent/docker/install_nginx.sh
 
 # Disable ssh
 touch /etc/service/sshd/down
