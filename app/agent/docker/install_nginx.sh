@@ -16,4 +16,4 @@ rm /etc/nginx/sites-enabled/default
 
 # setup nginx log forwarder
 mkdir /etc/service/nginx-log-forwarder
-cp /build/runit/nginx-log-forwarder /etc/service/nginx-log-forwarder/run
+cp /srv/agent/docker/runit/nginx-log-forwarder /etc/service/nginx-log-forwarder/run
