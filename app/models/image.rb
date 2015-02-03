@@ -17,6 +17,8 @@ class Image
 	belongs_to :application
 	has_many :containers
 
+	attr_accessor :can_start
+
 	validates_uniqueness_of :name
 	validates_length_of :name, minimum: 2
 	validates_length_of :image, minimum: 4
@@ -55,6 +57,7 @@ class Image
 	end
 
 	def get_start_params(server)
+		self.can_start = true
 		{Binds: prepare_volumes(server), PortBindings: self.get_port_bindings, Links: get_links(server), RestartPolicy: {MaximumRetryCount: 0, Name: :always}}
 	end
 
@@ -111,7 +114,11 @@ class Image
 			container = image.containers.where(server: server).first
 			server_containers = server.server_containers.where(container: container).first
 
-			links << "#{server_containers.name}:#{link[1]}"
+			if server_containers.nil?
+				self.can_start = false
+			else
+				links << "#{server_containers.name}:#{link[1]}"
+			end
 		end
 
 		links

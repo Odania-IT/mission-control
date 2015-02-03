@@ -60,7 +60,8 @@ else
 	end
 
 	unless $SERVER.active
-		puts 'Server is not active'
+		$LOGGER.debug 'Server is not active'
+		sleep 10
 		exit
 	end
 end

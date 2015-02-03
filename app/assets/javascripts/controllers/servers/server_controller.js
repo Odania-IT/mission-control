@@ -1,10 +1,21 @@
-app.controller('ServerController', ['$rootScope', '$scope', '$routeParams', 'ServerResource', 'ApplicationResource', function ($rootScope, $scope, $routeParams, ServerResource, ApplicationResource) {
+app.controller('ServerController', ['$rootScope', '$scope', '$routeParams', 'ServerResource', 'ApplicationResource', 'ContainerResource', function ($rootScope, $scope, $routeParams, ServerResource, ApplicationResource, ContainerResource) {
 	console.log("controller :: ServerController");
 
 	function loadServer() {
 		ServerResource.get({id: $routeParams.id}).$promise.then(function (data) {
 			$scope.server = data;
 		});
+	}
+
+	function scaleContainer(container, wantedInstances) {
+		console.warn("C", container, wantedInstances);
+		ContainerResource.update({
+			serverId: container.server_id,
+			id: container.id,
+			container: {wanted_instances: wantedInstances}
+		}).$promise.then(function (data) {
+				container.wanted_instances = data.wanted_instances;
+			});
 	}
 
 	$scope.loadApplicationSelection = function () {
@@ -23,6 +34,18 @@ app.controller('ServerController', ['$rootScope', '$scope', '$routeParams', 'Ser
 
 	$scope.data = {
 		'applicationId': ''
+	};
+
+	$scope.scaleUp = function (container) {
+		scaleContainer(container, container.wanted_instances++);
+	};
+
+	$scope.scaleDown = function (container) {
+		scaleContainer(container, container.wanted_instances--);
+	};
+
+	$scope.scaleTo = function (container) {
+		scaleContainer(container, container.wanted_instances);
 	};
 
 	loadServer();

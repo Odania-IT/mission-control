@@ -7,7 +7,7 @@ app.controller('ServersController', ['$rootScope', '$scope', 'ServerResource', f
 		});
 	}
 
-	$scope.destroyServer = function(server) {
+	$scope.destroyServer = function (server) {
 		ServerResource.delete({id: server.id}).$promise.then(function () {
 			loadServers();
 		});

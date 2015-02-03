@@ -103,8 +103,21 @@
 			<td>{{ container.application_name }}</td>
 			<td>{{ container.image_name }}</td>
 			<td>{{ container.status }}</td>
-			<td>{{ container.current_instances | number }} / {{ container.wanted_instances | number }}</td>
-			<td>{{ container.scalable }}</td>
+			<td>
+				{{ container.current_instances | number }} / {{ container.wanted_instances | number }}
+				<span data-ng-if="container.scalable">
+					<a data-ng-click="scaleUp(container)"><i class="glyphicon glyphicon-plus"></i></a>
+					<a data-ng-click="scaleDown(container)"><i class="glyphicon glyphicon-minus"></i></a>
+				</span>
+			</td>
+			<td>
+				{{ container.scalable }}
+
+				<span data-ng-if="container.scalable">
+					<input type="number" min="0" max="9999" data-ng-model="container.wanted_instances" />
+					<button class="button" data-ng-click="scaleTo(container)">Set</button>
+				</span>
+			</td>
 		</tr>
 	</tbody>
 </table>

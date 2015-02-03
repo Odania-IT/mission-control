@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 				post :add_application
 				post :remove_application
 			end
+
+			resources :containers, only: [:update]
 		end
 		resources :applications, except: [:new, :edit] do
 			collection do

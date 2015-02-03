@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :server_container do
+  factory :container do
     docker_id "MyString"
 image "MyString"
 status "MyString"
