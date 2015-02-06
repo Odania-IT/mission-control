@@ -33,7 +33,8 @@ unless AgentHelper.module_exists?('Rails')
 
 						if is_up
 							running_instances += 1
-							container_names = container_names + docker_container.info['Names']
+							container_names = container_names + docker_container.info['Names'] unless docker_container.info['Names'].nil?
+							container_names << docker_container.info['Name'] unless docker_container.info['Name'].nil?
 						elsif server_container.is_managed
 							$LOGGER.info "Deleting container #{docker_container.info['Names'].inspect}"
 							docker_container.delete
@@ -134,6 +135,8 @@ unless AgentHelper.module_exists?('Rails')
 			if do_rerun
 				rerun_count += 1
 				do_run = false if rerun_count > 4
+			else
+				do_run = false
 			end
 		end # end do_run
 	end
