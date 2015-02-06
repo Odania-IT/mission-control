@@ -132,8 +132,6 @@ unless AgentHelper.module_exists?('Rails')
 			if do_rerun
 				rerun_count += 1
 				do_run = false if rerun_count > 4
-			else
-				do_run = false
 			end
 		end # end do_run
 	end
