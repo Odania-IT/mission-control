@@ -17,47 +17,45 @@ unless AgentHelper.module_exists?('Rails')
 		do_run = true
 
 		while do_run
-			all_containers = {}
 			container_names = []
 			do_rerun = false
-			Docker::Container.all(:all => true).each do |docker_container|
-				container_image = docker_container.info['Image']
-				server_container = $SERVER.server_containers.where(docker_id: docker_container.id).first
-				container_image = server_container.container.image.image if !server_container.nil? and !server_container.container.nil?
-
-				all_containers[container_image] = {up: [], down: []} if all_containers[container_image].nil?
-
-				is_up = docker_container.info['Status'].downcase.include? 'up'
-				all_containers[container_image][:up] << docker_container if is_up
-				all_containers[container_image][:down] << docker_container unless is_up
-				container_names = container_names + docker_container.info['Names']
-			end
 
 			$SERVER.containers.each do |container|
 				image = container.image
-				container_images = all_containers[image.image]
-				container_images = {up: [], down: []} if container_images.nil? # if none is running set empty
 
-				running_instances = container_images[:up].count
+				# Check all server_containers in our db if they are still running
+				running_instances = 0
+				$SERVER.server_containers.where(container: container).each do |server_container|
+					begin
+						docker_container = Docker::Container.get(server_container.docker_id)
+						is_up = docker_container.info['Status'].downcase.include? 'up'
+
+						if is_up
+							running_instances += 1
+						elsif server_container.is_managed
+							$LOGGER.info "Deleting container #{docker_container.info['Names'].inspect}"
+							docker_container.delete
+							remove_all_from_array(container_names, docker_container.info['Names'])
+						end
+					rescue Docker::Error::NotFoundError
+						server_container.destroy
+					end
+				end
+
+				# Calculate how many instances to start
 				wanted_instances = container.wanted_instances
 				start_instances = wanted_instances - running_instances
+				$LOGGER.debug "Container for #{container.image.name} running_instances: #{running_instances} wanted_instances: #{wanted_instances} start_instances: #{start_instances}"
 
-				# Check all up containers
-				container_images[:up].each do |docker_container|
-					if start_instances < 0
+				# Check if we need to stop containers
+				while start_instances < 0
+					$SERVER.server_containers.where(container: container).each do |server_container|
+						docker_container = Docker::Container.get(server_container.docker_id)
+
 						$LOGGER.info "Stopping container #{docker_container.info['Names'].inspect}"
 						docker_container.stop
 						docker_container.delete
 						start_instances += 1
-						remove_all_from_array(container_names, docker_container.info['Names'])
-					end
-				end
-
-				container_images[:down].each do |docker_container|
-					$LOGGER.info "Deleting container #{docker_container.info['Names'].inspect}"
-					server_container = $SERVER.server_containers.where(docker_id: docker_container.id).first
-					if !server_container.nil? and server_container.is_managed
-						docker_container.delete
 						remove_all_from_array(container_names, docker_container.info['Names'])
 					end
 				end
