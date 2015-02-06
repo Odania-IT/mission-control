@@ -28,10 +28,12 @@ unless AgentHelper.module_exists?('Rails')
 				$SERVER.server_containers.where(container: container).each do |server_container|
 					begin
 						docker_container = Docker::Container.get(server_container.docker_id)
-						is_up = docker_container.info['Status'].downcase.include? 'up'
+						state = docker_container.info['State']
+						is_up = state['Running']
 
 						if is_up
 							running_instances += 1
+							container_names = container_names + docker_container.info['Names']
 						elsif server_container.is_managed
 							$LOGGER.info "Deleting container #{docker_container.info['Names'].inspect}"
 							docker_container.delete
