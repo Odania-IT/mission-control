@@ -1,6 +1,9 @@
 FROM odaniait/passenger-docker:master
 MAINTAINER Mike Petersen <mike@odania-it.de>
 
+# Workaround for hash sum mismatch http://forum.siduction.org/index.php?topic=4294.0
+RUN rm -rf /var/lib/apt/lists
+
 # Set correct environment variables.
 ENV HOME /root
 
