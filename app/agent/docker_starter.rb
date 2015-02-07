@@ -35,6 +35,14 @@ unless AgentHelper.module_exists?('Rails')
 							running_instances += 1
 							container_names = container_names + docker_container.info['Names'] unless docker_container.info['Names'].nil?
 							container_names << docker_container.info['Name'] unless docker_container.info['Name'].nil?
+
+							# Verify ip has not changed
+							cur_ip = server_container.ip
+							server_container.update_from_docker_container(docker_container)
+							unless cur_ip.eql? server_container.ip
+								server_container.save!
+								DockerChange.update_proxy($SERVER)
+							end
 						elsif server_container.is_managed
 							$LOGGER.info "Deleting container #{docker_container.info['Names'].inspect}"
 							docker_container.delete
