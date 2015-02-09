@@ -19,14 +19,14 @@ class TemplateGenerator
 		begin
 			current_config = config_generator.get_current_config
 		rescue
-			$LOGGER.warn 'No haproxy configuration found!'
+			$LOGGER.warn 'No proxy configuration found!'
 		end
 		new_config = config_generator.generate_template(server.applications)
 
 		if not current_config.eql? new_config
 			config_generator.reload_proxy
 		else
-			$LOGGER.info 'HAProxy Configuration did not change'
+			$LOGGER.info 'Proxy Configuration did not change'
 		end
 	end
 end

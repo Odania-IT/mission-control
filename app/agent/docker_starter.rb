@@ -20,6 +20,26 @@ unless AgentHelper.module_exists?('Rails')
 			container_names = []
 			do_rerun = false
 
+			# Delete docker_container in mongo if it is not running
+			$SERVER.server_containers.each do |server_container|
+				begin
+					docker_container = Docker::Container.get(server_container.docker_id)
+
+					if server_container.status == :destroy
+						docker_container.stop
+						docker_container.delete
+						server_container.destroy
+
+						container = server_container.container
+						if container.server_containers.count == 0
+							container.destroy
+						end
+					end
+				rescue Docker::Error::NotFoundError
+					server_container.destroy
+				end
+			end
+
 			$SERVER.containers.each do |container|
 				image = container.image
 
@@ -118,26 +138,6 @@ unless AgentHelper.module_exists?('Rails')
 				container.current_instances = running_instances
 				container.last_check = Time.now
 				container.save!
-			end
-
-			# Delete docker_container in mongo if it is not running
-			$SERVER.server_containers.each do |server_container|
-				begin
-					docker_container = Docker::Container.get(server_container.docker_id)
-
-					if server_container.status == :destroy
-						docker_container.stop
-						docker_container.delete
-						server_container.destroy
-
-						container = server_container.container
-						if container.server_containers.count == 0
-							container.destroy
-						end
-					end
-				rescue Docker::Error::NotFoundError
-					server_container.destroy
-				end
 			end
 
 			if do_rerun
