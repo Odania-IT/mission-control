@@ -28,8 +28,6 @@ mongodb:
   ports:
     - "127.0.0.1:27017:27017"
     - "127.0.0.1:27018:27018"
-redis:
-  image: redis:latest
 mailcatcher:
   image: odaniait/mailcatcher-docker:latest
   ports:
