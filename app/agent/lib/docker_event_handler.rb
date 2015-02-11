@@ -10,13 +10,7 @@ class DockerEventHandler
 		server_container = self.server.server_containers.where(docker_id: event.id).first
 
 		# Check if this is a monitored container
-		if server_container.nil?
-			# Log this container on the server
-			server_container = self.server.server_containers.build
-			server_container.docker_id = event.id
-			server_container.image = event.from
-			server_container.is_managed = false
-		end
+		return if server_container.nil?
 
 		docker_container = Docker::Container.get(event.id)
 		server_container.update_from_docker_container(docker_container)
@@ -34,11 +28,9 @@ class DockerEventHandler
 		end
 		server_container.save!
 
-		if server_container.is_managed
-			docker_change = DockerChange.new
-			docker_change.update_proxy = true
-			docker_change.server = self.server
-			docker_change.save!
-		end
+		docker_change = DockerChange.new
+		docker_change.update_proxy = true
+		docker_change.server = self.server
+		docker_change.save!
 	end
 end

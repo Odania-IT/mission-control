@@ -40,8 +40,14 @@ unless AgentHelper.module_exists?('Rails')
 				end
 			end
 
+			# Collect all used names
+			Docker::Container.all(:all => true).each do |docker_container|
+				container_names = container_names + docker_container.info['Names']
+			end
+
 			$SERVER.containers.each do |container|
 				image = container.image
+				$LOGGER.debug "Checking container for image: #{container.image.name}"
 
 				# Check all server_containers in our db if they are still running
 				running_instances = 0
@@ -63,7 +69,7 @@ unless AgentHelper.module_exists?('Rails')
 								server_container.save!
 								DockerChange.update_proxy($SERVER)
 							end
-						elsif server_container.is_managed
+						else
 							$LOGGER.info "Deleting container #{docker_container.info['Names'].inspect}"
 							docker_container.delete
 							remove_all_from_array(container_names, docker_container.info['Names'])
@@ -100,9 +106,12 @@ unless AgentHelper.module_exists?('Rails')
 					$LOGGER.debug "Loading image #{image.image}"
 					Docker::Image.get(image.image)
 
-					docker_container = Docker::Container.create(create_params)
-					docker_container.start(image.get_start_params($SERVER))
+					$LOGGER.debug "ASD: #{create_params.inspect}"
+
+					start_params = image.get_start_params($SERVER)
 					if image.can_start
+						docker_container = Docker::Container.create(create_params)
+						docker_container.start(start_params)
 						container_names << "/#{container_name}"
 
 						# We need to fetch the container in order to retrieve additional data, e.g. ip
@@ -116,13 +125,12 @@ unless AgentHelper.module_exists?('Rails')
 						server_container.name = container_name
 						server_container.status = :up
 						server_container.update_from_docker_container(docker_container)
-						server_container.is_managed = true
 						server_container.save!
 
 						start_instances -= 1
 						running_instances += 1
 					else
-						$LOGGER.debug 'Can not start image #{image.name} due to unfulfilled dependencies'
+						$LOGGER.debug "Can not start image #{image.name} due to unfulfilled dependencies"
 						do_rerun = true
 					end
 				end

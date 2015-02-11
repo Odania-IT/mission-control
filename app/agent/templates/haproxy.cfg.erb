@@ -45,7 +45,7 @@ frontend http-in
 <% applications.each do |application|
 image_name = @image_on_port[port][application.id.to_s].split(':').first
 image = application.images.where(name: image_name).first
-server_containers = @server.server_containers.where(image: image.image, is_managed: true)
+server_containers = @server.server_containers.where(image: image.image)
 %>
 backend <%= application.name.downcase.parameterize %>_<%= port %>_cluster
 	balance leastconn

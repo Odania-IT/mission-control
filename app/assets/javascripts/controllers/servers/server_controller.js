@@ -14,7 +14,7 @@ app.controller('ServerController', ['$rootScope', '$scope', '$routeParams', 'Ser
 			id: container.id,
 			container: {wanted_instances: wantedInstances}
 		}).$promise.then(function (data) {
-				container.wanted_instances = data.wanted_instances;
+				$scope.server = data;
 			});
 	}
 
@@ -37,11 +37,11 @@ app.controller('ServerController', ['$rootScope', '$scope', '$routeParams', 'Ser
 	};
 
 	$scope.scaleUp = function (container) {
-		scaleContainer(container, container.wanted_instances++);
+		scaleContainer(container, ++container.wanted_instances);
 	};
 
 	$scope.scaleDown = function (container) {
-		scaleContainer(container, container.wanted_instances--);
+		scaleContainer(container, --container.wanted_instances);
 	};
 
 	$scope.scaleTo = function (container) {

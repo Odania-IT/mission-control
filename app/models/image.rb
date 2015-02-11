@@ -112,12 +112,12 @@ class Image
 
 			image = Image.where(name: link[0]).first
 			container = image.containers.where(server: server).first
-			server_containers = server.server_containers.where(container: container).first
+			server_container = server.server_containers.where(container: container).first
 
-			if server_containers.nil?
+			if server_container.nil?
 				self.can_start = false
 			else
-				links << "#{server_containers.name}:#{link[1]}"
+				links << "#{server_container.name}:#{link[1]}"
 			end
 		end
 

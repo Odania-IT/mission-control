@@ -44,6 +44,7 @@ class Api::ServersController < ApiController
 		@server.applications << @application
 
 		ScaleHelper.add_application_on_server(@server, @application)
+		DockerChange.check_instances(@server)
 
 		render action: :show
 	end
@@ -53,6 +54,7 @@ class Api::ServersController < ApiController
 		@application = @server.applications.where(_id: params[:application_id]).first
 		@server.applications.delete @application
 		ScaleHelper.remove_application_on_server(@server, @application)
+		DockerChange.check_instances(@server)
 
 		render action: :show
 	end
