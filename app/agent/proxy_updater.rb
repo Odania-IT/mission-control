@@ -11,6 +11,12 @@ unless AgentHelper.module_exists?('Rails')
 	# Generate first config
 	template_generator.generate($SERVER)
 
+	# Additionally perform timed checks
+	Thread.new do
+		sleep 60
+		template_generator.generate($SERVER)
+	end
+
 	moped_session = Mongoid::Sessions.default
 	query = moped_session[:docker_changes].find(created_at: {'$gt' => last_update}).tailable
 	cursor = query.cursor

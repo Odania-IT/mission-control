@@ -174,6 +174,12 @@ unless AgentHelper.module_exists?('Rails')
 		end
 	end
 
+	# Additionally perform timed checks
+	Thread.new do
+		sleep 60
+		process
+	end
+
 	moped_session = Mongoid::Sessions.default
 	query = moped_session[:docker_changes].find(created_at: {'$gt' => last_update}).tailable
 	cursor = query.cursor
