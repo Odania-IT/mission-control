@@ -9,6 +9,7 @@ class TemplateGenerator
 
 	def generate(server)
 		$LOGGER.debug "Creating config for: #{server.proxy_type} Apps: #{server.applications.inspect}"
+		$SERVER.reload
 
 		config_generator = NginxConfig.new
 		if server.proxy_type == :haproxy

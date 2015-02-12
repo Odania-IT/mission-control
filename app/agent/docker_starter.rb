@@ -12,6 +12,8 @@ unless AgentHelper.module_exists?('Rails')
 	FileUtils.mkdir_p($SERVER.volumes_path) unless $SERVER.volumes_path.nil? or File.directory?($SERVER.volumes_path)
 
 	def process
+		$SERVER.reload
+
 		# Sort all containers
 		rerun_count = 0
 		do_run = true
@@ -105,8 +107,6 @@ unless AgentHelper.module_exists?('Rails')
 					# Download image from server
 					$LOGGER.debug "Loading image #{image.image}"
 					Docker::Image.get(image.image)
-
-					$LOGGER.debug "ASD: #{create_params.inspect}"
 
 					start_params = image.get_start_params($SERVER)
 					if image.can_start

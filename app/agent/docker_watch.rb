@@ -7,6 +7,7 @@ unless AgentHelper.module_exists?('Rails')
 	begin
 		Docker::Event.stream do |event|
 			$LOGGER.debug "Event: #{event.inspect}"
+			$SERVER.reload
 			docker_event_handler.handle event
 		end
 	rescue Docker::Error::TimeoutError
