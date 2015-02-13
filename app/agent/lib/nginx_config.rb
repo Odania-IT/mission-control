@@ -17,7 +17,7 @@ class NginxConfig
 			if application.basic_auth
 				user, pass = application.basic_auth.split(':')
 
-				file_name = "#{application.name.downcase.parameterize}.htpasswd"
+				file_name = "/etc/nginx/#{application.name.downcase.parameterize}.htpasswd"
 				File.delete file_name if File.exists?(file_name)
 				cmd = "htpasswd -c -db #{file_name} #{user} #{pass}"
 				system(cmd)
