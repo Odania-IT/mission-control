@@ -2,7 +2,8 @@
 <% application.ports.each do |port_data|
 image_name, image_port, proxy_port = port_data.split(':')
 image = application.images.where(name: image_name).first
-server_containers = @server.server_containers.where(image: image.image)
+container = @server.containers.where(image: image).first
+server_containers = @server.server_containers.where(container: container)
 %>
 upstream <%= application.name.downcase.parameterize %>_<%= proxy_port %>-servers {
 	<% server_containers.each do |server_container| %>
