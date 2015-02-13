@@ -166,11 +166,11 @@ unless AgentHelper.module_exists?('Rails')
 
 	# Start proxy process
 	# check if one is already running. Can not run both!
-	if File.exists?('/etc/service/nginx/down') and File.exists?('/etc/service/haproxy/down')
+	unless File.exists?('/etc/service/nginx') or File.exists?('/etc/service/haproxy')
 		if $SERVER.proxy_type == :haproxy
-			File.delete('/etc/service/haproxy/down')
+			puts FileUtils.symlink '/etc/haproxy-runit', '/etc/service/haproxy'
 		else
-			File.delete('/etc/service/nginx/down')
+			puts FileUtils.symlink '/etc/nginx-runit', '/etc/service/nginx'
 		end
 	end
 
