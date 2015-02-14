@@ -33,8 +33,8 @@ else
 	require_relative './docker_event_handler'
 
 	$ROOT = File.realpath(File.dirname(__FILE__)+'/..')
-	# TODO change log directory
-	$LOGGER = Logger.new('/tmp/agent.log', 0, 100 * 1024 * 1024)
+	# Log to stdout so that we have it in the docker logs
+	$LOGGER = Logger.new(STDOUT)
 	$SERVER_NAME = Docker.info['Name']
 
 	# Setup mongoid

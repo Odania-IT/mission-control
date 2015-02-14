@@ -189,6 +189,8 @@ unless AgentHelper.module_exists?('Rails')
 		if entry['server_id'].to_s.eql?($SERVER.id.to_s) and entry['check_instances']
 			$LOGGER.info 'Check to start containers'
 			process
+		else
+			$LOGGER.debug "[Proxy Updater] Not processing: Correct Server? #{entry['server_id'].to_s.eql?($SERVER.id.to_s)} | check_instances: #{entry['check_instances']}"
 		end
 	end
 end

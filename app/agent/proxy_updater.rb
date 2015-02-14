@@ -26,6 +26,8 @@ unless AgentHelper.module_exists?('Rails')
 		if entry['server_id'].to_s.eql?($SERVER.id.to_s) and entry['update_proxy']
 			$LOGGER.info 'Generating configuration'
 			template_generator.generate($SERVER)
+		else
+			$LOGGER.debug "[Proxy Updater] Not processing: Correct Server? #{entry['server_id'].to_s.eql?($SERVER.id.to_s)} | update_proxy: #{entry['update_proxy']}"
 		end
 	end
 end
