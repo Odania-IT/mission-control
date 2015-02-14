@@ -28,9 +28,6 @@ class DockerEventHandler
 		end
 		server_container.save!
 
-		docker_change = DockerChange.new
-		docker_change.update_proxy = true
-		docker_change.server = self.server
-		docker_change.save!
+		DockerChange.check_instances(self.server)
 	end
 end

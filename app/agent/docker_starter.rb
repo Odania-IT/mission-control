@@ -17,10 +17,12 @@ unless AgentHelper.module_exists?('Rails')
 		# Sort all containers
 		rerun_count = 0
 		do_run = true
+		request_proxy_update = false
 
 		while do_run
 			container_names = []
 			do_rerun = false
+			request_proxy_update = false
 
 			# Delete docker_container in mongo if it is not running
 			$SERVER.server_containers.each do |server_container|
@@ -36,9 +38,12 @@ unless AgentHelper.module_exists?('Rails')
 						if container.server_containers.count == 0
 							container.destroy
 						end
+
+						request_proxy_update = true
 					end
 				rescue Docker::Error::NotFoundError
 					server_container.destroy
+					request_proxy_update = true
 				end
 			end
 
@@ -69,15 +74,17 @@ unless AgentHelper.module_exists?('Rails')
 							server_container.update_from_docker_container(docker_container)
 							unless cur_ip.eql? server_container.ip
 								server_container.save!
-								DockerChange.update_proxy($SERVER)
+								request_proxy_update = true
 							end
 						else
 							$LOGGER.info "Deleting container #{docker_container.info['Names'].inspect}"
 							docker_container.delete
 							remove_all_from_array(container_names, docker_container.info['Names'])
+							request_proxy_update = true
 						end
 					rescue Docker::Error::NotFoundError
 						server_container.destroy
+						request_proxy_update = true
 					end
 				end
 
@@ -96,6 +103,7 @@ unless AgentHelper.module_exists?('Rails')
 						docker_container.delete
 						start_instances += 1
 						remove_all_from_array(container_names, docker_container.info['Names'])
+						request_proxy_update = true
 					end
 				end
 
@@ -129,6 +137,7 @@ unless AgentHelper.module_exists?('Rails')
 
 						start_instances -= 1
 						running_instances += 1
+						request_proxy_update = true
 					else
 						$LOGGER.debug "Can not start image #{image.name} due to unfulfilled dependencies"
 						do_rerun = true
@@ -153,6 +162,11 @@ unless AgentHelper.module_exists?('Rails')
 				do_run = false if rerun_count > 4
 			else
 				do_run = false
+			end
+
+			# Update proxy if necessary
+			if request_proxy_update
+				DockerChange.update_proxy($SERVER)
 			end
 		end # end do_run
 	end
