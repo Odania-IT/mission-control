@@ -2,10 +2,14 @@ $SCRIPT_TYPE = 'Docker Starter'
 require_relative './lib/bootstrap'
 
 unless AgentHelper.module_exists?('Rails')
-	def remove_all_from_array(arr, to_remove)
-		to_remove.each do |key|
-			arr.delete(key)
+	def remove_all_from_array(arr, to_remove, name_to_remove)
+		unless to_remove.nil?
+			to_remove.each do |key|
+				arr.delete(key)
+			end
 		end
+
+		arr.delete(name_to_remove) unless name_to_remove.nil?
 	end
 
 	# Make sure volumes path exists
@@ -79,7 +83,7 @@ unless AgentHelper.module_exists?('Rails')
 						else
 							$LOGGER.info "Deleting container #{docker_container.info['Names'].inspect}"
 							docker_container.delete
-							remove_all_from_array(container_names, docker_container.info['Names'])
+							remove_all_from_array(container_names, docker_container.info['Names'], docker_container.info['Name'])
 							request_proxy_update = true
 						end
 					rescue Docker::Error::NotFoundError
@@ -102,7 +106,7 @@ unless AgentHelper.module_exists?('Rails')
 						docker_container.stop
 						docker_container.delete
 						start_instances += 1
-						remove_all_from_array(container_names, docker_container.info['Names'])
+						remove_all_from_array(container_names, docker_container.info['Names'], docker_container.info['Name'])
 						request_proxy_update = true
 					end
 				end
