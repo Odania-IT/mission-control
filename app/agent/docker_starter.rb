@@ -23,6 +23,12 @@ unless AgentHelper.module_exists?('Rails')
 		do_run = true
 		request_proxy_update = false
 
+		# Authenticate to private repositories
+		Repository.all.each do |repository|
+			# TODO: Authenticate to private repo via api
+			#Docker.authenticate!()
+		end
+
 		while do_run
 			container_names = []
 			do_rerun = false

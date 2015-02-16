@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
 			resources :images, except: [:new, :edit]
 		end
+
+		resources :repositories
 	end
 
 	get 'angular/view/*view' => 'public/welcome#view'

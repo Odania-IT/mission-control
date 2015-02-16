@@ -83,6 +83,27 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
 			'resolve': resolve
 		})
 
+		.when('/repositories', {
+			controller: 'RepositoriesController',
+			'templateUrl': config.getTemplatePath('repositories/index'),
+			'resolve': resolve
+		})
+		.when('/repositories/new', {
+			controller: 'RepositoryEditController',
+			'templateUrl': config.getTemplatePath('repositories/edit'),
+			'resolve': resolve
+		})
+		.when('/repositories/:id/edit', {
+			controller: 'RepositoryEditController',
+			'templateUrl': config.getTemplatePath('repositories/edit'),
+			'resolve': resolve
+		})
+		.when('/repositories/:id', {
+			controller: 'RepositoryController',
+			'templateUrl': config.getTemplatePath('repositories/show'),
+			'resolve': resolve
+		})
+
 		.when('/global_images', {
 			controller: 'GlobalImagesController',
 			'templateUrl': config.getTemplatePath('global_images/index'),

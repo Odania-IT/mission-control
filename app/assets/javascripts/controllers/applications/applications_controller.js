@@ -1,7 +1,7 @@
 app.controller('ApplicationsController', ['$rootScope', '$scope', 'ApplicationResource', function ($rootScope, $scope, ApplicationResource) {
 	console.log("controller :: ApplicationsController");
 
-	function loadServers() {
+	function loadApplications() {
 		ApplicationResource.get().$promise.then(function (data) {
 			$scope.applications = data.applications;
 		});
@@ -9,9 +9,9 @@ app.controller('ApplicationsController', ['$rootScope', '$scope', 'ApplicationRe
 
 	$scope.destroyApplication = function(server) {
 		ApplicationResource.delete({id: server.id}).$promise.then(function () {
-			loadServers();
+			loadApplications();
 		});
 	};
 
-	loadServers();
+	loadApplications();
 }]);
