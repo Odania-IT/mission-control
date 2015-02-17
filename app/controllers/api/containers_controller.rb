@@ -3,6 +3,11 @@ class Api::ContainersController < ApiController
 
 	def update
 		@container.update(container_params)
+
+		# Let the agent check the instances
+		@container.servers.each do |server|
+			DockerChange.check_instances(server)
+		end
 	end
 
 	private
