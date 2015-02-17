@@ -13,6 +13,7 @@ GEM
     archive-tar-minitar (0.5.2)
     bson (2.3.0)
     builder (3.2.2)
+    chronic (0.10.2)
     connection_pool (2.1.1)
     docker-api (1.17.0)
       archive-tar-minitar
@@ -38,6 +39,8 @@ GEM
     thread_safe (0.3.4)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    whenever (0.9.4)
+      chronic (>= 0.6.3)
 
 PLATFORMS
   ruby
@@ -47,3 +50,4 @@ DEPENDENCIES
   erubis
   logger
   mongoid
+  whenever

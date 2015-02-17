@@ -19,6 +19,7 @@ else
 	require 'docker'
 	require 'logger'
 	require 'json'
+	require 'whenever'
 
 	require_relative '../../models/server'
 	require_relative '../../models/application'
@@ -26,6 +27,7 @@ else
 	require_relative '../../models/container'
 	require_relative '../../models/server_container'
 	require_relative '../../models/docker_change'
+	require_relative '../../models/repository'
 
 	require_relative './template_generator'
 	require_relative './haproxy_config'
