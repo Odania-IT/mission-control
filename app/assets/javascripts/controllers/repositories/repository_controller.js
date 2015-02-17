@@ -1,4 +1,4 @@
-app.controller('RepositoryController', ['$rootScope', '$scope', '$routeParams', 'RepositoryResource', 'ImageResource', function ($rootScope, $scope, $routeParams, RepositoryResource) {
+app.controller('RepositoryController', ['$rootScope', '$scope', '$routeParams', 'RepositoryResource', function ($rootScope, $scope, $routeParams, RepositoryResource) {
 	console.log("controller :: RepositoryController");
 
 	function loadRepositories() {

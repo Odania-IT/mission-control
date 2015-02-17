@@ -104,6 +104,27 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
 			'resolve': resolve
 		})
 
+		.when('/backup_servers', {
+			controller: 'BackupServersController',
+			'templateUrl': config.getTemplatePath('backup_servers/index'),
+			'resolve': resolve
+		})
+		.when('/backup_servers/new', {
+			controller: 'BackupServerEditController',
+			'templateUrl': config.getTemplatePath('backup_servers/edit'),
+			'resolve': resolve
+		})
+		.when('/backup_servers/:id/edit', {
+			controller: 'BackupServerEditController',
+			'templateUrl': config.getTemplatePath('backup_servers/edit'),
+			'resolve': resolve
+		})
+		.when('/backup_servers/:id', {
+			controller: 'BackupServerController',
+			'templateUrl': config.getTemplatePath('backup_servers/show'),
+			'resolve': resolve
+		})
+
 		.when('/global_images', {
 			controller: 'GlobalImagesController',
 			'templateUrl': config.getTemplatePath('global_images/index'),

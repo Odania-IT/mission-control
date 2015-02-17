@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 		end
 
 		resources :repositories
+		resources :backup_servers
 	end
 
 	get 'angular/view/*view' => 'public/welcome#view'
