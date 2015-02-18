@@ -31,6 +31,7 @@ class Server
 	has_and_belongs_to_many :applications
 	has_many :containers
 	embeds_many :server_containers
+	has_many :background_schedules
 
 	def validate_basic_auth
 		self.basic_auth = nil if self.basic_auth.nil? or self.basic_auth.blank?

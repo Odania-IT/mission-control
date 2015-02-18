@@ -1,7 +1,7 @@
-app.controller('ImageController', ['$rootScope', '$scope', '$routeParams', 'ImageResource', function ($rootScope, $scope, $routeParams, ImageResource) {
+app.controller('ImageController', ['$rootScope', '$scope', '$routeParams', 'ApplicationImageResource', function ($rootScope, $scope, $routeParams, ApplicationImageResource) {
 	console.log("controller :: ImageController");
 
-	ImageResource.get({applicationId: $routeParams.applicationId, id: $routeParams.id}).$promise.then(function (data) {
+	ApplicationImageResource.get({applicationId: $routeParams.applicationId, id: $routeParams.id}).$promise.then(function (data) {
 		$scope.image = data;
 	});
 

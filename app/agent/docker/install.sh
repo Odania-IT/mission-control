@@ -21,4 +21,7 @@ bundle install
 # Disable ssh
 touch /etc/service/sshd/down
 
+# Install backup dependencies
+minimal_apt_get_install mysql-client
+
 /srv/agent/docker/finalize.sh

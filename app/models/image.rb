@@ -16,6 +16,7 @@ class Image
 
 	belongs_to :application
 	has_many :containers
+	has_many :background_schedules
 
 	attr_accessor :can_start
 

@@ -23,6 +23,7 @@ else
 
 	require_relative '../../models/server'
 	require_relative '../../models/application'
+	require_relative '../../models/background_schedule'
 	require_relative '../../models/image'
 	require_relative '../../models/container'
 	require_relative '../../models/server_container'
@@ -33,6 +34,7 @@ else
 	require_relative './haproxy_config'
 	require_relative './nginx_config'
 	require_relative './docker_event_handler'
+	require_relative './whenever_schedule_generator'
 
 	$ROOT = File.realpath(File.dirname(__FILE__)+'/..')
 	# Log to stdout so that we have it in the docker logs

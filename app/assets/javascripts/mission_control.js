@@ -104,11 +104,12 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
 			'resolve': resolve
 		})
 
-		.when('/backup_servers', {
-			controller: 'BackupServersController',
-			'templateUrl': config.getTemplatePath('backup_servers/index'),
+		.when('/backup', {
+			controller: 'BackupController',
+			'templateUrl': config.getTemplatePath('backup/index'),
 			'resolve': resolve
 		})
+
 		.when('/backup_servers/new', {
 			controller: 'BackupServerEditController',
 			'templateUrl': config.getTemplatePath('backup_servers/edit'),
@@ -122,6 +123,22 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
 		.when('/backup_servers/:id', {
 			controller: 'BackupServerController',
 			'templateUrl': config.getTemplatePath('backup_servers/show'),
+			'resolve': resolve
+		})
+
+		.when('/background_schedules/new', {
+			controller: 'BackgroundScheduleEditController',
+			'templateUrl': config.getTemplatePath('background_schedules/edit'),
+			'resolve': resolve
+		})
+		.when('/background_schedules/:id/edit', {
+			controller: 'BackgroundScheduleEditController',
+			'templateUrl': config.getTemplatePath('background_schedules/edit'),
+			'resolve': resolve
+		})
+		.when('/background_schedules/:id', {
+			controller: 'BackgroundScheduleController',
+			'templateUrl': config.getTemplatePath('background_schedules/show'),
 			'resolve': resolve
 		})
 
