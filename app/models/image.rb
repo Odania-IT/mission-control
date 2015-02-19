@@ -129,6 +129,7 @@ class Image
 		self.volumes.each do |volume|
 			volume_data = volume.split(':')
 			volume_data[0] = '/'+volume_data[0] unless volume_data[0].start_with? '/'
+			volume_data[0] = "/#{self.application.name.downcase.parameterize}#{volume_data[0]}"
 			volume_data[0] = server.volumes_path.nil? ? volume_data[0] : File.absolute_path(server.volumes_path+volume_data[0])
 			FileUtils.mkdir_p(volume_data[0]) unless File.directory?(volume_data[0])
 
