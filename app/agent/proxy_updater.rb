@@ -3,6 +3,7 @@ require_relative './lib/bootstrap'
 
 unless AgentHelper.module_exists?('Rails')
 	template_generator = TemplateGenerator.new
+	whenever_schedule_generator = WheneverScheduleGenerator.new($SERVER)
 
 	# Get Last entry
 	docker_change = DockerChange.order([:created_at, :desc]).first
@@ -10,6 +11,7 @@ unless AgentHelper.module_exists?('Rails')
 
 	# Generate first config
 	template_generator.generate($SERVER)
+	whenever_schedule_generator.generate
 
 	# Additionally perform timed checks
 	Thread.new do
@@ -26,6 +28,9 @@ unless AgentHelper.module_exists?('Rails')
 		if entry['server_id'].to_s.eql?($SERVER.id.to_s) and entry['update_proxy']
 			$LOGGER.info '[Proxy Updater] Generating configuration'
 			template_generator.generate($SERVER)
+		elsif entry['server_id'].to_s.eql?($SERVER.id.to_s) and entry['update_schedule']
+			$LOGGER.info '[Proxy Updater] Generating schedule'
+			whenever_schedule_generator.generate
 		else
 			$LOGGER.debug "[Proxy Updater] Not processing: Correct Server? #{entry['server_id'].to_s.eql?($SERVER.id.to_s)} | update_proxy: #{entry['update_proxy']}"
 		end

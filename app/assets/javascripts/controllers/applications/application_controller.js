@@ -1,4 +1,4 @@
-app.controller('ApplicationController', ['$rootScope', '$scope', '$routeParams', 'ApplicationResource', 'ImageResource', function ($rootScope, $scope, $routeParams, ApplicationResource, ImageResource) {
+app.controller('ApplicationController', ['$rootScope', '$scope', '$routeParams', 'ApplicationResource', 'ApplicationImageResource', function ($rootScope, $scope, $routeParams, ApplicationResource, ApplicationImageResource) {
 	console.log("controller :: ApplicationController");
 
 	function loadApplication() {
@@ -8,7 +8,7 @@ app.controller('ApplicationController', ['$rootScope', '$scope', '$routeParams',
 	}
 
 	$scope.destroyImage = function(image) {
-		ImageResource.delete({applicationId: $routeParams.id, id: image.id}).$promise.then(function () {
+		ApplicationImageResource.delete({applicationId: $routeParams.id, id: image.id}).$promise.then(function () {
 			loadApplication();
 		});
 	};

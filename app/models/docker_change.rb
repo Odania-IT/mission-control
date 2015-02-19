@@ -4,6 +4,8 @@ class DockerChange
 
 	field :update_proxy, type: Mongoid::Boolean, default: false
 	field :check_instances, type: Mongoid::Boolean, default: false
+	field :update_global_proxy, type: Mongoid::Boolean, default: false
+	field :update_schedule, type: Mongoid::Boolean, default: false
 
 	belongs_to :server
 
@@ -12,6 +14,10 @@ class DockerChange
 	end
 
 	def self.update_proxy(server)
+		DockerChange.create(server: server, update_proxy: true)
+	end
+
+	def self.update_schedules(server)
 		DockerChange.create(server: server, update_proxy: true)
 	end
 end

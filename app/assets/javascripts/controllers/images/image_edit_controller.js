@@ -1,9 +1,9 @@
-app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'ImageResource', function ($rootScope, $scope, $routeParams, $location, ImageResource) {
+app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'ApplicationImageResource', function ($rootScope, $scope, $routeParams, $location, ApplicationImageResource) {
 	console.log("controller :: ImageEditController");
 
 	function init() {
 		if ($routeParams.id) {
-			ImageResource.get({applicationId: $routeParams.applicationId, id: $routeParams.id}).$promise.then(function (data) {
+			ApplicationImageResource.get({applicationId: $routeParams.applicationId, id: $routeParams.id}).$promise.then(function (data) {
 				$scope.image = data;
 			});
 		}
@@ -19,13 +19,13 @@ app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '
 
 	$scope.saveImage = function () {
 		if ($routeParams.id) {
-			ImageResource.update({
+			ApplicationImageResource.update({
 				applicationId: $routeParams.applicationId,
 				id: $routeParams.id,
 				image: $scope.image
 			}).$promise.then(onSuccessCallback, onErrorCallback);
 		} else {
-			ImageResource.save({applicationId: $routeParams.applicationId, image: $scope.image}).$promise.then(onSuccessCallback, onErrorCallback);
+			ApplicationImageResource.save({applicationId: $routeParams.applicationId, image: $scope.image}).$promise.then(onSuccessCallback, onErrorCallback);
 		}
 	};
 
