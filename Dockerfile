@@ -1,4 +1,4 @@
-FROM odaniait/passenger-docker:master
+FROM odaniait/passenger-docker:latest
 MAINTAINER Mike Petersen <mike@odania-it.de>
 
 # Workaround for hash sum mismatch http://forum.siduction.org/index.php?topic=4294.0
