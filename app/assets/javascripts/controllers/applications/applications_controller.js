@@ -7,8 +7,8 @@ app.controller('ApplicationsController', ['$rootScope', '$scope', 'ApplicationRe
 		});
 	}
 
-	$scope.destroyApplication = function(server) {
-		ApplicationResource.delete({id: server.id}).$promise.then(function () {
+	$scope.destroyApplication = function(application) {
+		ApplicationResource.delete({id: application.id}).$promise.then(function () {
 			loadApplications();
 		});
 	};

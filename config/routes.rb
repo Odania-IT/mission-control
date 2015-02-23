@@ -18,10 +18,11 @@ Rails.application.routes.draw do
 			resources :images, except: [:new, :edit], controller: 'application_images'
 		end
 
-		resources :repositories
-		resources :backup_servers
-		resources :background_schedules
+		resources :repositories, except: [:new, :edit]
+		resources :backup_servers, except: [:new, :edit]
+		resources :background_schedules, except: [:new, :edit]
 		resources :images, only: [:index]
+		resources :templates, except: [:new, :edit]
 	end
 
 	get 'angular/view/*view' => 'public/welcome#view'

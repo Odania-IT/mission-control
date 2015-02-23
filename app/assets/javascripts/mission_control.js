@@ -142,6 +142,27 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
 			'resolve': resolve
 		})
 
+		.when('/templates', {
+			controller: 'TemplatesController',
+			'templateUrl': config.getTemplatePath('templates/index'),
+			'resolve': resolve
+		})
+		.when('/templates/new', {
+			controller: 'TemplateEditController',
+			'templateUrl': config.getTemplatePath('templates/edit'),
+			'resolve': resolve
+		})
+		.when('/templates/:id/edit', {
+			controller: 'TemplateEditController',
+			'templateUrl': config.getTemplatePath('templates/edit'),
+			'resolve': resolve
+		})
+		.when('/templates/:id', {
+			controller: 'TemplateController',
+			'templateUrl': config.getTemplatePath('templates/show'),
+			'resolve': resolve
+		})
+
 		.when('/global_images', {
 			controller: 'GlobalImagesController',
 			'templateUrl': config.getTemplatePath('global_images/index'),
