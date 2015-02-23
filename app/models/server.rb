@@ -18,6 +18,7 @@ class Server
 	field :active, type: Mongoid::Boolean
 	field :basic_auth, type: String
 	field :volumes_path, type: String
+	field :backup_path, type: String
 	field :proxy_type, type: Symbol, default: :nginx
 
 	validates_length_of :name, minimum: 2
@@ -25,6 +26,7 @@ class Server
 	validates_length_of :ip, minimum: 8, allow_nil: true
 	validates_numericality_of :memory, :cpu
 	validates_length_of :volumes_path, minimum: 2, allow_nil: true
+	validates_length_of :backup_path, minimum: 2, allow_nil: true
 	validates_uniqueness_of :hostname
 	validate :validate_basic_auth, :validate_proxy_type
 

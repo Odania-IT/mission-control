@@ -18,6 +18,6 @@ class DockerChange
 	end
 
 	def self.update_schedules(server)
-		DockerChange.create(server: server, update_proxy: true)
+		DockerChange.create(server: server, update_schedule: true)
 	end
 end

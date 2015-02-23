@@ -12,8 +12,6 @@ class Api::BackgroundSchedulesController < ApiController
 		@background_schedule = BackgroundSchedule.new(background_schedule_params)
 
 		if @background_schedule.save
-			DockerChange.update_schedules(@background_schedule.server)
-
 			flash[:notice] = 'Background Schedule created'
 			render action: :show
 		else
@@ -23,7 +21,6 @@ class Api::BackgroundSchedulesController < ApiController
 
 	def update
 		if @background_schedule.update(background_schedule_params)
-			DockerChange.update_schedules(@background_schedule.server)
 			flash[:notice] = 'Background Schedule updated'
 			render action: :show
 		else

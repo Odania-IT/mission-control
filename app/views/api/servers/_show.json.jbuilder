@@ -12,6 +12,7 @@ json.image_count server.image_count
 json.basic_auth server.basic_auth
 json.volumes_path server.volumes_path
 json.proxy_type server.proxy_type
+json.backup_path server.backup_path
 
 json.applications server.applications, partial: 'api/applications/show', as: :application
 json.containers server.containers, partial: 'api/containers/show', as: :container
