@@ -8,3 +8,5 @@ json.links image.links
 json.environment image.environment
 json.scalable image.scalable
 json.is_global image.is_global
+json.template_id image.template_id.nil? ? nil : image.template_id.to_s
+json.template_environment image.template_environment

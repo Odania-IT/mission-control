@@ -2,8 +2,6 @@ class Template
 	include Mongoid::Document
 	include Mongoid::Timestamps
 
-	BACKUP_STRATEGIES = [:mysql, :volumes]
-
 	field :name, type: String
 	field :description, type: String
 	field :images, type: Array, default: []
@@ -26,7 +24,7 @@ class Template
 	end
 
 	def validate_backup_strategy
-		unless BACKUP_STRATEGIES.include? self.backup_strategy
+		unless BackgroundSchedule::CRON_TYPES[:backup].include? self.backup_strategy
 			errors.add(:backup_strategy, 'invalid backup strategy')
 		end
 	end

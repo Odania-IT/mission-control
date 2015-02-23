@@ -14,6 +14,7 @@ class Api::ApplicationImagesController < ApiController
 		@image.application_id = @application.id
 		@image.is_global = @application.is_global
 		cleanup_array
+		update_template_environment
 
 		if @image.save
 			@application.servers.each do |server|
@@ -30,6 +31,9 @@ class Api::ApplicationImagesController < ApiController
 	def update
 		cleanup_array
 		if @image.update(image_params)
+			update_template_environment
+			@image.save!
+
 			@application.servers.each do |server|
 				ScaleHelper.add_application_on_server(server, @application)
 			end
@@ -42,6 +46,11 @@ class Api::ApplicationImagesController < ApiController
 	end
 
 	def destroy
+		@image.containers.each do |container|
+			container.status = :destroy
+			container.save!
+		end
+
 		@image.destroy
 		flash[:notice] = 'Image deleted'
 		render json: {message: 'deleted'}
@@ -60,7 +69,8 @@ class Api::ApplicationImagesController < ApiController
 	end
 
 	def image_params
-		params.require(:image).permit(:name, :image, :image_type, :scalable, volumes: [], ports: [], links: [], environment: [])
+		params.require(:image).permit(:name, :image, :image_type, :scalable, :template_id, volumes: [], ports: [],
+												links: [], environment: [])
 	end
 
 	def cleanup_array
@@ -75,6 +85,16 @@ class Api::ApplicationImagesController < ApiController
 		end
 		if image_params[:environment].nil?
 			@image.environment = []
+		end
+	end
+
+	def update_template_environment
+		if params[:image][:template_environment] and !@image.template.nil?
+			@image.template_environment = {}
+
+			@image.template.environment.each do |environment|
+				@image.template_environment[environment] = params[:image][:template_environment][environment]
+			end
 		end
 	end
 end

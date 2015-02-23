@@ -9,7 +9,7 @@ class WheneverScheduleGenerator
 		template = []
 		template << header
 		template = template + generate_schedules
-		new_schedule = template.join("\n")
+		new_schedule = template.join("\n") + "\n"
 
 		current_schedule = File.read('/etc/nginx/sites-enabled/default.conf')
 
@@ -30,10 +30,11 @@ class WheneverScheduleGenerator
 		schedules = []
 
 		# Add all schedules
+
 		BackgroundSchedule.where(server: self.server).each do |schedule|
 			schedules << ''
 			schedules << "every '#{schedule.cron_times}' do"
-			schedules << "\tcron_runner '#{schedule.cron_type}', arguments: '#{schedule.name}'"
+			schedules << "\tcron_runner '#{schedule.cron_type}', arguments: '#{schedule.id.to_s}'"
 			schedules << 'end'
 		end
 

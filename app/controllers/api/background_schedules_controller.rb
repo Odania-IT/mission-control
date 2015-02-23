@@ -12,6 +12,8 @@ class Api::BackgroundSchedulesController < ApiController
 		@background_schedule = BackgroundSchedule.new(background_schedule_params)
 
 		if @background_schedule.save
+			DockerChange.update_schedules(@background_schedule.server)
+
 			flash[:notice] = 'Background Schedule created'
 			render action: :show
 		else
@@ -21,6 +23,7 @@ class Api::BackgroundSchedulesController < ApiController
 
 	def update
 		if @background_schedule.update(background_schedule_params)
+			DockerChange.update_schedules(@background_schedule.server)
 			flash[:notice] = 'Background Schedule updated'
 			render action: :show
 		else
@@ -39,10 +42,10 @@ class Api::BackgroundSchedulesController < ApiController
 
 	def validate_background_schedule
 		@background_schedule = BackgroundSchedule.where(_id: params[:id]).first
-		bad_api_request('invalid_backup_schedule') if @background_schedule.nil?
+		bad_api_request('invalid_background_schedule') if @background_schedule.nil?
 	end
 
 	def background_schedule_params
-		params.require(:background_schedule).permit(:name, :cron_type, :cron_times, :server_id, :image_id, :strategy)
+		params.require(:background_schedule).permit(:name, :cron_type, :cron_times, :server_id, :image_id, :strategy, :backup_server_id)
 	end
 end

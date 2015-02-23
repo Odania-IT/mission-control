@@ -5,3 +5,4 @@ json.strategy background_schedule.strategy
 json.cron_times background_schedule.cron_times
 json.server_id background_schedule.server_id.to_s
 json.image_id background_schedule.image_id.to_s
+json.backup_server_id background_schedule.backup_server_id.to_s

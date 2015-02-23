@@ -64,7 +64,9 @@ unless AgentHelper.module_exists?('Rails')
 
 			$SERVER.containers.each do |container|
 				image = container.image
-				$LOGGER.debug "Checking container for image: #{container.image.name}"
+				image_name = image.nil? ? '-' : image.name
+				$LOGGER.debug container.inspect
+				$LOGGER.debug "Checking container for image: #{image_name}"
 
 				# Check all server_containers in our db if they are still running
 				running_instances = 0
@@ -101,7 +103,7 @@ unless AgentHelper.module_exists?('Rails')
 				# Calculate how many instances to start
 				wanted_instances = container.wanted_instances
 				start_instances = wanted_instances - running_instances
-				$LOGGER.debug "Container for #{container.image.name} running_instances: #{running_instances} wanted_instances: #{wanted_instances} start_instances: #{start_instances}"
+				$LOGGER.debug "Container for #{image_name} running_instances: #{running_instances} wanted_instances: #{wanted_instances} start_instances: #{start_instances}"
 
 				# Check if we need to stop containers
 				while start_instances < 0
@@ -117,44 +119,60 @@ unless AgentHelper.module_exists?('Rails')
 					end
 				end
 
-				while start_instances > 0
-					$LOGGER.info "Starting new container #{container.image.name}"
+				# Start new docker container
+				start_error_count = 0
+				while start_instances > 0 and start_error_count < 20
+					$LOGGER.info "Starting new container #{image_name}"
 					create_params = image.get_create_params(container_names)
 					container_name = create_params['name'].clone
 
-					# Download image from server
-					$LOGGER.debug "Loading image #{image.image}"
-					Docker::Image.get(image.image)
+					begin
+						# Download image from server
+						$LOGGER.debug "Loading image #{image.image}"
+						Docker::Image.get(image.image)
 
-					start_params = image.get_start_params($SERVER)
-					if image.can_start
-						docker_container = Docker::Container.create(create_params)
-						docker_container.start(start_params)
-						container_names << "/#{container_name}"
+						start_params = image.get_start_params($SERVER)
+						if image.can_start
+							docker_container = Docker::Container.create(create_params)
+							docker_container.start(start_params)
+							container_names << "/#{container_name}"
 
-						# We need to fetch the container in order to retrieve additional data, e.g. ip
-						docker_container = Docker::Container.get(docker_container.id)
+							# We need to fetch the container in order to retrieve additional data, e.g. ip
+							docker_container = Docker::Container.get(docker_container.id)
 
-						server_container = $SERVER.server_containers.where(docker_id: docker_container.id).first
-						server_container = $SERVER.server_containers.build if server_container.nil?
-						server_container.container = container
-						server_container.docker_id = docker_container.id
-						server_container.image = image.image
-						server_container.name = container_name
-						server_container.status = :up
-						server_container.update_from_docker_container(docker_container)
-						server_container.save!
+							server_container = $SERVER.server_containers.where(docker_id: docker_container.id).first
+							server_container = $SERVER.server_containers.build if server_container.nil?
+							server_container.container = container
+							server_container.docker_id = docker_container.id
+							server_container.image = image.image
+							server_container.name = container_name
+							server_container.status = :up
+							server_container.update_from_docker_container(docker_container)
+							server_container.save!
 
-						start_instances -= 1
-						running_instances += 1
-						request_proxy_update = true
-					else
-						$LOGGER.debug "Can not start image #{image.name} due to unfulfilled dependencies"
-						do_rerun = true
+							start_instances -= 1
+							running_instances += 1
+							request_proxy_update = true
+							start_error_count = 0
+						else
+							$LOGGER.debug "Can not start image #{image.name} due to unfulfilled dependencies"
+							do_rerun = true
+						end
+					rescue => e
+						$LOGGER.error "Error occurred trying to start image #{image.image}"
+						start_error_count += 1
 					end
 				end
 
-				if running_instances == container.wanted_instances
+				# Errors during startup
+				if start_instances > 0 and start_error_count > 0
+					container.application_errors << "[#{Time.now}] Failed to start new docker container for image #{image.image}"
+				end
+
+				if container.status == :destroy
+					# Everything destroyed?
+					container.destroy if start_instances == 0 and $SERVER.server_containers.where(container: container).count == 0
+				elsif running_instances == container.wanted_instances
 					container.status = :up
 				elsif running_instances == 0
 					container.status = :down

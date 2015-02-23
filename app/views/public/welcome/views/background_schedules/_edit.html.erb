@@ -9,21 +9,28 @@
 		<div class="has-error" data-ng-if="errors.name">{{ errors.name.join(', ') }}</div>
 	</div>
 	<div class="form-group">
+		<label for="inputImage" class="col-sm-2 control-label">Image</label>
+		<div class="col-sm-10">
+			<select data-ng-model="backgroundSchedule.image_id" data-ng-options="obj.id as obj.name for (key, obj) in allImages" data-ng-change="changedImage()"></select>
+		</div>
+		<div class="has-error" data-ng-if="errors.image">{{ errors.image.join(', ') }}</div>
+	</div>
+	<div class="form-group">
 		<label for="inputCronType" class="col-sm-2 control-label">Type</label>
 		<div class="col-sm-10">
-			<input type="text" id="inputCronType" name="cron_type" data-ng-model="backgroundSchedule.cron_type" />
+			<select id="inputCronType" data-ng-model="backgroundSchedule.cron_type" data-ng-options="key as key for (key, obj) in bootstrapData.cron_types"></select>
 		</div>
 		<div class="has-error" data-ng-if="errors.cron_type">{{ errors.cron_type.join(', ') }}</div>
 	</div>
 	<div class="form-group">
 		<label for="inputStrategy" class="col-sm-2 control-label">Strategy</label>
 		<div class="col-sm-10">
-			<select id="inputStrategy" data-ng-model="backgroundSchedule.strategy" data-ng-options="val for val in bootstrapData.strategies"></select>
+			<select id="inputStrategy" data-ng-model="backgroundSchedule.strategy" data-ng-options="val for val in bootstrapData.cron_types[backgroundSchedule.cron_type]"></select>
 		</div>
 		<div class="has-error" data-ng-if="errors.strategy">{{ errors.strategy.join(', ') }}</div>
 	</div>
 	<div class="form-group">
-		<label for="inputCronTimes" class="col-sm-2 control-label">User</label>
+		<label for="inputCronTimes" class="col-sm-2 control-label">Cron Times</label>
 		<div class="col-sm-10">
 			<input type="text" id="inputCronTimes" name="cron_times" data-ng-model="backgroundSchedule.cron_times" />
 		</div>
@@ -37,11 +44,13 @@
 		<div class="has-error" data-ng-if="errors.server">{{ errors.server.join(', ') }}</div>
 	</div>
 	<div class="form-group">
-		<label for="inputImage" class="col-sm-2 control-label">Image</label>
+		<label for="inputBackupServer" class="col-sm-2 control-label">Backup Server (only needed for type backup)</label>
 		<div class="col-sm-10">
-			<select data-ng-model="backgroundSchedule.image_id" data-ng-options="obj.id as obj.name for (key, obj) in allImages"></select>
+			<select data-ng-model="backgroundSchedule.backup_server_id" data-ng-options="obj.id as obj.name for (key, obj) in backupServers">
+				<option value=""></option>
+			</select>
 		</div>
-		<div class="has-error" data-ng-if="errors.image">{{ errors.image.join(', ') }}</div>
+		<div class="has-error" data-ng-if="errors.backup_server">{{ errors.backup_server.join(', ') }}</div>
 	</div>
 
 	<div class="form-group">

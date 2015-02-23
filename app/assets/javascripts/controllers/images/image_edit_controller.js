@@ -1,12 +1,18 @@
-app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'ApplicationImageResource', function ($rootScope, $scope, $routeParams, $location, ApplicationImageResource) {
+app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'ApplicationImageResource', 'TemplateResource', function ($rootScope, $scope, $routeParams, $location, ApplicationImageResource, TemplateResource) {
 	console.log("controller :: ImageEditController");
 
 	function init() {
 		if ($routeParams.id) {
 			ApplicationImageResource.get({applicationId: $routeParams.applicationId, id: $routeParams.id}).$promise.then(function (data) {
 				$scope.image = data;
+				$scope.template = getTemplate();
 			});
 		}
+
+		TemplateResource.get().$promise.then(function(data) {
+			$scope.templates = data.templates;
+			$scope.template = getTemplate();
+		});
 	}
 
 	function onSuccessCallback() {
@@ -15,6 +21,26 @@ app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '
 
 	function onErrorCallback(err) {
 		$scope.errors = err.data.errors;
+	}
+
+	function getTemplate() {
+		var template;
+
+		if ($scope.templates === undefined) {
+			return;
+		}
+
+		for (var i=0 ; i<$scope.templates.length ; i++) {
+			template = $scope.templates[i];
+
+			if (template.id == $scope.image.template_id) {
+				$scope.image.ports = template.ports;
+				$scope.image.volumes = template.volumes;
+				$scope.image.scalable = template.scalable;
+
+				return template;
+			}
+		}
 	}
 
 	$scope.saveImage = function () {
@@ -100,8 +126,14 @@ app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '
 		}
 	};
 
+	$scope.templateChanged = function() {
+		$scope.template = getTemplate();
+	};
+
 	$scope.image = {
 		'id': '',
+		'template_id': null,
+		'image': '',
 		'ports': [],
 		'links': [],
 		'volumes': [],
@@ -111,6 +143,4 @@ app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '
 	$scope.applicationId = $routeParams.applicationId;
 
 	init();
-}
-])
-;
+}]);

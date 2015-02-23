@@ -13,10 +13,12 @@ class Image
 	field :environment, type: Array, default: []
 	field :scalable, type: Mongoid::Boolean, default: false
 	field :is_global, type: Mongoid::Boolean, default: false
+	field :template_environment, type: Hash, default: {}
 
 	belongs_to :application
 	has_many :containers
 	has_many :background_schedules
+	belongs_to :template
 
 	attr_accessor :can_start
 
@@ -54,12 +56,20 @@ class Image
 	end
 
 	def get_create_params(container_names)
-		{Env: self.environment, Image: self.image, 'name' => self.get_name(container_names)}
+		{Env: get_environment, Image: self.image, 'name' => self.get_name(container_names)}
 	end
 
 	def get_start_params(server)
 		self.can_start = true
 		{Binds: prepare_volumes(server), PortBindings: self.get_port_bindings, Links: get_links(server), RestartPolicy: {MaximumRetryCount: 0, Name: :always}}
+	end
+
+	def get_environment
+		environment = self.environment.clone
+		template_environment.each_pair do |key, val|
+			environment << "#{key}=#{val}"
+		end
+		environment
 	end
 
 	def get_port_bindings
