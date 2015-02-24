@@ -24,6 +24,7 @@ else
 	require_relative '../../models/server'
 	require_relative '../../models/application'
 	require_relative '../../models/background_schedule'
+	require_relative '../../models/backup_server'
 	require_relative '../../models/image'
 	require_relative '../../models/container'
 	require_relative '../../models/server_container'

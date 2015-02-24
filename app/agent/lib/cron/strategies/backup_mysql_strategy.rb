@@ -42,6 +42,6 @@ class BackupMysqlStrategy < BackupBase
 			system(cmd)
 		end
 
-		transfer_path(backup_path)
+		transfer_path(backup_path, schedule.backup_server)
 	end
 end

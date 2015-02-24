@@ -43,6 +43,6 @@ class Api::BackupServersController < ApiController
 	end
 
 	def backup_server_params
-		params.require(:backup_server).permit(:name, :url, :user, :password)
+		params.require(:backup_server).permit(:name, :url, :user, :password, :backup_type)
 	end
 end

@@ -18,6 +18,11 @@ app.controller('BackupServerEditController', ['$rootScope', '$scope', '$routePar
 	}
 
 	$scope.saveBackupServer = function () {
+		// Do not update password if none is set
+		if ($scope.backupServer.password == '') {
+			$scope.backupServer.password = null;
+		}
+
 		if ($routeParams.id) {
 			BackupServerResource.update({
 				id: $routeParams.id,

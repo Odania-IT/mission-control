@@ -1,3 +1,5 @@
+require_relative './backup_types/backup_type_ftp'
+require_relative './strategies/backup_base'
 require_relative './strategies/backup_mysql_strategy'
 
 class BackupCron
