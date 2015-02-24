@@ -1,0 +1,14 @@
+<table class="table table-striped">
+	<tr>
+		<th>Level</th>
+		<th>Category</th>
+		<th>Message</th>
+	</tr>
+	<% @application_logs.each do |log| %>
+		<tr>
+			<td><%= log.level %></td>
+			<td><%= log.category %></td>
+			<td><%= log.message %></td>
+		</tr>
+	<% end %>
+</table>

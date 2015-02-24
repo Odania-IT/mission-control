@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 		resources :templates, except: [:new, :edit]
 	end
 
+	get '/application_log' => 'protected/application_log#index'
+
 	get 'angular/view/*view' => 'public/welcome#view'
 
 	root to: 'public/welcome#index'

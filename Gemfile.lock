@@ -70,6 +70,9 @@ GEM
       multi_json (~> 1.2)
     json (1.8.2)
     json (1.8.2-java)
+    kaminari (0.16.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     libv8 (3.11.8.17)
     loofah (2.0.1)
       nokogiri (>= 1.5.9)
@@ -196,6 +199,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   factory_girl_rails
   jbuilder (~> 2.0)
+  kaminari
   libv8 (~> 3.11.8.12)
   mongoid
   passenger
