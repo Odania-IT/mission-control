@@ -23,6 +23,7 @@ else
 
 	require_relative '../../models/server'
 	require_relative '../../models/application'
+	require_relative '../../models/application_log'
 	require_relative '../../models/background_schedule'
 	require_relative '../../models/backup_server'
 	require_relative '../../models/image'

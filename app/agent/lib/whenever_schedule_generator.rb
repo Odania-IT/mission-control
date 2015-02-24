@@ -15,8 +15,8 @@ class WheneverScheduleGenerator
 
 		if new_schedule != current_schedule
 			File.write('/srv/agent/config/schedule.rb', new_schedule)
-			cmd = 'whenever --update-crontab mission_control'
-			system(cmd)
+			cmd = 'cd /srv/agent && whenever --update-crontab mission_control'
+			$LOGGER.debug `#{cmd}`
 		end
 	end
 

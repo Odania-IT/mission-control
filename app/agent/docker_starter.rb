@@ -166,7 +166,7 @@ unless AgentHelper.module_exists?('Rails')
 
 				# Errors during startup
 				if start_instances > 0 and start_error_count > 0
-					container.application_errors << "[#{Time.now}] Failed to start new docker container for image #{image.image}"
+					ApplicationLog.error(:docker, "Failed to start new docker container for image #{image.image}", $SERVER, container)
 				end
 
 				if container.status == :destroy

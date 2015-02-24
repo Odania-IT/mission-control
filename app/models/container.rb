@@ -8,7 +8,6 @@ class Container
 	field :wanted_instances, type: Integer, default: 0
 	field :status, type: Symbol
 	field :scalable, type: Mongoid::Boolean
-	field :application_errors, type: Array, default: []
 
 	field :last_check, type: DateTime
 

@@ -1,6 +1,7 @@
 class BackupMysqlStrategy < BackupBase
 	def perform(schedule, image, params)
 		$LOGGER.info "Starting mysql backup for image '#{image.name}'"
+		server = schedule.server
 
 		root_password = nil
 		if image.template_environment['MYSQL_ROOT_PASSWORD']
@@ -12,9 +13,16 @@ class BackupMysqlStrategy < BackupBase
 			end
 		end
 
-		container = image.containers.where(server: schedule.server).first
+		if root_password.nil?
+			$LOGGER.error "No container found for image #{image.name}! Backup failed!"
+			ApplicationLog.error(:backup, "No container found for image #{image.name}! Backup failed!", server)
+			return
+		end
+
+		container = image.containers.where(server: server).first
 		if container.nil?
 			$LOGGER.error "No container found for image #{image.name}! Backup failed!"
+			ApplicationLog.error(:backup, "No container found for image #{image.name}! Backup failed!", server)
 			return
 		end
 
@@ -22,8 +30,13 @@ class BackupMysqlStrategy < BackupBase
 		server_container = server.server_containers.where(container: container).first
 		if server_container.nil?
 			$LOGGER.error "No container found for image #{image.name}! Backup failed!"
-			container.application_errors << "[#{Time.now}] No container found for image #{image.name}! Backup failed!"
-			container.save!
+			ApplicationLog.error(:backup, "No container found for image #{image.name}! Backup failed!", server, container)
+			return
+		end
+
+		if server.backup_path.nil?
+			$LOGGER.error 'Server has no backup path defined! Backup failed!'
+			ApplicationLog.error(:backup, 'Server has no backup path defined! Backup failed!', server, container)
 			return
 		end
 
@@ -42,6 +55,8 @@ class BackupMysqlStrategy < BackupBase
 			system(cmd)
 		end
 
+		$LOGGER.info "Mysql Databases backed up to local path #{backup_path}"
+		ApplicationLog.info(:backup, "Mysql Databases backed up to local path #{backup_path}", server, container)
 		transfer_path(backup_path, schedule.backup_server)
 	end
 end
