@@ -19,8 +19,8 @@
 	</table>
 
 	<br/>
-	<a data-ng-href="#/applications/{{ application.id }}/edit" target="_self">Edit</a> |
-	<a href="#/applications" target="_self">Back</a>
+	<a data-ng-href="#/applications/{{ application.id }}/edit">Edit</a> |
+	<a href="#/applications">Back</a>
 
 	<h2>Images</h2>
 	<table class="table table-striped">
@@ -48,8 +48,8 @@
 			<td>{{ image.volumes.join(', ') }}</td>
 			<td>{{ image.environment.join(', ') }}</td>
 			<td>{{ image.scalable }}</td>
-			<td><a data-ng-href="/protected/applications/{{ application.id }}/images/{{ image.id }}" target="_self">Show</a></td>
-			<td><a data-ng-href="/protected/applications/{{ application.id }}/images/{{ image.id }}/edit" target="_self">Edit</a></td>
+			<td><a data-ng-href="/protected/applications/{{ application.id }}/images/{{ image.id }}">Show</a></td>
+			<td><a data-ng-href="/protected/applications/{{ application.id }}/images/{{ image.id }}/edit">Edit</a></td>
 			<td>
 				<a data-ng-confirm-click="destroyImage(image)" data-ng-confirm-message="Do you really want to delete the image?">Delete</a>
 			</td>
@@ -58,6 +58,6 @@
 	</table>
 
 	<br>
-	<a data-ng-href="/protected/applications/{{ application.id }}/images/new" target="_self">New Image</a> |
-	<a href="/protected/applications" target="_self">Back</a>
+	<a data-ng-href="/protected/applications/{{ application.id }}/images/new">New Image</a> |
+	<a href="/protected/applications">Back</a>
 </div>

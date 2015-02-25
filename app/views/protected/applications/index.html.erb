@@ -18,8 +18,8 @@
 			<td>{{ application.domains.join(', ') }}</td>
 			<td>{{ application.ports.join(', ') }}</td>
 			<td>{{ getImages(application) }}</td>
-			<td><a data-ng-href="/protected/applications/{{ application.id }}" target="_self">Show</a></td>
-			<td><a data-ng-href="/protected/applications/{{ application.id }}/edit" target="_self">Edit</a></td>
+			<td><a data-ng-href="/protected/applications/{{ application.id }}">Show</a></td>
+			<td><a data-ng-href="/protected/applications/{{ application.id }}/edit">Edit</a></td>
 			<td>
 				<a data-ng-confirm-click="destroyApplication(application)" data-ng-confirm-message="Do you really want to delete the application?">Delete</a>
 			</td>
@@ -28,5 +28,5 @@
 	</table>
 
 	<br>
-	<a data-ng-href="/protected/applications/new" target="_self">New Application</a>
+	<a data-ng-href="/protected/applications/new">New Application</a>
 </div>
