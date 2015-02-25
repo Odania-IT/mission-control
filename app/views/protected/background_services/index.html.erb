@@ -20,8 +20,8 @@
 			<td>{{ backgroundSchedule.cron_type }}</td>
 			<td>{{ backgroundSchedule.strategy }}</td>
 			<td>{{ backgroundSchedule.cron_times }}</td>
-			<td><a data-ng-href="/protected/background_schedules/{{ backgroundSchedule.id }}">Show</a></td>
-			<td><a data-ng-href="/protected/background_schedules/{{ backgroundSchedule.id }}/edit">Edit</a></td>
+			<td><a data-ng-href="/protected/background_schedules/{{ backgroundSchedule.id }}" target="_self">Show</a></td>
+			<td><a data-ng-href="/protected/background_schedules/{{ backgroundSchedule.id }}/edit" target="_self">Edit</a></td>
 			<td>
 				<a data-ng-confirm-click="destroyBackgroundSchedule(backgroundSchedule)" data-ng-confirm-message="Do you really want to delete the backup schedule?">Delete</a>
 			</td>
@@ -30,7 +30,7 @@
 	</table>
 
 	<br>
-	<a data-ng-href="/protected/background_schedules/new">New Background Schedule</a>
+	<a data-ng-href="/protected/background_schedules/new" target="_self">New Background Schedule</a>
 	</p>
 
 	<p>
@@ -52,8 +52,8 @@
 			<td>{{ backupServer.name }}</td>
 			<td>{{ backupServer.url }}</td>
 			<td>{{ backupServer.user }}</td>
-			<td><a data-ng-href="/protected/backup_servers/{{ backupServer.id }}">Show</a></td>
-			<td><a data-ng-href="/protected/backup_servers/{{ backupServer.id }}/edit">Edit</a></td>
+			<td><a data-ng-href="/protected/backup_servers/{{ backupServer.id }}" target="_self">Show</a></td>
+			<td><a data-ng-href="/protected/backup_servers/{{ backupServer.id }}/edit" target="_self">Edit</a></td>
 			<td>
 				<a data-ng-confirm-click="destroyBackupServer(backupServer)" data-ng-confirm-message="Do you really want to delete the backup server?">Delete</a>
 			</td>
@@ -62,6 +62,6 @@
 	</table>
 
 	<br>
-	<a data-ng-href="/protected/backup_servers/new">New BackupServer</a>
+	<a data-ng-href="/protected/backup_servers/new" target="_self">New BackupServer</a>
 	</p>
 </div>

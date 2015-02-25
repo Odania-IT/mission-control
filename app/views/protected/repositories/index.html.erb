@@ -16,8 +16,8 @@
 			<td>{{ repository.name }}</td>
 			<td>{{ repository.url }}</td>
 			<td>{{ repository.user }}</td>
-			<td><a data-ng-href="#/repositories/{{ repository.id }}">Show</a></td>
-			<td><a data-ng-href="#/repositories/{{ repository.id }}/edit">Edit</a></td>
+			<td><a data-ng-href="#/repositories/{{ repository.id }}" target="_self">Show</a></td>
+			<td><a data-ng-href="#/repositories/{{ repository.id }}/edit" target="_self">Edit</a></td>
 			<td>
 				<a data-ng-confirm-click="destroyRepository(repository)" data-ng-confirm-message="Do you really want to delete the repository?">Delete</a>
 			</td>
@@ -26,5 +26,5 @@
 	</table>
 
 	<br>
-	<a data-ng-href="#/repositories/new">New Repository</a>
+	<a data-ng-href="#/repositories/new" target="_self">New Repository</a>
 </div>

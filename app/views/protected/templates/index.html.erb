@@ -22,8 +22,8 @@
 			<td>{{ template.volumes.join(', ') }}</td>
 			<td>{{ template.environment.join(', ') }}</td>
 			<td>{{ template.scalable }}</td>
-			<td><a data-ng-href="/protected/templates/{{ template.id }}">Show</a></td>
-			<td><a data-ng-href="/protected/templates/{{ template.id }}/edit">Edit</a></td>
+			<td><a data-ng-href="/protected/templates/{{ template.id }}" target="_self">Show</a></td>
+			<td><a data-ng-href="/protected/templates/{{ template.id }}/edit" target="_self">Edit</a></td>
 			<td>
 				<a data-ng-confirm-click="destroyTemplate(template)" data-ng-confirm-message="Do you really want to delete the template?">Delete</a>
 			</td>
@@ -32,5 +32,5 @@
 	</table>
 
 	<br>
-	<a data-ng-href="/protected/templates/new">New Template</a>
+	<a data-ng-href="/protected/templates/new" target="_self">New Template</a>
 </div>

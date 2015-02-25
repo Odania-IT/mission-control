@@ -22,8 +22,8 @@
 			<td>{{ server.memory }}</td>
 			<td>{{ server.cpu }}</td>
 			<td>{{ server.active }}</td>
-			<td><a data-ng-href="/protected/servers/{{ server.id }}">Show</a></td>
-			<td><a data-ng-href="/protected/servers/{{ server.id }}/edit">Edit</a></td>
+			<td><a data-ng-href="/protected/servers/{{ server.id }}" target="_self">Show</a></td>
+			<td><a data-ng-href="/protected/servers/{{ server.id }}/edit" target="_self">Edit</a></td>
 			<td>
 				<a data-ng-confirm-click="destroyServer(server)" data-ng-confirm-message="Do you really want to delete the server?">Delete</a>
 			</td>
@@ -32,5 +32,5 @@
 	</table>
 
 	<br>
-	<a data-ng-href="/protected/servers/new">New Server</a>
+	<a data-ng-href="/protected/servers/new" target="_self">New Server</a>
 </div>
