@@ -1,0 +1,16 @@
+<table class="table table-striped">
+	<tr>
+		<th>Level</th>
+		<th>Category</th>
+		<th>Message</th>
+	</tr>
+	<tr data-ng-repeat="log in application_logs">
+		<td>{{ log.level }}</td>
+		<td>{{ log.category }}</td>
+		<td>{{ log.message }}</td>
+	</tr>
+</table>
+
+<div id="pagination">
+	{{ data.page }} / {{ data.totalPages }} ({{ application_logs.length }} from {{ data.totalRowCount }} entries)
+</div>

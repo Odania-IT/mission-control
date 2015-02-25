@@ -169,6 +169,12 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
 			'resolve': resolve
 		})
 
+		.when('/application_logs', {
+			controller: 'ApplicationLogsController',
+			'templateUrl': config.getTemplatePath('application_logs/index'),
+			'resolve': resolve
+		})
+
 		.otherwise({ 'redirectTo': '/dashboard' });
 }]);
 

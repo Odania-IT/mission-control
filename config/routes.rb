@@ -23,9 +23,9 @@ Rails.application.routes.draw do
 		resources :background_schedules, except: [:new, :edit]
 		resources :images, only: [:index]
 		resources :templates, except: [:new, :edit]
-	end
 
-	get '/application_log' => 'protected/application_log#index'
+		get 'application_logs' => 'application_logs#index'
+	end
 
 	get 'angular/view/*view' => 'public/welcome#view'
 

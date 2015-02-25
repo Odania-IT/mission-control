@@ -31,7 +31,7 @@
 				<li><a href="#repositories">Repositories</a></li>
 				<li><a href="#backup">Backup</a></li>
 				<li><a href="#templates">Templates</a></li>
-				<li><a href="/application_log">Application Log</a></li>
+				<li><a href="#/application_logs">Application Logs</a></li>
 			</ul>
 		</div><!--/.nav-collapse -->
 	</div>
@@ -42,9 +42,7 @@
 		<p class="bg-{{ flash.type }}" data-ng-show="flash" data-ng-click="hide();">{{ flash.message }}</p>
 	</div>
 
-	<div>
-		<%= yield %>
-	</div>
+	<div ng-view></div>
 </div><!-- /.container -->
 
 
