@@ -43,6 +43,12 @@ class BackupMysqlStrategy < BackupBase
 		backup_path = File.absolute_path(server.backup_path) + '/strategy-mysql'
 		FileUtils.mkdir_p(backup_path)
 
+		if server_container.ip.nil?
+			$LOGGER.error "Server Container ip is missing! Ip: #{server_container.ip} !"
+			ApplicationLog.error(:backup, 'Server container ip is not set!', server, container)
+			return
+		end
+
 		# Get all databases
 		cmd = "mysql -u root -p%s -h %s --silent -N -e 'show databases'" % [root_password, server_container.ip]
 		databases = `#{cmd}`
@@ -57,6 +63,6 @@ class BackupMysqlStrategy < BackupBase
 
 		$LOGGER.info "Mysql Databases backed up to local path #{backup_path}"
 		ApplicationLog.info(:backup, "Mysql Databases backed up to local path #{backup_path}", server, container)
-		transfer_path(backup_path, schedule.backup_server)
+		transfer_path(backup_path, "#{server.name}/#{image.name}", schedule.backup_server)
 	end
 end

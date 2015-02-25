@@ -85,6 +85,7 @@ unless AgentHelper.module_exists?('Rails')
 							cur_ip = server_container.ip
 							server_container.update_from_docker_container(docker_container)
 							unless cur_ip.eql? server_container.ip
+								$SERVER.server_containers.where(ip: server_container.ip).ne(_id: server_container.id).update_all(ip: nil)
 								server_container.save!
 								request_proxy_update = true
 							end

@@ -13,7 +13,8 @@ class ServerContainer
 	belongs_to :container
 	embedded_in :server
 
-	validates_uniqueness_of :docker_id, :ip
+	validates_uniqueness_of :docker_id
+	validates_uniqueness_of :ip, allow_nil: true
 	validate :validate_status
 
 	def validate_status
