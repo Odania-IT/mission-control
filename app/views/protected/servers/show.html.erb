@@ -1,0 +1,135 @@
+<div data-ng-controller="ServerController">
+	<table class="table table-striped">
+		<tr>
+			<th>Name</th>
+			<td>{{ server.name }}</td>
+		</tr>
+		<tr>
+			<th>Hostname</th>
+			<td>{{ server.hostname }}</td>
+		</tr>
+		<tr>
+			<th>Ip</th>
+			<td>{{ server.ip }}</td>
+		</tr>
+		<tr>
+			<th>Memory</th>
+			<td>{{ server.memory }}</td>
+		</tr>
+		<tr>
+			<th>Cpu</th>
+			<td>{{ server.cpu }}</td>
+		</tr>
+		<tr>
+			<th>Operating System</th>
+			<td>{{ server.os }}</td>
+		</tr>
+		<tr>
+			<th>Containers on server</th>
+			<td>{{ server.container_count | number }}</td>
+		</tr>
+		<tr>
+			<th>Running Containers on server</th>
+			<td>{{ server.running_container_count | number }}</td>
+		</tr>
+		<tr>
+			<th>Images on server</th>
+			<td>{{ server.image_count | number }}</td>
+		</tr>
+		<tr>
+			<th>Basic Auth</th>
+			<td>{{ server.basic_auth ? server.basic_auth : '-' }}</td>
+		</tr>
+		<tr>
+			<th>Volumes Path</th>
+			<td>{{ server.volumes_path }}</td>
+		</tr>
+		<tr>
+			<th>Backup Path</th>
+			<td>{{ server.backup_path }}</td>
+		</tr>
+		<tr>
+			<th>Active</th>
+			<td>{{ server.active }}</td>
+		</tr>
+	</table>
+
+	<br/>
+	<a data-ng-href="#/servers/{{ server.id }}/edit">Edit</a>
+
+
+	<h2>Applications</h2>
+
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>Name</th>
+			<th>Domains</th>
+			<th>Images</th>
+			<th colspan="3"></th>
+		</tr>
+		</thead>
+
+		<tbody>
+		<tr data-ng-repeat="application in server.applications">
+			<td>{{ application.name }}</td>
+			<td>{{ application.domains.join(', ') }}</td>
+			<td>{{ getImages(application) }}</td>
+			<td>
+				<a data-ng-confirm-click="removeApplicationFromServer(application.id)" data-ng-confirm-message="Do you really want to remove the application from the server?">Remove
+					from server</a>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<br/>
+	<a data-ng-click="loadApplicationSelection()" data-ng-hide="allApplications">Add Application</a>
+
+	<div data-ng-show="allApplications">
+		<select data-ng-model="data.applicationId" data-ng-options="obj.id as obj.name for (key, obj) in allApplications"></select>
+		<button class="btn btn-default" data-ng-click="addApplication()">Add Application</button>
+	</div>
+
+
+	<h2>Containers</h2>
+
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>Application</th>
+			<th>Image</th>
+			<th>Status</th>
+			<th>Current Instances / Wanted Instances</th>
+			<th>Scalable</th>
+		</tr>
+		</thead>
+
+		<tbody>
+		<tr data-ng-repeat="container in server.containers">
+			<td>{{ container.application_name }}</td>
+			<td>{{ container.image_name }}</td>
+			<td>{{ container.status }}</td>
+			<td>
+				{{ container.current_instances | number }} / {{ container.wanted_instances | number }}
+				<span data-ng-if="container.scalable">
+					<a data-ng-click="scaleUp(container)"><i class="glyphicon glyphicon-plus"></i></a>
+					<a data-ng-click="scaleDown(container)"><i class="glyphicon glyphicon-minus"></i></a>
+				</span>
+			</td>
+			<td>
+				{{ container.scalable }}
+
+				<span data-ng-if="container.scalable">
+					<input type="number" min="0" max="9999" data-ng-model="container.wanted_instances"/>
+					<button class="button" data-ng-click="scaleTo(container)">Set</button>
+				</span>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+
+
+	<br/>
+	<a href="/protected/servers">Back</a>
+</div>

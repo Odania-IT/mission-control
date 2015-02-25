@@ -11,10 +11,6 @@ Rails.application.routes.draw do
 			resources :containers, only: [:update]
 		end
 		resources :applications, except: [:new, :edit] do
-			collection do
-				get :get_global_application
-			end
-
 			resources :images, except: [:new, :edit], controller: 'application_images'
 		end
 
@@ -25,9 +21,25 @@ Rails.application.routes.draw do
 		resources :templates, except: [:new, :edit]
 	end
 
-	get '/application_log' => 'protected/application_log#index'
+	namespace :protected do
+		resources :servers, only: [:index, :show, :new, :edit]
 
-	get 'angular/view/*view' => 'public/welcome#view'
+		resources :applications, only: [:index, :show, :new, :edit] do
+			collection do
+				get :get_global_application
+			end
+
+			resources :images, only: [:index, :show, :new, :edit]
+		end
+
+		resources :repositories, only: [:index, :show, :new, :edit]
+		resources :backup_servers, only: [:index, :show, :new, :edit]
+		resources :background_schedules, only: [:index, :show, :new, :edit]
+		resources :images, only: [:index, :show, :new, :edit]
+		resources :templates, only: [:index, :show, :new, :edit]
+
+		get '/application_log' => 'application_log#index'
+	end
 
 	root to: 'public/welcome#index'
 end

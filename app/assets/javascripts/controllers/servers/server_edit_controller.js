@@ -2,6 +2,7 @@ app.controller('ServerEditController', ['$rootScope', '$scope', '$routeParams', 
 	console.log("controller :: ServerEditController");
 
 	function init() {
+		console.warn($routeParams, $location, $location.search(), $location.search().id);
 		if ($routeParams.id) {
 			ServerResource.get({id: $routeParams.id}).$promise.then(function (data) {
 				$scope.server = data;

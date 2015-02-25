@@ -1,0 +1,46 @@
+<div data-ng-controller="RepositoriesEditController">
+	<h1>Editing Repositories</h1>
+
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label for="inputName" class="col-sm-2 control-label">Name</label>
+
+			<div class="col-sm-10">
+				<input type="text" id="inputName" name="name" data-ng-model="repository.name"/>
+			</div>
+			<div class="has-error" data-ng-if="errors.name">{{ errors.name.join(', ') }}</div>
+		</div>
+		<div class="form-group">
+			<label for="inputUrl" class="col-sm-2 control-label">Url</label>
+
+			<div class="col-sm-10">
+				<input type="text" id="inputUrl" name="url" data-ng-model="repository.url"/>
+			</div>
+			<div class="has-error" data-ng-if="errors.url">{{ errors.url.join(', ') }}</div>
+		</div>
+		<div class="form-group">
+			<label for="inputUser" class="col-sm-2 control-label">User</label>
+
+			<div class="col-sm-10">
+				<input type="text" id="inputUser" name="user" data-ng-model="repository.user"/>
+			</div>
+			<div class="has-error" data-ng-if="errors.user">{{ errors.user.join(', ') }}</div>
+		</div>
+		<div class="form-group">
+			<label for="inputPassword" class="col-sm-2 control-label">Password</label>
+
+			<div class="col-sm-10">
+				<input type="password" id="inputPassword" name="password" data-ng-model="repository.password"/>
+			</div>
+			<div class="has-error" data-ng-if="errors.password">{{ errors.password.join(', ') }}</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button data-ng-click="saveRepository()" class="btn btn-default">Save</button>
+			</div>
+		</div>
+	</form>
+
+	<a data-ng-href="/protected/respositories">Back</a>
+</div>

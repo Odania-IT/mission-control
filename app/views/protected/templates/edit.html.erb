@@ -1,0 +1,99 @@
+<div data-ng-controller="TemplatesEditController">
+	<h1>Editing Template</h1>
+
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label for="inputName" class="col-sm-2 control-label">Name</label>
+
+			<div class="col-sm-10">
+				<input type="text" id="inputName" name="name" data-ng-model="template.name"/>
+			</div>
+			<div class="has-error" data-ng-if="errors.name">{{ errors.name.join(', ') }}</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">
+				Images
+				<span data-ng-click="addToArray('images')"><i class="glyphicon glyphicon-plus"></i></span>
+			</label>
+
+			<div class="col-sm-10">
+				<div ng-repeat="image in template.images">
+					<label id="image-{{ $index }}">Image {{$index+1}}:</label>
+					<input ng-model="image" type="text" ng-blur="editArray('images', $index, image)"/>
+					<span data-ng-click="removeFromArray('images', $index)"><i class="glyphicon glyphicon-minus"></i></span>
+				</div>
+			</div>
+			<div class="has-error" data-ng-if="errors.images">{{ errors.images.join(', ') }}</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">
+				Ports
+				<span data-ng-click="addToArray('ports')"><i class="glyphicon glyphicon-plus"></i></span>
+			</label>
+
+			<div class="col-sm-10">
+				<div ng-repeat="port in template.ports">
+					<label id="port-{{ $index }}">Port {{$index+1}}:</label>
+					<input ng-model="port" type="text" ng-blur="editArray('ports', $index, port)"/>
+					<span data-ng-click="removeFromArray('ports', $index)"><i class="glyphicon glyphicon-minus"></i></span>
+				</div>
+			</div>
+			<div class="has-error" data-ng-if="errors.ports">{{ errors.ports.join(', ') }}</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">
+				Volumes
+				<span data-ng-click="addToArray('volumes')"><i class="glyphicon glyphicon-plus"></i></span>
+			</label>
+
+			<div class="col-sm-10">
+				<div ng-repeat="volume in template.volumes">
+					<label id="volume-{{ $index }}">Volume {{$index+1}}:</label>
+					<input ng-model="volume" type="text" ng-blur="editArray('volumes', $index, volume)"/>
+					<span data-ng-click="removeFromArray('volumes', $index)"><i class="glyphicon glyphicon-minus"></i></span>
+				</div>
+			</div>
+			<div class="has-error" data-ng-if="errors.volumes">{{ errors.volumes.join(', ') }}</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">
+				Environment variables (e.g. NAME=VAL)
+				<span data-ng-click="addToArray('environment')"><i class="glyphicon glyphicon-plus"></i></span>
+			</label>
+
+			<div class="col-sm-10">
+				<div ng-repeat="environment in template.environment">
+					<label id="environment-{{ $index }}">Environment {{$index+1}}:</label>
+					<input ng-model="environment" type="text" ng-blur="editArray('environment', $index, environment)"/>
+					<span data-ng-click="removeFromArray('environment', $index)"><i class="glyphicon glyphicon-minus"></i></span>
+				</div>
+			</div>
+			<div class="has-error" data-ng-if="errors.environment">{{ errors.environment.join(', ') }}</div>
+		</div>
+		<div class="form-group">
+			<label for="inputBackupStrategy" class="col-sm-2 control-label">Backup Strategy</label>
+
+			<div class="col-sm-10">
+				<select id="inputBackupStrategy" data-ng-model="template.backup_strategy" data-ng-options="val for val in bootstrapData.cron_types.backup"></select>
+			</div>
+			<div class="has-error" data-ng-if="errors.backup_strategy">{{ errors.backup_strategy.join(', ') }}</div>
+		</div>
+		<div class="form-group">
+			<label for="inputScalable" class="col-sm-2 control-label">Scalable</label>
+
+			<div class="col-sm-10">
+				<input type="checkbox" value="" data-ng-model="template.scalable">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button data-ng-click="saveTemplate()" class="btn btn-default">Save</button>
+			</div>
+		</div>
+	</form>
+
+	<a data-ng-href="/protected/templates">Back</a>
+</div>
