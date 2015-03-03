@@ -15,7 +15,7 @@ class Container
 	belongs_to :application
 	belongs_to :image
 
-	validates_presence_of :server, :application, :image
+	validates_presence_of :server, :application
 	validate :validate_status
 
 	def validate_status
