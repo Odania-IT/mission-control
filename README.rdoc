@@ -14,7 +14,7 @@ docker run -d --restart=always --name mc_agent -e "MONGOID_ENV=production" -v /v
 docker run -d --restart=always --name mc_admin -e "RAILS_ENV=production" -e "EXPOSE_PORT=80" -e "PROCESS_TYPE=web" --link mc_mongodb:mongodb_1 -p 127.0.0.1:9000:80 odaniait/mission-control:latest
 
 The agent needs to expose all ports that you want to reach from the outside. Unfortunately you have to define it manually like:
--p 8080:80
+-p 8080:80 -p 8081:81 -p 8082:82 -p 8083:84 -p 8084:84 -p 8085:85 -p 8086:86 -p 8087:87
 
 This will expose the port 80 from the proxy to port 8080 on the host.
 

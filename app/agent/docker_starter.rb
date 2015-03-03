@@ -158,6 +158,7 @@ unless AgentHelper.module_exists?('Rails')
 						else
 							$LOGGER.debug "Can not start image #{image.name} due to unfulfilled dependencies"
 							do_rerun = true
+							start_error_count = 20
 						end
 					rescue => e
 						$LOGGER.error "Error occurred trying to start image #{image.image}"
