@@ -122,53 +122,55 @@ unless AgentHelper.module_exists?('Rails')
 
 				# Start new docker container
 				start_error_count = 0
-				while start_instances > 0 and start_error_count < 20
-					$LOGGER.info "Starting new container #{image_name}"
-					create_params = image.get_create_params(container_names)
-					container_name = create_params['name'].clone
+				unless image.nil?
+					while start_instances > 0 and start_error_count < 20
+						$LOGGER.info "Starting new container #{image_name}"
+						create_params = image.get_create_params(container_names)
+						container_name = create_params['name'].clone
 
-					begin
-						# Download image from server
-						$LOGGER.debug "Loading image #{image.image}"
-						Docker::Image.get(image.image)
+						begin
+							# Download image from server
+							$LOGGER.debug "Loading image #{image.image}"
+							Docker::Image.get(image.image)
 
-						start_params = image.get_start_params($SERVER)
-						if image.can_start
-							docker_container = Docker::Container.create(create_params)
-							docker_container.start(start_params)
-							container_names << "/#{container_name}"
+							start_params = image.get_start_params($SERVER)
+							if image.can_start
+								docker_container = Docker::Container.create(create_params)
+								docker_container.start(start_params)
+								container_names << "/#{container_name}"
 
-							# We need to fetch the container in order to retrieve additional data, e.g. ip
-							docker_container = Docker::Container.get(docker_container.id)
+								# We need to fetch the container in order to retrieve additional data, e.g. ip
+								docker_container = Docker::Container.get(docker_container.id)
 
-							server_container = $SERVER.server_containers.where(docker_id: docker_container.id).first
-							server_container = $SERVER.server_containers.build if server_container.nil?
-							server_container.container = container
-							server_container.docker_id = docker_container.id
-							server_container.image = image.image
-							server_container.name = container_name
-							server_container.status = :up
-							server_container.update_from_docker_container(docker_container)
-							server_container.save!
+								server_container = $SERVER.server_containers.where(docker_id: docker_container.id).first
+								server_container = $SERVER.server_containers.build if server_container.nil?
+								server_container.container = container
+								server_container.docker_id = docker_container.id
+								server_container.image = image.image
+								server_container.name = container_name
+								server_container.status = :up
+								server_container.update_from_docker_container(docker_container)
+								server_container.save!
 
-							start_instances -= 1
-							running_instances += 1
-							request_proxy_update = true
-							start_error_count = 0
-						else
-							$LOGGER.debug "Can not start image #{image.name} due to unfulfilled dependencies"
-							do_rerun = true
-							start_error_count = 20
+								start_instances -= 1
+								running_instances += 1
+								request_proxy_update = true
+								start_error_count = 0
+							else
+								$LOGGER.debug "Can not start image #{image.name} due to unfulfilled dependencies"
+								do_rerun = true
+								start_error_count = 20
+							end
+						rescue => e
+							$LOGGER.error "Error occurred trying to start image #{image.image}"
+							start_error_count += 1
 						end
-					rescue => e
-						$LOGGER.error "Error occurred trying to start image #{image.image}"
-						start_error_count += 1
 					end
-				end
 
-				# Errors during startup
-				if start_instances > 0 and start_error_count > 0
-					ApplicationLog.error(:docker, "Failed to start new docker container for image #{image.image}", $SERVER, container)
+					# Errors during startup
+					if start_instances > 0 and start_error_count > 0
+						ApplicationLog.error(:docker, "Failed to start new docker container for image #{image.image}", $SERVER, container)
+					end
 				end
 
 				if container.status == :destroy
