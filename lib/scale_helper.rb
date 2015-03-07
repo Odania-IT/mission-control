@@ -2,7 +2,8 @@ module ScaleHelper
 	class << self
 		def add_application_on_server(server, application)
 			application.images.each do |image|
-				if application.containers.where(image: image, server: server).count == 0 # only if there is not already an container
+				container = application.containers.where(image: image, server: server).first
+				if container.nil? # only if there is not already an container
 					container_cnt = Container.where(image: image, application: application, :status.ne => :destroy).count
 
 					# Add container to server. Wanted instances is 1 if this image is scalable or none exists
@@ -15,6 +16,9 @@ module ScaleHelper
 					container.save!
 
 					sanity_check(image)
+				elsif :destroy.eql? container.status
+					container.status = :down
+					container.save!
 				end
 			end
 		end
