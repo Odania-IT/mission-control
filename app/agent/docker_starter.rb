@@ -163,6 +163,7 @@ unless AgentHelper.module_exists?('Rails')
 							end
 						rescue => e
 							$LOGGER.error "Error occurred trying to start image #{image.image}"
+							$LOGGER.error e.inspect
 							start_error_count += 1
 						end
 					end
@@ -198,6 +199,7 @@ unless AgentHelper.module_exists?('Rails')
 
 			# Update proxy if necessary
 			if request_proxy_update
+				DockerChange.check_instances($SERVER)
 				DockerChange.update_proxy($SERVER)
 			end
 		end # end do_run
