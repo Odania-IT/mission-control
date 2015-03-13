@@ -1,5 +1,9 @@
 == README
 
+{<img src="https://travis-ci.org/Mike-Petersen/mission-control.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/Mike-Petersen/mission-control]
+{<img src="https://codeclimate.com/github/Odania-IT/mission-control/badges/gpa.svg" />}[https://codeclimate.com/github/Odania-IT/mission-control]
+{<img src="https://codeclimate.com/github/Odania-IT/mission-control/badges/coverage.svg" />}[https://codeclimate.com/github/Odania-IT/mission-control]
+
 Mission Control is a tool to mange docker servers. It consists of two parts:
 
 1. A rails application to define the dependencies and images that should run on a server.
