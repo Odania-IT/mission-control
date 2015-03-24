@@ -27,43 +27,29 @@ class ApplicationLog
 		end
 	end
 
+	def self.create_log(level, category, msg, server=nil, container=nil)
+			log = ApplicationLog.new
+			log.level = level
+			log.category = category
+			log.message = msg
+			log.server = server
+			log.container = container
+			log.save!
+		end
+
 	def self.debug(category, msg, server=nil, container=nil)
-		log = ApplicationLog.new
-		log.level = :debug
-		log.category = category
-		log.message = msg
-		log.server = server
-		log.container = container
-		log.save!
+		ApplicationLog.create_log(:debug, category, msg, server, container)
 	end
 
 	def self.info(category, msg, server=nil, container=nil)
-		log = ApplicationLog.new
-		log.level = :info
-		log.category = category
-		log.message = msg
-		log.server = server
-		log.container = container
-		log.save!
+		ApplicationLog.create_log(:info, category, msg, server, container)
 	end
 
 	def self.warn(category, msg, server=nil, container=nil)
-		log = ApplicationLog.new
-		log.level = :warn
-		log.category = category
-		log.message = msg
-		log.server = server
-		log.container = container
-		log.save!
+		ApplicationLog.create_log(:warn, category, msg, server, container)
 	end
 
 	def self.error(category, msg, server=nil, container=nil)
-		log = ApplicationLog.new
-		log.level = :error
-		log.category = category
-		log.message = msg
-		log.server = server
-		log.container = container
-		log.save!
+		ApplicationLog.create_log(:error, category, msg, server, container)
 	end
 end
