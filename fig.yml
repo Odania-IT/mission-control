@@ -24,7 +24,7 @@ agent:
   environment:
     MONGOID_ENV: development
 mongodb:
-  image: dockerfile/mongodb:latest
+  image: mongo:latest
   ports:
     - "127.0.0.1:27017:27017"
     - "127.0.0.1:27018:27018"
@@ -34,7 +34,7 @@ mailcatcher:
     - "2525:2525"
     - "1080:1080"
 #elasticsearch:
-#  image: dockerfile/elasticsearch:latest
+#  image: elasticsearch:latest
 #  ports:
 #    - "9200:9200"
 #    - "9300:9300"
