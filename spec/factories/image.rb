@@ -6,6 +6,7 @@ FactoryGirl.define do
 		image_type :background
 		sequence(:image) { |n| "image:#{n}" }
 		scalable true
+		application
 
 		factory :exposed_image do
 			image_type :expose

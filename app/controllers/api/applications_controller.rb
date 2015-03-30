@@ -1,4 +1,6 @@
 class Api::ApplicationsController < ApiController
+	include CleanupArray
+
 	before_action :validate_application, except: [:index, :create, :get_global_application]
 
 	def index
@@ -63,8 +65,6 @@ class Api::ApplicationsController < ApiController
 	end
 
 	def cleanup_array
-		if application_params[:domains].nil?
-			@application.domains = []
-		end
+		do_cleanup_array(@application, application_params, [:domains])
 	end
 end

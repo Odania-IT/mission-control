@@ -38,9 +38,12 @@ gem 'passenger'
 # Rails default translations
 gem 'rails-i18n'
 
-gem 'rspec-rails', '~> 3.1.0'
-gem 'factory_girl_rails'
-
 gem 'kaminari'
 
-gem 'codeclimate-test-reporter'
+group :development, :test do
+	gem 'rspec-rails', '~> 3.1.0'
+	gem 'factory_girl_rails'
+	gem 'codeclimate-test-reporter'
+	gem 'database_cleaner'
+	gem 'assert_difference'
+end

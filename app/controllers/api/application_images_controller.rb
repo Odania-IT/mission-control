@@ -1,4 +1,6 @@
 class Api::ApplicationImagesController < ApiController
+	include CleanupArray
+
 	before_action :validate_application
 	before_action :validate_image, except: [:index, :create]
 
@@ -74,18 +76,7 @@ class Api::ApplicationImagesController < ApiController
 	end
 
 	def cleanup_array
-		if image_params[:volumes].nil?
-			@image.volumes = []
-		end
-		if image_params[:ports].nil?
-			@image.ports = []
-		end
-		if image_params[:links].nil?
-			@image.links = []
-		end
-		if image_params[:environment].nil?
-			@image.environment = []
-		end
+		do_cleanup_array(@image, image_params, [:volumes, :ports, :links, :environment])
 	end
 
 	def update_template_environment

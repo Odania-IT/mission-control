@@ -1,4 +1,6 @@
 class Api::TemplatesController < ApiController
+	include CleanupArray
+
 	before_action :validate_template, except: [:index, :create]
 
 	def index
@@ -48,17 +50,6 @@ class Api::TemplatesController < ApiController
 	end
 
 	def cleanup_array
-		if template_params[:volumes].nil?
-			@template.volumes = []
-		end
-		if template_params[:ports].nil?
-			@template.ports = []
-		end
-		if template_params[:environment].nil?
-			@template.environment = []
-		end
-		if template_params[:images].nil?
-			@template.images = []
-		end
+		do_cleanup_array(@template, template_params, [:volumes, :ports, :environment, :images])
 	end
 end
