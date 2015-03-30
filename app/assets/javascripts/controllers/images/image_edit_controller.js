@@ -33,7 +33,7 @@ app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '
 		for (var i=0 ; i<$scope.templates.length ; i++) {
 			template = $scope.templates[i];
 
-			if (template.id == $scope.image.template_id) {
+			if (template.id === $scope.image.template_id) {
 				$scope.image.ports = template.ports;
 				$scope.image.volumes = template.volumes;
 				$scope.image.scalable = template.scalable;
@@ -75,14 +75,14 @@ app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '
 			var parts = val.split(':'),
 				valid = true, checkParts = [];
 
-			if (parts.length == 1) {
+			if (parts.length === 1) {
 				checkParts.push(parts[0]);
 			} else if (parts.length == 2) {
 				if (parts[0] !== '') {
 					checkParts.push(parts[0]);
 				}
 				checkParts.push(parts[1]);
-			} else if (parts.length == 3) {
+			} else if (parts.length === 3) {
 				// Part 0 is ip to bind to
 				checkParts.push(parts[1]);
 				checkParts.push(parts[2]);

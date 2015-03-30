@@ -39,7 +39,7 @@ app.controller('ApplicationEditController', ['$rootScope', '$scope', '$routePara
 		for (var i = 0; i < $scope.application[name].length; i++) {
 			entry = $scope.application[name][i];
 
-			if (entry == "") {
+			if (entry === "") {
 				return;
 			}
 		}

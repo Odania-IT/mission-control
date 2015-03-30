@@ -36,7 +36,7 @@ app.controller('BackgroundScheduleEditController', ['$rootScope', '$scope', '$ro
 		for (var i=0 ; i<$scope.allImages.length ; i++) {
 			image = $scope.allImages[i];
 
-			if (image.id == $scope.backgroundSchedule.image_id) {
+			if (image.id === $scope.backgroundSchedule.image_id) {
 				return image;
 			}
 		}
@@ -47,7 +47,7 @@ app.controller('BackgroundScheduleEditController', ['$rootScope', '$scope', '$ro
 		for (var i=0 ; i<$scope.allTemplates.length ; i++) {
 			template = $scope.allTemplates[i];
 
-			if (template.id == image.template_id) {
+			if (template.id === image.template_id) {
 				return template;
 			}
 		}
@@ -68,7 +68,7 @@ app.controller('BackgroundScheduleEditController', ['$rootScope', '$scope', '$ro
 		var image = getImage();
 		console.warn('ASD', image);
 
-		if (image.template_id != null) {
+		if (image.template_id !== null) {
 			var template = getTemplate(image);
 			console.warn('A', image.template_id, template);
 
