@@ -2,6 +2,8 @@ class ApiController < ApplicationController
 	after_action :add_flash_to_header
 	skip_before_action :verify_authenticity_token
 
+	protected
+
 	def bad_api_request(msg)
 		render json: {msg: msg}, status: :bad_request
 	end

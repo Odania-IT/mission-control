@@ -2,6 +2,8 @@
 
 FactoryGirl.define do
 	factory :container, :class => 'Container' do
+		server
+		application
 		current_instances 0
 		wanted_instances 1
 		status :down

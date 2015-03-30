@@ -1,6 +1,6 @@
 FactoryGirl.define do
 	factory :repository do
-		name "MyString"
+		sequence(:name) {|n| "Name #{n}"}
 		url "MyString"
 		user "MyString"
 		password "MyString"

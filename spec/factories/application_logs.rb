@@ -1,10 +1,10 @@
 FactoryGirl.define do
-  factory :application_log do
-    server nil
-level ""
-category "MyString"
-message "MyText"
-file "MyString"
-  end
+	factory :application_log do
+		server
+		level { [:debug, :info, :warn, :error].sample }
+		category { [:cron, :docker, :backup].sample }
+		sequence(:message) {|n| "MyText #{n}"}
+		sequence(:file) {|n| "file/a#{n}.rb"}
+	end
 
 end
