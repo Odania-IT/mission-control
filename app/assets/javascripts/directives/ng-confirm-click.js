@@ -3,6 +3,8 @@
  * Usage: Add attributes:
  * * ng-confirm-message="Are you sure?"
  * * ng-confirm-click="takeAction()" function
+ *
+ * global app: true
  */
 app.directive('ngConfirmClick', [function () {
 	return {

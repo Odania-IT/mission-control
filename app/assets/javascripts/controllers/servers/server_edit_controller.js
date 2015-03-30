@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('ServerEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'ServerResource', function ($rootScope, $scope, $routeParams, $location, ServerResource) {
 	console.log("controller :: ServerEditController");
 

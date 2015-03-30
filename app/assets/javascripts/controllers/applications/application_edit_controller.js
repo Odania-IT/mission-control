@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('ApplicationEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'ApplicationResource', function ($rootScope, $scope, $routeParams, $location, ApplicationResource) {
 	console.log("controller :: ApplicationEditController");
 

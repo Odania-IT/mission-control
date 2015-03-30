@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('TemplateEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'TemplateResource', function ($rootScope, $scope, $routeParams, $location, TemplateResource) {
 	console.log("controller :: TemplateEditController");
 

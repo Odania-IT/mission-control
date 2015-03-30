@@ -1,3 +1,4 @@
+/* global app: true */
 app.factory('eventTypeProvider', function () {
 
 	return {

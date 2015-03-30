@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('ApplicationController', ['$rootScope', '$scope', '$routeParams', 'ApplicationResource', 'ApplicationImageResource', function ($rootScope, $scope, $routeParams, ApplicationResource, ApplicationImageResource) {
 	console.log("controller :: ApplicationController");
 

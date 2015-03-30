@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('BackupServerEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'BackupServerResource', function ($rootScope, $scope, $routeParams, $location, BackupServerResource) {
 	console.log("controller :: BackupServerEditController");
 

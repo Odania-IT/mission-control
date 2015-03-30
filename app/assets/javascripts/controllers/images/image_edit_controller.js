@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('ImageEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'ApplicationImageResource', 'TemplateResource', function ($rootScope, $scope, $routeParams, $location, ApplicationImageResource, TemplateResource) {
 	console.log("controller :: ImageEditController");
 

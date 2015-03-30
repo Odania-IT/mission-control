@@ -1,3 +1,4 @@
+/* global app: true */
 app.factory('httpFlashInterceptorService', ['$rootScope', 'eventTypeProvider', '$q', function ($rootScope, eventTypeProvider, $q) {
 	var flashTypes = [
 		'Error', 'Warning', 'Notice', 'Message'

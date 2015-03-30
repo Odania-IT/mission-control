@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('BackupController', ['$rootScope', '$scope', 'BackupServerResource', 'BackgroundScheduleResource', function ($rootScope, $scope, BackupServerResource, BackgroundScheduleResource) {
 	console.log("controller :: BackupController");
 

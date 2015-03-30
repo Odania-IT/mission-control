@@ -1,3 +1,4 @@
+/* global app: true */
 app.factory('resolveService', ['BootstrapResource', '$q', function (BootstrapResource, $q) {
 	var resolved = {
 		'bootstrap': {

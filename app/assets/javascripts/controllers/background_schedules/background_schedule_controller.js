@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('BackgroundScheduleController', ['$rootScope', '$scope', '$routeParams', 'BackgroundScheduleResource', function ($rootScope, $scope, $routeParams, BackgroundScheduleResource) {
 	console.log("controller :: BackgroundScheduleController");
 

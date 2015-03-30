@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('ApplicationLogsController', ['$rootScope', '$scope', 'ApplicationLogResource', function ($rootScope, $scope, ApplicationLogResource) {
 	console.log("controller :: ApplicationLogsController");
 

@@ -1,3 +1,4 @@
+/* global config: true */
 var app = angular.module('mission_control', ['ngRoute', 'ngResource', 'ui.bootstrap']);
 
 app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {

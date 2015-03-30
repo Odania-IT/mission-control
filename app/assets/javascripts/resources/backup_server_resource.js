@@ -1,3 +1,7 @@
+/*
+ * global app: true
+ * global config: true
+ */
 app.factory('BackupServerResource', ['$resource', function ($resource) {
 	var basePath = config.getApiPath('backup_servers/:id');
 

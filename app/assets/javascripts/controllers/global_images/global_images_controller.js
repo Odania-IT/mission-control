@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('GlobalImagesController', ['$location', 'ApplicationResource', function ($location, ApplicationResource) {
 	console.log("controller :: GlobalImagesController");
 

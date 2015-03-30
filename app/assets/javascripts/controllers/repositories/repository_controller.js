@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('RepositoryController', ['$rootScope', '$scope', '$routeParams', 'RepositoryResource', function ($rootScope, $scope, $routeParams, RepositoryResource) {
 	console.log("controller :: RepositoryController");
 

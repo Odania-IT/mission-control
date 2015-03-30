@@ -1,3 +1,7 @@
+/*
+ * global app: true
+ * global config: true
+ */
 app.factory('ApplicationResource', ['$resource', function ($resource) {
 	var basePath = config.getApiPath('applications/:id');
 

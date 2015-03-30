@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('TemplatesController', ['$rootScope', '$scope', 'TemplateResource', function ($rootScope, $scope, TemplateResource) {
 	console.log("controller :: TemplatesController");
 

@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('FlashController', ['$scope', '$timeout', 'eventTypeProvider', function ($scope, $timeout, eventTypeProvider) {
 	var flashTypeMapping = {
 			'Error': 'danger',

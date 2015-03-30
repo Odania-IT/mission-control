@@ -1,3 +1,4 @@
+/* global app: true */
 app.controller('ServerController', ['$rootScope', '$scope', '$routeParams', 'ServerResource', 'ApplicationResource', 'ContainerResource', function ($rootScope, $scope, $routeParams, ServerResource, ApplicationResource, ContainerResource) {
 	console.log("controller :: ServerController");
 
