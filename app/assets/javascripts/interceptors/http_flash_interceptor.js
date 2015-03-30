@@ -12,7 +12,7 @@ app.factory('httpFlashInterceptorService', ['$rootScope', 'eventTypeProvider', '
 				return;
 			}
 
-			eventName = eventTypeProvider['INTERNAL_FLASH_NOTICE'];
+			eventName = eventTypeProvider.INTERNAL_FLASH_NOTICE;
 			$rootScope.$broadcast(eventName, flashType, flash);
 		});
 	}
