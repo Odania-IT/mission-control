@@ -1,0 +1,15 @@
+defaults: &defaults
+  sessions:
+    default:
+      database: mission_control_<%= Rails.env %>
+      hosts:
+        - 127.0.0.1:27017
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

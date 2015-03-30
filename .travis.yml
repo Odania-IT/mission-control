@@ -9,10 +9,8 @@ rvm:
   - jruby-head
   - ruby-head
   - ree
-env:
-  - DB=sqlite
-  - DB=mysql
-  - DB=postgresql
+services:
+  - mongodb
 matrix:
   allow_failures:
     - rvm: jruby-19mode
@@ -22,12 +20,9 @@ matrix:
 notifications:
   email: true
 script:
-  - RAILS_ENV=test bundle exec rake db:migrate --trace
   - bundle exec rake spec
 before_script:
-  - cp test/dummy/config/database.yml.travis test/dummy/config/database.yml
-  - mysql -e 'create database odania_core_test'
-  - psql -c 'create database odania_core_test' -U postgres
+  - cp config/mongoid.yml.travis config/mongoid.yml
 addons:
   code_climate:
     repo_token: 35bcd38cb2dca951597be8b2c58f4c1d25e8f0346e91c575fedb7b8463a10a5c
