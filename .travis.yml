@@ -23,7 +23,7 @@ notifications:
   email: true
 script:
   - RAILS_ENV=test bundle exec rake db:migrate --trace
-  - bundle exec rake
+  - bundle exec rake spec
 before_script:
   - cp test/dummy/config/database.yml.travis test/dummy/config/database.yml
   - mysql -e 'create database odania_core_test'
