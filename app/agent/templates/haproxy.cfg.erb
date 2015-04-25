@@ -31,7 +31,7 @@ frontend http-in
 	# Define hosts
 	<% applications.each do |application| %>
 	<% application.domains.each do |domain| %>
-	acl host_<%= application.name.downcase.parameterize %>_<%= port %> -i <%= domain %>
+	acl host_<%= application.name.downcase.parameterize %>_<%= port %> hdr(host) -i <%= domain %>
 	<% end %>
 	<% end %>
 
