@@ -41,7 +41,7 @@ gem 'rails-i18n'
 gem 'kaminari'
 
 group :development, :test do
-	gem 'rspec-rails', '~> 3.1.0'
+	gem 'rspec-rails', '~> 5.1.0'
 	gem 'factory_girl_rails'
 	gem 'codeclimate-test-reporter'
 	gem 'database_cleaner'
